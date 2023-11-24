@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from PC_shop_backend.web.models import Product
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    pass
