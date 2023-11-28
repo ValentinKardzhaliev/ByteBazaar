@@ -38,6 +38,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken',
+
 
     'PC_shop_backend.web',
     'PC_shop_backend.web_auth',
@@ -54,11 +56,14 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-AUTHENTICATION_BACKENDS = [
-    'PC_shop_backend.web_auth.backends.EmailOrUsernameModelBackend',
-]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny'],
+}
 
-REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny']}
 
 CORS_ORIGIN_ALLOW_ALL = True
 

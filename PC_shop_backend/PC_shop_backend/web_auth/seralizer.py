@@ -1,16 +1,21 @@
-from django.contrib.auth import get_user_model, password_validation
+from django.contrib.auth import get_user_model
 from django.core import exceptions
 from rest_framework import serializers
-from PC_shop_backend.web_auth.models import WebProfile
+from django.contrib.auth import password_validation as validators
 
 UserModel = get_user_model()
 
-
-class CreateProfileSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = WebProfile
+        model = UserModel
         fields = ('username', 'email', 'password',)
 
+class CreateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = (UserModel.USERNAME_FIELD, 'password')
+
+    # Fix issue with password in plain text
     def create(self, validated_data):
         user = super().create(validated_data)
 
@@ -25,17 +30,16 @@ class CreateProfileSerializer(serializers.ModelSerializer):
         password = data.get('password')
         errors = {}
         try:
-            password_validation.validate_password(password, user)
+            validators.validate_password(password, user)
         except exceptions.ValidationError as e:
             errors['password'] = list(e.messages)
         if errors:
             raise serializers.ValidationError(errors)
         return super().validate(data)
 
+    # Remove password from response
     def to_representation(self, instance):
         result = super().to_representation(instance)
-
         result.pop('password')
-
         return result
 
