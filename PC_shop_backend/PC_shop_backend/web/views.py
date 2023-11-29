@@ -11,7 +11,8 @@ class IndexView(rest_views.APIView):
         output = [
             {"image": product.image,
              "name": product.name,
-             "description": product.description}
+             "description": product.description,
+             "_id": product.id}
             for product in Product.objects.all()
         ]
         return Response(output)
