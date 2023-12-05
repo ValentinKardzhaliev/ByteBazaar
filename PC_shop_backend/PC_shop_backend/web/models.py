@@ -8,8 +8,8 @@ class Product(models.Model):
         max_length=NAME_MAX_LEN
     )
 
-    image = models.URLField(
-        max_length=100000000
+    image = models.ImageField(
+        upload_to='product_images/'
     )
 
     description = models.TextField()

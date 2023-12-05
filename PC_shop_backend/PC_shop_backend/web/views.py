@@ -9,7 +9,7 @@ from PC_shop_backend.web.serializers import ProductSerializer
 class IndexView(rest_views.APIView):
     def get(self, request):
         output = [
-            {"image": product.image,
+            {"image": product.image.url,
              "name": product.name,
              "description": product.description,
              "_id": product.id}

@@ -3,9 +3,8 @@ from rest_framework.authtoken import views as auth_views
 from rest_framework import views as api_views
 from rest_framework.response import Response
 
-from PC_shop_backend.web_auth.seralizer import CreateUserSerializer
 from rest_framework.authtoken.models import Token
-from PC_shop_backend.web_auth.seralizer import UserModel
+from PC_shop_backend.web_auth.seralizer import UserModel, CreateUserSerializer
 
 
 class RegisterView(rest_generic_views.CreateAPIView):
