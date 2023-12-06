@@ -4,39 +4,24 @@ const csrfToken = document.cookie.match(/csrftoken=([^;]+)/)[1];
 
 function App() {
     const [products, setProducts] = useState([]);
+    let [name, setName] = useState('');
+    let [image, setImage] = useState({});
+    let [description, setDescription] = useState('');
 
-    const onSubmitHandler = (e) => {
+
+    const newProduct = (e) => {
         e.preventDefault();
 
-        const formData = new FormData(e.target);
+        const uploadData = new FormData();
 
-        const name = formData.get('name');
-        const image = formData.get('image');
-        const description = formData.get('description');
+        uploadData.append('name', name);
+        uploadData.append('image', image, image.name);
+        uploadData.append('description', description);
 
-        fetch("http://localhost:8000", {
+        fetch('http://localhost:8000/', {
             method: 'POST',
-            body: JSON.stringify({
-                name,
-                image,
-                description
-                // Other body stuff
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken // Replace with your actual CSRF token
-                // Other possible headers
-            }
-        })
-            .then(res => res.json())
-            .then(newDevice => {
-                console.log(newDevice);
-                setProducts(state => {
-                    return [...state, newDevice];
-                })
-            })
-            .catch(err => console.log(err));
-
+            body: uploadData
+        }).then(res => res.json()).then(result => setProducts(oldProducts => [...oldProducts, result])).catch(err => console.log(err))
 
     }
 
@@ -54,22 +39,22 @@ function App() {
             <header className="App-header">
 
                 {products.length === 0 && <p>No products</p>}
-                {products.map(p => <li id={p._id} key={p._id}>{p.name} - {p.description} <img height='500px' width='500px' src={p.image} alt='JustPhoto' /></li>)}
+                {products.map(p => <li id={p._id} key={p._id}>{p.name} - {p.description} <img height='500px' width='500px' src={`http://localhost:8000${p.image}`} alt='JustPhoto' /></li>)}
 
-                <form onSubmit={onSubmitHandler}>
+                <form>
                     <span>
                         Name:
-                        <input type='text' name='name' />
+                        <input type='text' name='name' value={name} onChange={(e) => setName(e.target.value)} />
                     </span>
                     <span>
                         Image:
-                        <input type='text' name='image' />
+                        <input type='file' name='image' onChange={(e) => setImage(e.target.files[0])} />
                     </span>
                     <span>
                         Description:
-                        <input type='text' name='description' />
+                        <input type='text' name='description' value={description} onChange={(e) => setDescription(e.target.value)} />
                     </span>
-                    <input type='submit' value='Submit' />
+                    <button type='button' onClick={(e) => newProduct(e)}>Click</button>
                 </form>
             </header>
 
