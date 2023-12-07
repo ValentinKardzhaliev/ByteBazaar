@@ -1,0 +1,72 @@
+.search-bar-section {
+    text-align: center;
+    background-color: black;
+    position: relative;
+}
+
+.search-bar-section img {
+    width: 43%;
+    height: auto;
+    z-index: -1;
+}
+
+.center-text {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 35px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.form-content {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 20px;
+    /* Use border-radius to make it round */
+}
+
+.form-content input {
+    width: 40%;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: none;
+    border-radius: 15px;
+}
+
+.form-content button {
+    width: 30px;
+    /* Set the width of the button */
+    height: 30px;
+    /* Set the height of the button */
+    background: none;
+    /* Remove any existing background */
+    border: none;
+    cursor: pointer;
+
+}
+
+
+.form-content button::before {
+    content: "\f002";
+    /* Unicode for the magnifying glass icon */
+    font-family: 'Font Awesome 5 Free';
+    /* Font family for FontAwesome */
+    font-weight: 900;
+    /* Font weight for FontAwesome Solid */
+    font-size: 20px;
+    /* Set the font size as needed */
+    color: white;
+    /* Set the color of the icon */
+}
+
+.form-content button span {
+    display: none;
+}
