@@ -1,7 +1,8 @@
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
+from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -52,16 +53,35 @@ class IndexView(APIView):
 
 
 
-def like_event(request, event_id):
-    product = get_object_or_404(Product, id=event_id)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
     user = request.user
 
     existing_like = Like.objects.filter(user=user, product=product).first()
 
     if existing_like:
         existing_like.delete()
+
+        message = 'Product unliked successfully.'
     else:
         new_like_object = Like.objects.create(user=user, product=product)
         new_like_object.save()
 
-    return redirect(request.META.get('HTTP_REFERER', reverse('index')))
+        message = 'Product liked successfully.'
+
+    # Serialize the product
+    product_serializer = ProductSerializer(product)
+
+    return Response({'message': message, 'product': product_serializer.data}, status=status.HTTP_200_OK)
+
+
+class LikedProductsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        liked_products = Product.objects.filter(like__user=request.user)
+        product_serializer = ProductSerializer(liked_products, many=True)
+
+        return Response({'liked_products': product_serializer.data})
