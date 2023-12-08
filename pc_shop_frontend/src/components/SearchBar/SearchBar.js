@@ -1,4 +1,5 @@
 import backgroundImage from '../../images/search_bar_background.jpg'
+import ProductBar from '../ProductBar/ProductBar';
 import './SearchBar.css'
 
 function SearchBar() {
@@ -26,6 +27,7 @@ function SearchBar() {
                     </button>
                 </form>
             </div>
+            <ProductBar />
         </div>
     )
 }
