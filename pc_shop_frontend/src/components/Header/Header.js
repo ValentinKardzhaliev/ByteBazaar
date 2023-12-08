@@ -24,7 +24,7 @@ function Header() {
                         </a>
                     </li>
                     <li id="home">
-                        <a href="#">ByteBazaar</a>
+                        <a href="/">ByteBazaar</a>
                     </li>
                 </ul>
             </nav>

@@ -1,9 +1,10 @@
-nav {
+.sticky-top {
     position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
+    background-color: #C00000;
+    /* Add a background color as needed */
     z-index: 100;
+    /* Adjust z-index as needed */
 }
 
 nav ul {
@@ -11,7 +12,7 @@ nav ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: red;
+    background-color: #C00000;
 }
 
 nav li {

@@ -1,7 +1,16 @@
 import backgroundImage from '../../images/search_bar_background.jpg'
+import ProductBar from '../ProductBar/ProductBar';
+
 import './SearchBar.css'
 
-function SearchBar() {
+function SearchBar(props) {
+
+    const searchHandler = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const searchingOption = formData.get('search_form');
+        props.setOptionForProducts(searchingOption);
+    }
 
     return (
         <div className="search-bar-section">
@@ -10,15 +19,15 @@ function SearchBar() {
                 <b>What are you looking for?</b>
             </div>
             <div className="form-content">
-                <form>
-                    <label htmlFor="search-input" className="sr-only">
+                <form onSubmit={searchHandler}>
+                    <label htmlFor="search_form" className="sr-only">
                         Search
                     </label>
                     <br />
                     <input
                         type="text"
-                        id="search-input"
-                        name="search"
+                        id="search_form"
+                        name="search_form"
                         placeholder="Search..."
                     />
                     <button type="submit">
@@ -26,6 +35,7 @@ function SearchBar() {
                     </button>
                 </form>
             </div>
+            <ProductBar />
         </div>
     )
 }
