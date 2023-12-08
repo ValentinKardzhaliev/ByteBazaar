@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
 
-
-    'PC_shop_backend.web_auth',
+    'PC_shop_backend.api',
     'PC_shop_backend.common',
 ]
 

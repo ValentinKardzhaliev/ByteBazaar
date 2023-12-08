@@ -4,7 +4,8 @@ from rest_framework import views as api_views
 from rest_framework.response import Response
 
 from rest_framework.authtoken.models import Token
-from PC_shop_backend.web_auth.seralizer import UserModel, CreateUserSerializer
+
+from PC_shop_backend.api.seralizers import UserModel, CreateUserSerializer
 
 
 class RegisterView(rest_generic_views.CreateAPIView):
@@ -29,7 +30,6 @@ class LoginView(auth_views.ObtainAuthToken):
             'token': token.key,
             'is_admin': user.is_staff,
         })
-
 
 class LogoutView(api_views.APIView):
     permission_classes = (

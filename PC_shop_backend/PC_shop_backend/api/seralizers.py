@@ -5,10 +5,12 @@ from django.contrib.auth import password_validation as validators
 
 UserModel = get_user_model()
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ('username', 'email', 'password',)
+        fields = ('username', 'email', 'password1', 'password2',)
+
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,4 +44,3 @@ class CreateUserSerializer(serializers.ModelSerializer):
         result = super().to_representation(instance)
         result.pop('password')
         return result
-
