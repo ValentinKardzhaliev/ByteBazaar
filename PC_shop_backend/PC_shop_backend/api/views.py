@@ -1,10 +1,11 @@
-from rest_framework import generics as rest_generic_views, permissions
+from rest_framework import generics as rest_generic_views, permissions, status
 from rest_framework.authtoken import views as auth_views
 from rest_framework import views as api_views
 from rest_framework.response import Response
 
 from rest_framework.authtoken.models import Token
 
+from PC_shop_backend.api.models import ByteBazaarUserProfile
 from PC_shop_backend.api.seralizers import UserModel, CreateUserSerializer
 
 
@@ -14,6 +15,14 @@ class RegisterView(rest_generic_views.CreateAPIView):
     permission_classes = (
         permissions.AllowAny,
     )
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+
+
+        ByteBazaarUserProfile.objects.create(user=user, email=user.email)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class LoginView(auth_views.ObtainAuthToken):
