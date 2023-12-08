@@ -3,19 +3,20 @@ from django.core import exceptions
 from rest_framework import serializers
 from django.contrib.auth import password_validation as validators
 
+
 UserModel = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ('username', 'email', 'password1', 'password2',)
+        fields = ('username', 'email', 'password')
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = (UserModel.USERNAME_FIELD, 'password')
+        fields = (UserModel.USERNAME_FIELD, 'email', 'password')
 
     # Fix issue with password in plain text
     def create(self, validated_data):
