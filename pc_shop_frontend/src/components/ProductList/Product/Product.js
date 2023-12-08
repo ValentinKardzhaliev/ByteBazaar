@@ -11,7 +11,7 @@ function Product(props) {
                 <h2 className="product-name">{props.product.name}</h2>
                 <span className="product-description"><p> - {props.product.description}</p></span>
             </div>
-            <Link to={`/details/${props.product._id}`} className="details-link">Details</Link>
+            <Link to={`/details/${props.product.id}`} className="details-link">Details</Link>
         </li>
     )
 }

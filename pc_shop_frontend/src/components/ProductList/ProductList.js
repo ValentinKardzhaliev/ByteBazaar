@@ -5,7 +5,8 @@ function ProductList(props) {
 
     return (
         <ul className="product-list">
-            {props.products.map(product => <Product key={product._id} product={product} />)}
+            {props.products.length === 0 && <h1>No products found!</h1>}
+            {props.products.map(product => <Product key={product.id} product={product} />)}
         </ul>
     )
 }
