@@ -21,8 +21,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('PC_shop_backend.web.urls')),
     path('auth/', include('PC_shop_backend.web_auth.urls')),
+    path('', include('PC_shop_backend.common.urls')),
 ]
 
 if settings.DEBUG:

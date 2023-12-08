@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from PC_shop_backend.web.models import Product
+from PC_shop_backend.common.models import Product
 
 
 @admin.register(Product)
