@@ -5,7 +5,7 @@ const ProductContext = createContext();
 
 export default ProductContext;
 
-export const ProductPrider = ({ children }) => {
+export const ProductProvider = ({ children }) => {
     const [products, setProducts] = useState([]);
 
     function setOptionForProducts(searchingOption) {
