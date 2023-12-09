@@ -1,14 +1,17 @@
-from rest_framework import generics as rest_generic_views, permissions, status
-from rest_framework.authtoken import views as auth_views
+from rest_framework import generics, permissions, status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import views
 
-from rest_framework.authtoken.models import Token
 
 from PC_shop_backend.api.models import ByteBazaarUserProfile
 from PC_shop_backend.api.seralizers import UserModel, CreateUserSerializer
 
 
-class RegisterView(rest_generic_views.CreateAPIView):
+class APIRegisterView(generics.CreateAPIView):
     queryset = UserModel.objects.all()
     serializer_class = CreateUserSerializer
     permission_classes = (
@@ -24,35 +27,24 @@ class RegisterView(rest_generic_views.CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class LoginView(auth_views.ObtainAuthToken):
-    permission_classes = (
-        permissions.AllowAny,
-    )
+class APILoginView(ObtainAuthToken):
+    pass
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token.key,
-            'is_admin': user.is_staff,
-        })
 
-class LogoutView(rest_generic_views.views.APIView):
-    permission_classes = (
-        permissions.IsAuthenticated,
-    )
-
-    def post(self, request, *args, **kwargs):
-        return self.__perform_logout(request)
-
-    def get(self, request, *args, **kwargs):
-        return self.__perform_logout(request)
-
-    @staticmethod
-    def __perform_logout(request):
-        request.user.auth_token.delete()
-        return Response({
-            'message': 'user logged out'
-        })
+@api_view(['POST',])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def logout_user(request):
+    print("Inside logout_user view")  # Add this line for debugging
+    if request.method == "POST":
+        print("Received POST request")  # Add this line for debugging
+        try:
+            request.auth.delete()  # Use request.auth to access the token associated with the user
+            print("Token deleted successfully")  # Add this line for debugging
+            return Response({'message': 'user logged out'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(f"Error deleting token: {e}")  # Add this line for debugging
+            return Response({'message': 'Error deleting token'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    else:
+        print("Invalid request method")  # Add this line for debugging
+        return Response({'message': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)
