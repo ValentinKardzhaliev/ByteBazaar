@@ -18,9 +18,9 @@ class RegisterView(rest_generic_views.CreateAPIView):
 
     def perform_create(self, serializer):
         user = serializer.save()
+        phone = self.request.data.get('phone', None)
 
-
-        ByteBazaarUserProfile.objects.create(user=user, email=user.email)
+        ByteBazaarUserProfile.objects.create(user=user, email=user.email, phone=phone)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
