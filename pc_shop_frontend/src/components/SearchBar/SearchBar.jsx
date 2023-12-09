@@ -1,15 +1,19 @@
-import backgroundImage from '../../images/search_bar_background.jpg'
-import ProductBar from '../ProductBar/ProductBar';
+import { useContext } from 'react';
+import backgroundImage from '../../assets/images/search_bar_background.jpg'
+import ProductContext from '../../contexts/ProductContext.jsx';
+import ProductBar from '../ProductBar/ProductBar.jsx';
 
 import './SearchBar.css'
 
-function SearchBar(props) {
+function SearchBar() {
+    const { setOptionForProducts } = useContext(ProductContext);
 
     const searchHandler = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const searchingOption = formData.get('search_form');
-        props.setOptionForProducts(searchingOption);
+        setOptionForProducts(searchingOption);
+        document.getElementById('search_form').value = '';
     }
 
     return (
