@@ -1,6 +1,5 @@
 from rest_framework import generics as rest_generic_views, permissions, status
 from rest_framework.authtoken import views as auth_views
-from rest_framework import views as api_views
 from rest_framework.response import Response
 
 from rest_framework.authtoken.models import Token
@@ -40,21 +39,20 @@ class LoginView(auth_views.ObtainAuthToken):
             'is_admin': user.is_staff,
         })
 
-class LogoutView(api_views.APIView):
+class LogoutView(rest_generic_views.views.APIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
 
+    def post(self, request, *args, **kwargs):
+        return self.__perform_logout(request)
+
+    def get(self, request, *args, **kwargs):
+        return self.__perform_logout(request)
+
     @staticmethod
     def __perform_logout(request):
-        token = Token.objects.get(user=request.user)
-        token.delete()
+        request.user.auth_token.delete()
         return Response({
-            'message': 'User logged out',
+            'message': 'user logged out'
         })
-
-    def get(self, request):
-        return self.__perform_logout(request)
-
-    def post(self, request):
-        return self.__perform_logout(request)
