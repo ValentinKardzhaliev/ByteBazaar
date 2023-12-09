@@ -14,34 +14,47 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
+    password_confirmation = serializers.CharField(write_only=True)
+
     class Meta:
         model = UserModel
-        fields = (UserModel.USERNAME_FIELD, 'email', 'password')
-
-    # Fix issue with password in plain text
-    def create(self, validated_data):
-        user = super().create(validated_data)
-
-        user.set_password(validated_data['password'])
-        user.save()
-
-        return user
+        fields = (UserModel.USERNAME_FIELD, 'email', 'password', 'password_confirmation')
 
     def validate(self, data):
+        password = data.get('password')
+        password_confirmation = data.get('password_confirmation')
+
+        if password and password_confirmation and password != password_confirmation:
+            raise serializers.ValidationError({'password_confirmation': 'Passwords do not match'})
+
+        # Remove password_confirmation from validated_data
+        data.pop('password_confirmation', None)
+
         # Invoke password validators
         user = UserModel(**data)
-        password = data.get('password')
         errors = {}
         try:
             validators.validate_password(password, user)
         except exceptions.ValidationError as e:
             errors['password'] = list(e.messages)
+
         if errors:
             raise serializers.ValidationError(errors)
-        return super().validate(data)
 
-    # Remove password from response
+        return data
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+
+        # Remove password_confirmation before user creation
+        user = super().create(validated_data)
+        user.set_password(password)
+        user.save()
+
+        return user
+
     def to_representation(self, instance):
         result = super().to_representation(instance)
         result.pop('password')
+        result.pop('password_confirmation', None)  # Remove password_confirmation from the response
         return result
