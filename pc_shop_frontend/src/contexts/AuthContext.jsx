@@ -21,8 +21,8 @@ export const AuthProvider = ({ children }) => {
 
         }).catch(err => console.log(err))
     }
-    const logout = () => {
-        logoutUser().then(result => {
+    const logout = (token) => {
+        logoutUser(token).then(result => {
             setUser({});
             navigate('/');
         }).catch(err => console.log(err))

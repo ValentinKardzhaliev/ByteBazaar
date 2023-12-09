@@ -7,6 +7,7 @@ import { ProductProvider } from './contexts/ProductContext.jsx';
 import Login from './components/Login/Login.jsx';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import Logout from './components/Logout/Logout.jsx';
+import IsLoggedIn from './components/common/IsLoggedIn.jsx';
 
 function App() {
     return (
@@ -23,7 +24,11 @@ function App() {
                             <ProductList />
                         </ProductProvider>
                     } />
-                    <Route path='/login' element={<Login />} />
+                    <Route element={<IsLoggedIn />}>
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/register' element={<Login />} />
+
+                    </Route>
                     <Route path='/logout' element={<Logout />} />
 
                 </Routes>
