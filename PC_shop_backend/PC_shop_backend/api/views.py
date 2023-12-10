@@ -4,7 +4,6 @@ from rest_framework.authtoken import views as auth_views
 from rest_framework.response import Response
 from rest_framework import views as api_views
 
-
 from PC_shop_backend.api.models import ByteBazaarUserProfile
 from PC_shop_backend.api.seralizers import UserModel, CreateUserSerializer
 
@@ -37,25 +36,24 @@ class LoginView(auth_views.ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,
-            'is_admin': user.is_staff,
-        })
+            'username': user.username,
+            })
 
+    class LogoutView(api_views.APIView):
+        permission_classes = (
+            permissions.IsAuthenticated,
+        )
 
-class LogoutView(api_views.APIView):
-    permission_classes = (
-        permissions.IsAuthenticated,
-    )
+        @staticmethod
+        def __perform_logout(request):
+            token = Token.objects.get(user=request.user)
+            token.delete()
+            return Response({
+                'message': 'User logged out',
+            })
 
-    @staticmethod
-    def __perform_logout(request):
-        token = Token.objects.get(user=request.user)
-        token.delete()
-        return Response({
-            'message': 'User logged out',
-        })
+        def get(self, request):
+            return self.__perform_logout(request)
 
-    def get(self, request):
-        return self.__perform_logout(request)
-
-    def post(self, request):
-        return self.__perform_logout(request)
+        def post(self, request):
+            return self.__perform_logout(request)
