@@ -11,7 +11,12 @@ export const loginUser = (username, password) => {
         .then(res => res.json())
 }
 
-export const logoutUser = () => {
-    return fetch(`${baseUrl}/logout/`)
+export const logoutUser = (token) => {
+    return fetch(`${baseUrl}/logout/`, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Token ' + token
+        }
+    })
         .then(res => res.json())
 }
