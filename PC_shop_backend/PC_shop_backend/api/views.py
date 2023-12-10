@@ -39,7 +39,7 @@ class LoginView(auth_views.ObtainAuthToken):
             'username': user.username,
             })
 
-    class LogoutView(api_views.APIView):
+class LogoutView(api_views.APIView):
         permission_classes = (
             permissions.IsAuthenticated,
         )
