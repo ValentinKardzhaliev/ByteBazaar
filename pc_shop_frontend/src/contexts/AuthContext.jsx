@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage.jsx";
 import { useNavigate } from "react-router-dom";
-import { loginUser, logoutUser } from "../services/authService.jsx";
+import { loginUser, logoutUser, registerUser } from "../services/authService.jsx";
 
 const AuthContext = createContext();
 
@@ -27,11 +27,16 @@ export const AuthProvider = ({ children }) => {
             navigate('/');
         }).catch(err => console.log(err))
     }
-
+    const register = (username, email, password, password_confirmation, phone) => {
+        registerUser(username, email, password, password_confirmation, phone).then(result => {
+            console.log(result);
+            navigate('/login');
+        }).catch(err => console.log(err))
+    }
 
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, register }}>
             {children}
         </AuthContext.Provider>
     )

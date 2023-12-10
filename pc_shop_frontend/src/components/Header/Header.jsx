@@ -44,6 +44,15 @@ function Header() {
                     <li id="home">
                         <Link to="/">ByteBazaar</Link>
                     </li>
+                    {user.token
+                        ?
+                        <li id="userName">
+                            <Link to="/">Welcome, {user.username}!</Link>
+                        </li>
+                        :
+                        <></>
+                    }
+
                 </ul>
             </nav>
         </header>
