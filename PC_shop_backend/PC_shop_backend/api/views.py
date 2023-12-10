@@ -1,10 +1,8 @@
 from rest_framework import generics, permissions, status
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken import views as auth_views
 from rest_framework.response import Response
-from rest_framework import views
+from rest_framework import views as api_views
 
 
 from PC_shop_backend.api.models import ByteBazaarUserProfile
@@ -27,24 +25,37 @@ class APIRegisterView(generics.CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class APILoginView(ObtainAuthToken):
-    pass
+class LoginView(auth_views.ObtainAuthToken):
+    permission_classes = (
+        permissions.AllowAny,
+    )
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'is_admin': user.is_staff,
+        })
 
 
-@api_view(['POST',])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def logout_user(request):
-    print("Inside logout_user view")  # Add this line for debugging
-    if request.method == "POST":
-        print("Received POST request")  # Add this line for debugging
-        try:
-            request.auth.delete()  # Use request.auth to access the token associated with the user
-            print("Token deleted successfully")  # Add this line for debugging
-            return Response({'message': 'user logged out'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            print(f"Error deleting token: {e}")  # Add this line for debugging
-            return Response({'message': 'Error deleting token'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    else:
-        print("Invalid request method")  # Add this line for debugging
-        return Response({'message': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)
+class LogoutView(api_views.APIView):
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
+
+    @staticmethod
+    def __perform_logout(request):
+        token = Token.objects.get(user=request.user)
+        token.delete()
+        return Response({
+            'message': 'User logged out',
+        })
+
+    def get(self, request):
+        return self.__perform_logout(request)
+
+    def post(self, request):
+        return self.__perform_logout(request)
