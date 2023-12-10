@@ -25,7 +25,7 @@ class APIRegisterView(generics.CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class LoginView(auth_views.ObtainAuthToken):
+class APILoginView(auth_views.ObtainAuthToken):
     permission_classes = (
         permissions.AllowAny,
     )
@@ -40,8 +40,8 @@ class LoginView(auth_views.ObtainAuthToken):
             'username': user.username,
         })
 
-    class LogoutView(api_views.APIView):
-        permission_classes = (
+class APILogoutView(api_views.APIView):
+    permission_classes = (
             permissions.IsAuthenticated,
         )
 
