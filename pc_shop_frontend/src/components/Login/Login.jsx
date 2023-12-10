@@ -1,7 +1,6 @@
 import { useContext } from 'react';
-import { loginUser } from '../../services/authService';
 import './Login.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AuthContext from '../../contexts/AuthContext';
 
 function Login() {

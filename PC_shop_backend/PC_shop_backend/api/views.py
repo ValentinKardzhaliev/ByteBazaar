@@ -19,7 +19,8 @@ class APIRegisterView(generics.CreateAPIView):
         user = serializer.save()
         phone = self.request.data.get('phone', None)
 
-        ByteBazaarUserProfile.objects.create(user=user, email=user.email, phone=phone)
+        ByteBazaarUserProfile.objects.create(
+            user=user, email=user.email, phone=phone)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -37,23 +38,24 @@ class LoginView(auth_views.ObtainAuthToken):
         return Response({
             'token': token.key,
             'username': user.username,
-            })
+        })
 
-    class LogoutView(api_views.APIView):
-        permission_classes = (
-            permissions.IsAuthenticated,
-        )
 
-        @staticmethod
-        def __perform_logout(request):
-            token = Token.objects.get(user=request.user)
-            token.delete()
-            return Response({
-                'message': 'User logged out',
-            })
+class LogoutView(api_views.APIView):
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
 
-        def get(self, request):
-            return self.__perform_logout(request)
+    @staticmethod
+    def __perform_logout(request):
+        token = Token.objects.get(user=request.user)
+        token.delete()
+        return Response({
+            'message': 'User logged out',
+        })
 
-        def post(self, request):
-            return self.__perform_logout(request)
+    def get(self, request):
+        return self.__perform_logout(request)
+
+    def post(self, request):
+        return self.__perform_logout(request)

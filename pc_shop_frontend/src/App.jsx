@@ -8,6 +8,7 @@ import Login from './components/Login/Login.jsx';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import Logout from './components/Logout/Logout.jsx';
 import IsLoggedIn from './components/common/IsLoggedIn.jsx';
+import Register from './components/Register/Register.jsx';
 
 function App() {
     return (
@@ -26,7 +27,7 @@ function App() {
                     } />
                     <Route element={<IsLoggedIn />}>
                         <Route path='/login' element={<Login />} />
-                        <Route path='/register' element={<Login />} />
+                        <Route path='/register' element={<Register />} />
 
                     </Route>
                     <Route path='/logout' element={<Logout />} />
