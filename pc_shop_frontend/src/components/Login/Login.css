@@ -75,3 +75,7 @@ input[type=password] {
     background-color: #f5f5f5;
     border: 0px solid;
 }
+
+.forgot-password a{
+    color: lightblue;
+}
