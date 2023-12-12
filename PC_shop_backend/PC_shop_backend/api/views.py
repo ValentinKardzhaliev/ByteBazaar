@@ -40,15 +40,7 @@ class APILoginView(auth_views.ObtainAuthToken):
             'username': user.username,
         })
 
-<<<<<<<<< Temporary merge branch 1
-class LogoutView(api_views.APIView):
-        permission_classes = (
-            permissions.IsAuthenticated,
-        )
-=========
->>>>>>>>> Temporary merge branch 2
-
-class LogoutView(api_views.APIView):
+class APILogoutView(api_views.APIView):
     permission_classes = (
             permissions.IsAuthenticated,
         )
