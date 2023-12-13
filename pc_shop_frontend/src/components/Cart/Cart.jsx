@@ -37,7 +37,7 @@ function Cart() {
                                     <br />
                                     <p>${item.price.toFixed(2)}</p>
                                     <br />
-                                    <button onClick={() => handleDetailsClick(item.id)}>
+                                    <button className='btnCartDetails' onClick={() => handleDetailsClick(item.id)}>
                                         Details
                                     </button>
                                 </div>

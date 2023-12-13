@@ -76,6 +76,12 @@ input[type=password] {
     border: 0px solid;
 }
 
-.forgot-password a{
-    color: lightblue;
+.forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
 }
