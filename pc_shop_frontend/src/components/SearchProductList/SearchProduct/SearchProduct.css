@@ -1,0 +1,55 @@
+.product-item {
+    /* Added to set a positioning context for the absolute positioning of .details-link */
+    border: 1px solid #ccc;
+    /* border-radius: 5px; */
+    overflow: hidden;
+    background-color: #fff;
+    /* box-shadow: 10px 5px 5px red; */
+    margin: 0px;
+    width: 19%;
+    padding: 25px;
+    position: relative;
+    /* Added for positioning context */
+}
+
+.product-image {
+    width: 100%;
+    height: 70%;
+}
+
+.product-details {
+    padding: 8px;
+}
+
+.product-name {
+    margin: 0 0 10px;
+    font-size: 1.4em;
+    color: #C00000;
+}
+
+.product-description {
+    color: black;
+    font-size: 20px;
+}
+
+.details-link {
+    background-color: red;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 1.1em;
+    border-radius: 0px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    position: absolute;
+    /* Added to position the link absolutely */
+    bottom: 10px;
+    /* Adjust the bottom spacing as needed */
+    right: 10px;
+    /* Adjust the right spacing as needed */
+}
+
+.details-link:hover {
+    background-color: black;
+}

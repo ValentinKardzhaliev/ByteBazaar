@@ -38,7 +38,7 @@ function Login() {
                     />
                 </div>
                 <div className="form-group">
-                    <p>
+                    <p className='forgot-password'>
                         <Link to="/forgot-password">Forgot your password?</Link>
                     </p>
                     <button type="submit">Login</button>

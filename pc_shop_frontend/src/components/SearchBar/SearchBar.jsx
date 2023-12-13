@@ -1,19 +1,24 @@
-import { useContext } from 'react';
 import backgroundImage from '../../assets/images/search_bar_background.jpg'
-import ProductContext from '../../contexts/ProductContext.jsx';
 import ProductBar from '../ProductBar/ProductBar.jsx';
-
+import { useNavigate } from 'react-router-dom';
 import './SearchBar.css'
 
 function SearchBar() {
-    const { setOptionForProducts } = useContext(ProductContext);
+    const navigate = useNavigate();
 
     const searchHandler = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const searchingOption = formData.get('search_form');
-        setOptionForProducts(searchingOption);
-        document.getElementById('search_form').value = '';
+
+        if (searchingOption === '') {
+            document.getElementById('search_form').value = '';
+        } else {
+            navigate(`/search/${searchingOption}`);
+            document.getElementById('search_form').value = '';
+
+        }
+
     }
 
     return (
