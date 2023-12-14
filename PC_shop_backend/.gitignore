@@ -1,3 +1,32 @@
 media
 -- SQLite.sql
 PC_shop_backend/.env
+.idea
+
+# .gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyz
+*.pyw
+
+
+# Virtual Environment
+venv/
+env/
+env1/
+env2/
+.env/
+
+# IDE
+.idea/
+.vscode/
+
+# Other
+
+
+.DS_Store
+*.db
