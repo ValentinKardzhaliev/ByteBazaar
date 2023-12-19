@@ -8,8 +8,32 @@ from ..common.models import Product
 
 
 class CartView(generics.RetrieveUpdateAPIView):
-    queryset = Cart.objects.all()
     serializer_class = CartSerializer
+
+    def get_object(self):
+        # Check if the user is authenticated
+        if self.request.user.is_authenticated:
+            # If authenticated, retrieve the user's cart
+            user = self.request.user
+            cart, created = Cart.objects.get_or_create(user=user)
+        else:
+            # If anonymous, use a session ID to identify the cart
+            session_id = self.request.session.session_key
+            cart, created = Cart.objects.get_or_create(session_id=session_id)
+
+        return cart
+
+    def get_serializer_context(self):
+        # Include the user in the serializer context
+        context = super().get_serializer_context()
+        context['user'] = self.request.user
+        return context
+
+    def get(self, request, *args, **kwargs):
+        # Override the get method to include cart items in the response
+        cart = self.get_object()
+        serializer = self.get_serializer(cart)
+        return Response(serializer.data)
 
 class AddToCartView(generics.CreateAPIView):
     queryset = CartItem.objects.all()
