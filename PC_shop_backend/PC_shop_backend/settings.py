@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'PC_shop_backend.api',
     'PC_shop_backend.common',
     'PC_shop_backend.catalog',
+    'PC_shop_backend.cart',
 ]
 
 MIDDLEWARE = [

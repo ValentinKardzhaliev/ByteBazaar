@@ -8,6 +8,7 @@ urlpatterns = [
     path('api/auth/', include('PC_shop_backend.api.urls')),
     path('', include('PC_shop_backend.common.urls')),
     path('api/products/', include('PC_shop_backend.catalog.urls')),
+    path('api/cart/', include('PC_shop_backend.cart.urls')),
 ]
 
 if settings.DEBUG:

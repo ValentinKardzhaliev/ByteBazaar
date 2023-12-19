@@ -1,0 +1,36 @@
+# cart/views.py
+from rest_framework import generics
+from rest_framework.response import Response
+
+from .models import Cart, CartItem
+from .serializers import CartSerializer, CartItemSerializer
+from ..common.models import Product
+
+
+class CartView(generics.RetrieveUpdateAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+class AddToCartView(generics.CreateAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+
+    def perform_create(self, serializer):
+        # Extract the product ID and model name from the request data
+        product_id = self.request.data.get('product_id')
+        product_model_name = self.request.data.get('product_model_name')
+
+        # Find the correct concrete model based on the model name
+        concrete_model = Product.__subclasses__()[product_model_name]
+
+        try:
+            # Retrieve the product using the model and ID
+            product = concrete_model.objects.get(id=product_id)
+        except concrete_model.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=404)
+
+        # Set the user for the cart item based on the request user
+        serializer.save(user=self.request.user, product=product)
+
+        return Response({'message': 'Product added to cart'}, status=201)
+
