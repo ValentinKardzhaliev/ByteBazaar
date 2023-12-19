@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from .models import Computer, Monitor, Keyboard
 from .serializers import ComputerSerializer, MonitorSerializer, KeyboardSerializer
 from .filters import ComputerFilter, MonitorFilter, KeyboardFilter
-from ..common.models import Product
 from ..common.serializers import ProductSerializer
 
 
@@ -28,18 +27,24 @@ class KeyboardList(generics.ListAPIView):
 
 
 class ProductDetailsView(APIView):
-    def get_object(self, pk):
+    def get_object(self, product_type, pk):
+        model_class = None
+
         try:
-            # Try to retrieve the object from any concrete model
-            for model in Product.__subclasses__():
-                obj = model.objects.get(pk=pk)
-                if obj:
-                    return obj
-        except Product.DoesNotExist:
+            model_class = {
+                'computer': Computer,
+                'monitor': Monitor,
+                'keyboard': Keyboard,
+                # Add more types as needed
+            }[product_type]
+
+            obj = model_class.objects.get(pk=pk)
+            return obj
+        except model_class.DoesNotExist:
             return None
 
-    def get(self, request, pk, *args, **kwargs):
-        product_instance = self.get_object(pk)
+    def get(self, request, product_type, pk, *args, **kwargs):
+        product_instance = self.get_object(product_type, pk)
 
         if not product_instance:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)

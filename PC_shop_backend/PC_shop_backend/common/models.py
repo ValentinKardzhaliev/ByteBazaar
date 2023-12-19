@@ -9,7 +9,16 @@ from django.db import models
 
 
 class Product(models.Model):
+    PRODUCT_TYPES = [
+        ('computer', 'Computer'),
+        ('monitor', 'Monitor'),
+        ('keyboard', 'Keyboard'),
+        # Add more types as needed
+    ]
+
     NAME_MAX_LEN = 50
+
+    type = models.CharField(max_length=20, choices=PRODUCT_TYPES)
 
     name = models.CharField(
         max_length=NAME_MAX_LEN
