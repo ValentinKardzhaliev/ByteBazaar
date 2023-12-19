@@ -17,3 +17,4 @@ class KeyboardList(generics.ListAPIView):
     queryset = Keyboard.objects.all()
     serializer_class = KeyboardSerializer
     filter_class = KeyboardFilter
+

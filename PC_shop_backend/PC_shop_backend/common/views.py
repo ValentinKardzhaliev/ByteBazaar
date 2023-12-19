@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -16,15 +17,24 @@ class IndexView(APIView):
         search_form = ProductSearchSerializer(data=request.GET)
         search_form.is_valid()
 
+        # Initialize an empty queryset
+        queryset = []
+
         # If a search query is provided, filter products
         if search_form.validated_data.get('search_query'):
             search_query = search_form.validated_data['search_query']
-            queryset = Product.objects.filter(
-                Q(name__icontains=search_query) | Q(description__icontains=search_query)
-            )
+            concrete_models = Product.__subclasses__()
+            for concrete_model in concrete_models:
+                queryset.extend(
+                    concrete_model.objects.filter(
+                        Q(name__icontains=search_query) | Q(description__icontains=search_query)
+                    )
+                )
         else:
-            # Get all products
-            queryset = Product.objects.all()
+            # Get all products, including subclasses
+            concrete_models = Product.__subclasses__()
+            for concrete_model in concrete_models:
+                queryset.extend(concrete_model.objects.all())
 
         # Serialize the products
         product_serializer = ProductSerializer(queryset, many=True)
@@ -36,21 +46,7 @@ class IndexView(APIView):
             'search_query': search_form.validated_data.get('search_query', ''),
         }
 
-        # Additional functionality
-        # output = [
-        #     {
-        #         "image": product['image'],
-        #         "name": product['name'],
-        #         "description": product['description'],
-        #         "_id": product['id'],
-        #     }
-        #     for product in product_serializer.data
-        # ]
-
-        # context['output'] = output
-
-        return Response(context, status=status.HTTP_200_OK)
-
+        return Response(context)
 
 
 @api_view(['POST'])

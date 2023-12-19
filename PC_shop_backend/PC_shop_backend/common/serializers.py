@@ -3,12 +3,12 @@ from rest_framework import serializers
 
 from .models import Product
 
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ['id', 'name', 'image', 'price', 'description']
-
+class ProductSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField(max_length=50)
+    image = serializers.ImageField()
+    price = serializers.DecimalField(max_digits=10, decimal_places=2)
+    description = serializers.CharField()
 
 class ProductSearchSerializer(serializers.Serializer):
     search_query = serializers.CharField(
@@ -28,4 +28,3 @@ class ProductSearchSerializer(serializers.Serializer):
         # Serialize the queryset using ProductSerializer
         serializer = ProductSerializer(queryset, many=True)
         return serializer.data
-
