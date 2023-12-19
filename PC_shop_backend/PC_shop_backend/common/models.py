@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -18,6 +20,7 @@ class Product(models.Model):
 
     NAME_MAX_LEN = 50
 
+    _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     type = models.CharField(max_length=20, choices=PRODUCT_TYPES)
     name = models.CharField(
         max_length=NAME_MAX_LEN
