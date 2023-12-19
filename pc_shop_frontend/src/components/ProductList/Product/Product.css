@@ -4,13 +4,13 @@
     background-color: #fff;
     margin: 0px;
     width: 19%;
-    padding: 25px;
+    padding: 45px;
     position: relative;
-    display: flex;
     flex-direction: column;
     /* Arrange children in a column */
-    height: 400px;
+    height: 500px;
     /* Set a fixed height, adjust as needed */
+    display: inline-flex;
 }
 
 .product-image {
@@ -57,4 +57,12 @@
     position: relative;
     top: 21px;
     left: 20px
+}
+
+.characteristics {
+    list-style-type: disc;
+    font-size: 20px;
+    display: inline-flex;
+    flex-direction: column;
+    padding: 10px;
 }

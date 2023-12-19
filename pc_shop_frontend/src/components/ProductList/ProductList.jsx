@@ -9,7 +9,7 @@ function ProductList() {
     return (
         <ul className="product-list">
             {products.length === 0 && <h1>No products found!</h1>}
-            {products.map(product => <Product key={product.id} product={product} />)}
+            {products.map(product => <Product key={product._id} product={product} />)}
         </ul>
     )
 }
