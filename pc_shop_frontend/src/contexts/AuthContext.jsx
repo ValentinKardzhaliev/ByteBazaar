@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }) => {
     }
     const register = (username, email, password, password_confirmation, phone) => {
         registerUser(username, email, password, password_confirmation, phone).then(result => {
-            console.log(result);
             navigate('/login');
         }).catch(err => console.log(err))
     }
