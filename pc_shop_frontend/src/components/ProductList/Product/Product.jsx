@@ -52,10 +52,6 @@ function Product(props) {
                 {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
             </ul>
 
-
-
-
-
             <span className="product-price"><p>$ {props.product.price}</p></span>
             <Link to={`/products/${props.product.type}/${props.product._id}`} className="details-link">Details</Link>
         </li>

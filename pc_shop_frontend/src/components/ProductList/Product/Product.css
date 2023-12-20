@@ -36,9 +36,11 @@
 }
 
 .product-name {
+    font-family: Montserrat-Bold;
     margin: 0 0 10px;
     font-size: 1.5em;
     color: #C00000;
+    
 
     /* Responsive styles for smaller screens */
     @media screen and (max-width: 768px) {
@@ -85,6 +87,8 @@
 }
 
 .characteristics {
+    color: #000000;
+    /* font-weight: bolder; */
     list-style-type: disc;
     font-size: 24px;
     display: flex;
