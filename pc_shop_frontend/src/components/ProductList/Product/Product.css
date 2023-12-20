@@ -2,16 +2,16 @@
     border: 1px solid #ccc;
     overflow: hidden;
     background-color: #fff;
-    margin: 0px;
-    width: 19%;
-    padding: 45px;
+    margin: 0 10px 20px 0;
+    width: calc(20% - 20px);
+    padding: 30px;
     position: relative;
     flex-direction: column;
-    /* Arrange children in a column */
-    height: 500px;
-    /* Set a fixed height, adjust as needed */
     display: inline-flex;
+    /* Remove or set height to auto for dynamic height */
+    height: auto;
 }
+
 
 .product-image {
     width: 100%;
@@ -43,6 +43,13 @@
     position: absolute;
     bottom: 0;
     left: 16px;
+
+    /* Responsive styles for smaller screens */
+    @media screen and (max-width: 768px) {
+        font-size: 16px;
+        margin-bottom: 8px;
+        left: 12px;
+    }
 }
 
 .details-link {
@@ -56,12 +63,18 @@
     align-self: flex-end;
     position: relative;
     top: 21px;
-    left: 20px
+    left: 20px;
+
+    /* Responsive styles for smaller screens */
+    @media screen and (max-width: 768px) {
+        font-size: 0.9em;
+        padding: 6px 12px;
+    }
 }
 
 .characteristics {
     list-style-type: disc;
-    font-size: 20px;
+    font-size: 24px; /* Increase the font size */
     display: inline-flex;
     flex-direction: column;
     padding: 10px;
