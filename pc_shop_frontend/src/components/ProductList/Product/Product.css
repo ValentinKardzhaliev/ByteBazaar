@@ -3,19 +3,19 @@
     overflow: hidden;
     background-color: #fff;
     margin: 0 10px 20px 0;
-    width: calc(18% - 20px);
+    width: calc(20% - 20px);
     padding: 30px;
     position: relative;
     flex-direction: column;
-    display: inline-flex;
-    /* Remove or set height to auto for dynamic height */
     height: auto;
+    display: inline-flex;
+    align-items: flex-start; /* Align characteristics to the start */
 }
 
 
 .product-image {
     width: 100%;
-    height: 65%;
+    height: 255px; /* Set a fixed height, adjust as needed */
 
     /* Responsive styles for smaller screens */
     @media screen and (max-width: 768px) {
@@ -31,6 +31,7 @@
     line-clamp: 3;
     -webkit-box-orient: vertical;
     padding: 10px;
+    max-height: 50px; /* Set a maximum height, adjust as needed */
     flex-grow: 1;
 }
 
@@ -72,6 +73,7 @@
     transition: background-color 0.3s, color 0.3s;
     align-self: flex-end;
     position: relative;
+    margin-top: auto;
     top: 21px;
     left: 20px;
 
@@ -85,11 +87,11 @@
 .characteristics {
     list-style-type: disc;
     font-size: 24px;
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     padding: 10px;
+    align-items: flex-start; /*
 
-    /* Responsive styles for smaller screens */
     @media screen and (max-width: 768px) {
         font-size: 16px;
         padding: 8px;
