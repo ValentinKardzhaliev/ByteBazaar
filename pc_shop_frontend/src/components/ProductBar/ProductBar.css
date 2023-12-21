@@ -4,17 +4,15 @@
     position: relative;
     font-weight: bold;
     bottom: -35px;
+    margin: auto;
     height: auto;
-    /* Center the text content within the navBar */
 }
 
 .navBar-list {
     list-style-type: none;
     margin: 0;
     margin: auto;
-    /* Center the ul element */
     display: inline-block;
-    /* Optional: Adjust display property as needed */
 }
 
 .nav-list li {

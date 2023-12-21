@@ -15,7 +15,7 @@
 
 .product-image {
     width: 100%;
-    height: 255px; /* Set a fixed height, adjust as needed */
+    height: 255px;
 
     /* Responsive styles for smaller screens */
     @media screen and (max-width: 768px) {
