@@ -24,7 +24,7 @@
 .form-content {
     position: absolute;
     top: 55%;
-    left: 51%;
+    left: 50%;
     transform: translateX(-50%);
     width: 100%;
     box-sizing: border-box;
