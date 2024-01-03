@@ -1,7 +1,8 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,18 +11,21 @@ from PC_shop_backend.common.models import Like, Product
 from PC_shop_backend.common.serializers import ProductSearchSerializer, ProductSerializer
 
 
-class IndexView(APIView):
-    def get(self, request, *args, **kwargs):
-        # Deserialize the search form from the request data
-        search_form = ProductSearchSerializer(data=request.GET)
-        search_form.is_valid()
+class ProductPagination(PageNumberPagination):
+    page_size = 4
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
-        # Initialize an empty queryset
+class ProductListView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+    pagination_class = ProductPagination
+
+    def get_queryset(self):
+        # If a search query is provided, filter products
+        search_query = self.request.GET.get('search_query')
         queryset = []
 
-        # If a search query is provided, filter products
-        if search_form.validated_data.get('search_query'):
-            search_query = search_form.validated_data['search_query']
+        if search_query:
             concrete_models = Product.__subclasses__()
             for concrete_model in concrete_models:
                 queryset.extend(
@@ -35,18 +39,34 @@ class IndexView(APIView):
             for concrete_model in concrete_models:
                 queryset.extend(concrete_model.objects.all())
 
-        # Serialize the products
-        product_serializer = ProductSerializer(queryset, many=True)
+        return queryset
 
-        # Include products, search form, and search query in the context
+    def list(self, request, *args, **kwargs):
+        # Get the queryset
+        queryset = self.get_queryset()
+
+        # Create a new instance of the pagination class
+        paginator = self.pagination_class()
+
+        # Paginate the queryset
+        paginated_queryset = paginator.paginate_queryset(queryset, request, self)
+
+        # Serialize the paginated products
+        product_serializer = self.serializer_class(paginated_queryset, many=True)
+
+        # Deserialize the search form from the request data
+        search_form = ProductSearchSerializer(data=request.GET)
+        search_form.is_valid()
+
+        # Additional context
         context = {
             'products': product_serializer.data,
             'search_form': search_form.data,
             'search_query': search_form.validated_data.get('search_query', ''),
         }
 
-        return Response(context)
-
+        # Return the paginated response with additional context
+        return paginator.get_paginated_response(context)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
