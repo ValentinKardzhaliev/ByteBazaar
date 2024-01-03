@@ -8,6 +8,11 @@
   src: url(fonts/Montserrat-Bold.ttf);
 }
 
+@font-face {
+  font-family: Montserrat-Light;
+  src: url(fonts/Montserrat-Light.ttf);
+}
+
 body {
   font-family: Montserrat, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   margin: 0;
