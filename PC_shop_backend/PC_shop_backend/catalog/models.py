@@ -4,6 +4,10 @@ from PC_shop_backend.common.models import Product
 
 
 class Computer(Product):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)  # Call the superclass constructor
+        self.type = 'computer'
+
     processor = models.CharField(max_length=50)
     graphics = models.CharField(max_length=50)
     memory = models.CharField(max_length=50)
@@ -14,6 +18,11 @@ class Computer(Product):
 
 
 class Monitor(Product):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)  # Call the superclass constructor
+        self.type = 'monitor'
+
+
     resolution = models.CharField(max_length=20)
     refresh_rate = models.CharField(max_length=10)
     panel_type = models.CharField(max_length=20)
@@ -24,7 +33,10 @@ class Monitor(Product):
 
 
 class Keyboard(Product):
-    # Additional fields specific to keyboards
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)  # Call the superclass constructor
+        self.type = 'keyboard'
+
     key_switch_type = models.CharField(
         max_length=30,
         choices=[

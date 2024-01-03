@@ -1,5 +1,20 @@
+@font-face {
+  font-family: Montserrat;
+  src: url(fonts/Montserrat-Medium.ttf);
+}
+
+@font-face {
+  font-family: Montserrat-Bold;
+  src: url(fonts/Montserrat-Bold.ttf);
+}
+
+@font-face {
+  font-family: Montserrat-Light;
+  src: url(fonts/Montserrat-Light.ttf);
+}
+
 body {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: Montserrat, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   margin: 0;
 
   background-color: #f8f8f8f8;

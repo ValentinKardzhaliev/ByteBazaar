@@ -2,13 +2,50 @@ from django.db.models import Q
 from rest_framework import serializers
 
 from .models import Product
+from ..catalog.models import Computer, Monitor, Keyboard
+from ..catalog.serializers import ComputerSerializer, MonitorSerializer, KeyboardSerializer
 
 
+<<<<<<< HEAD
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'name', 'image', 'price', 'description', 'type']  # Add other fields as needed
 
+=======
+class ProductSerializer(serializers.Serializer):
+    def __init__(self, *args, **kwargs):
+        super(ProductSerializer, self).__init__(*args, **kwargs)
+
+        # Get the fields from the abstract model 'Product'
+        product_fields = [field.name for field in Product._meta.get_fields()]
+
+        # Add fields from the abstract model to the serializer
+        for field_name in product_fields:
+            self.fields[field_name] = serializers.CharField()
+
+        # Get all concrete subclasses of 'Product' dynamically
+        concrete_models = Product.__subclasses__()
+
+        # Add fields from each concrete model to the serializer dynamically
+        for model in concrete_models:
+            concrete_fields = [field.name for field in model._meta.get_fields() if field.name not in product_fields]
+            for field_name in concrete_fields:
+                self.fields[field_name] = serializers.CharField(required=False)
+
+    def to_representation(self, instance):
+        # Use specific serializers for concrete models
+        if isinstance(instance, Computer):
+            serializer = ComputerSerializer(instance)
+        elif isinstance(instance, Monitor):
+            serializer = MonitorSerializer(instance)
+        elif isinstance(instance, Keyboard):
+            serializer = KeyboardSerializer(instance)
+        else:
+            serializer = super(ProductSerializer, self)
+
+        return serializer.data
+>>>>>>> main
 
 
 class ProductSearchSerializer(serializers.Serializer):
@@ -29,4 +66,3 @@ class ProductSearchSerializer(serializers.Serializer):
         # Serialize the queryset using ProductSerializer
         serializer = ProductSerializer(queryset, many=True)
         return serializer.data
-

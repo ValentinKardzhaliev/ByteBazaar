@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'PC_shop_backend.api',
     'PC_shop_backend.common',
     'PC_shop_backend.catalog',
+    'PC_shop_backend.cart',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = "/media/"
 
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_NAME = 'sessionid'
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

@@ -30,6 +30,7 @@ nav li a {
 
 nav #home {
     float: left;
+    font-weight: bold;
 }
 
 #userName a {

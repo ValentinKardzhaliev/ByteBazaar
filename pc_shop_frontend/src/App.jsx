@@ -12,6 +12,7 @@ import Register from './components/Register/Register.jsx';
 import Cart from './components/Cart/Cart.jsx';
 import IsNotLoggedIn from './components/common/IsNotLoggedIn.jsx';
 import SearchProductList from './components/SearchProductList/SearchProductList.jsx';
+import ProductDetails from './components/ProductDetails/ProductDetails.jsx';
 
 function App() {
     return (
@@ -44,6 +45,7 @@ function App() {
                             <Route path='/cart' element={<Cart />} />
                             <Route path='/logout' element={<Logout />} />
                         </Route>
+                        <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
                     </Routes>
                 </ProductProvider>
             </AuthProvider>

@@ -19,7 +19,7 @@ function SearchProductList() {
     return (
         <ul className="product-list">
             {searchProducts.length === 0 && <h1>No products found!</h1>}
-            {searchProducts.map(product => <SearchProduct key={product.id} product={product} />)}
+            {searchProducts.map(product => <SearchProduct key={product._id} product={product} />)}
         </ul>
     )
 }

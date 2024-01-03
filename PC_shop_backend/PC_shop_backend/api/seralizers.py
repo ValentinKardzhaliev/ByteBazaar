@@ -13,9 +13,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'email', 'password')
 
 
+
 class CreateUserSerializer(serializers.ModelSerializer):
     password_confirmation = serializers.CharField(write_only=True)
-    phone = serializers.CharField(write_only=True, required=False)
+    phone = serializers.CharField(write_only=True, required=False, allow_blank=True)
 
     class Meta:
         model = UserModel
