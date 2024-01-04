@@ -1,22 +1,17 @@
 from rest_framework import serializers
-from .models import Product, Computer, Monitor, Keyboard
+from .models import Computer, Monitor, Keyboard
 
-class ProductHomeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ['id', 'name', 'image', 'price']
-
-class ComputerHomeSerializer(serializers.ModelSerializer):
+class ComputerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Computer
-        fields = ['processor', 'graphics', 'memory', 'storage']
+        fields = '__all__'
 
-class MonitorHomeSerializer(serializers.ModelSerializer):
+class MonitorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Monitor
-        fields = ['resolution', 'refresh_rate', 'panel_type', 'size']
+        fields = '__all__'
 
-class KeyboardHomeSerializer(serializers.ModelSerializer):
+class KeyboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Keyboard
-        fields = ['key_switch_type', 'backlight', 'wireless']
+        fields = '__all__'

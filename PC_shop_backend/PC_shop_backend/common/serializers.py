@@ -6,13 +6,6 @@ from ..catalog.models import Computer, Monitor, Keyboard
 from ..catalog.serializers import ComputerSerializer, MonitorSerializer, KeyboardSerializer
 
 
-<<<<<<< HEAD
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ['id', 'name', 'image', 'price', 'description', 'type']  # Add other fields as needed
-
-=======
 class ProductSerializer(serializers.Serializer):
     def __init__(self, *args, **kwargs):
         super(ProductSerializer, self).__init__(*args, **kwargs)
@@ -45,7 +38,6 @@ class ProductSerializer(serializers.Serializer):
             serializer = super(ProductSerializer, self)
 
         return serializer.data
->>>>>>> main
 
 
 class ProductSearchSerializer(serializers.Serializer):
