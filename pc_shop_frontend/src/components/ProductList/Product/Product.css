@@ -2,15 +2,15 @@
     border: 1px solid #ccc;
     overflow: hidden;
     background-color: #fff;
-    margin: 0 10px 20px 0;
-    width: calc(20% - 20px);
+    margin: 0 15px 20px 15px;
+    width: calc(20% - 30px); /* Adjusted width and margin */
     padding: 30px;
     position: relative;
     flex-direction: column;
-    height: auto;
+    height: 90%;
     display: inline-flex;
-    align-items: flex-start; /* Align characteristics to the start */
 }
+
 
 
 .product-image {

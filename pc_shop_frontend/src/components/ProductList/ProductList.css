@@ -1,4 +1,4 @@
-.product-list {
+.product-list-container {
     position: relative;
     list-style: none;
     padding: 0;
@@ -6,4 +6,20 @@
     flex-wrap: wrap;
     justify-content: space-around;
     margin: 4%;
+    /* align-items: center; */
+}
+
+.load-more-button {
+    color: #aeaeae;
+    font-size: 3em;
+    position: absolute;
+    right: -25px; /* Adjust the value to move the button more to the right */
+    top: 50%;
+    cursor: pointer;
+}
+
+
+.product-list {
+    width: 100%; 
+    margin-bottom: 2%; 
 }
