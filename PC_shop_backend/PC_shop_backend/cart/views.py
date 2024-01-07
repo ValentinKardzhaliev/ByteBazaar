@@ -1,36 +1,30 @@
+# views.py
 import uuid
-
 from rest_framework import generics
 from rest_framework.response import Response
-
 from .models import Cart, CartItem
 from .serializers import CartSerializer, CartItemSerializer
 from ..common.models import Product
-
-
 
 class CartView(generics.RetrieveUpdateAPIView):
     serializer_class = CartSerializer
 
     def get_object(self):
-        # Check if the user is authenticated
         if self.request.user.is_authenticated:
-            # If authenticated, retrieve the user's cart
             user = self.request.user
             cart, created = Cart.objects.get_or_create(user=user)
         else:
-            # If anonymous, use a unique identifier for the cart
-            unique_identifier = self.request.session.get('unique_identifier')
-            if not unique_identifier:
-                unique_identifier = str(uuid.uuid4())
-                self.request.session['unique_identifier'] = unique_identifier
+            session_id = self.request.session.get('cart_session_id')
+            if not session_id:
+                session_id = uuid.uuid4().int >> 64
+                self.request.session['cart_session_id'] = str(session_id)
 
-            cart, created = Cart.objects.get_or_create(unique_identifier=unique_identifier)
+            # Use the 'id' field for get_or_create
+            cart, created = Cart.objects.get_or_create(id=session_id)
 
         return cart
 
     def get_serializer_context(self):
-        # Include the user in the serializer context
         context = super().get_serializer_context()
         context['user'] = self.request.user
         return context
@@ -45,21 +39,26 @@ class AddToCartView(generics.CreateAPIView):
     serializer_class = CartItemSerializer
 
     def perform_create(self, serializer):
-        # Extract the product ID and model name from the request data
         product_id = self.request.data.get('product_id')
         product_model_name = self.request.data.get('product_model_name')
-
-        # Find the correct concrete model based on the model name
         concrete_model = Product.__subclasses__()[product_model_name]
 
         try:
-            # Retrieve the product using the model and ID
             product = concrete_model.objects.get(id=product_id)
         except concrete_model.DoesNotExist:
             return Response({'error': 'Product not found'}, status=404)
 
-        # Set the user for the cart item based on the request user
-        serializer.save(user=self.request.user, product=product)
+        if self.request.user.is_authenticated:
+            # For authenticated users, use the user field
+            serializer.save(user=self.request.user, product=product)
+        else:
+            # For anonymous users, use the session_id
+            session_id = self.request.session.get('cart_session_id')
+            if not session_id:
+                session_id = uuid.uuid4().int >> 64
+                self.request.session['cart_session_id'] = str(session_id)
+
+            # Save the cart item with the session_id
+            serializer.save(session_id=session_id, product=product)
 
         return Response({'message': 'Product added to cart'}, status=201)
-

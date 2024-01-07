@@ -1,4 +1,3 @@
-# catalog/models.py
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -7,6 +6,7 @@ from PC_shop_backend.common.models import Product
 
 UserModel = get_user_model()
 
+# models.py
 class Cart(models.Model):
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField('CartItem', related_name='cart_items')
