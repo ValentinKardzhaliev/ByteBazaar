@@ -1,10 +1,15 @@
 from django.db.models import Q
 from rest_framework import serializers
 
-from .models import Product
+from .models import Product, ProductImage
 from ..catalog.models import Computer, Monitor, Keyboard
 from ..catalog.serializers import ComputerSerializer, MonitorSerializer, KeyboardSerializer
 
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ('image',)
 
 class ProductSerializer(serializers.Serializer):
     def __init__(self, *args, **kwargs):
@@ -37,7 +42,14 @@ class ProductSerializer(serializers.Serializer):
         else:
             serializer = super(ProductSerializer, self)
 
-        return serializer.data
+        # Convert the images to their representations
+        images_representation = ProductImageSerializer(instance.images.all(), many=True).data
+
+        # Add images to the representation
+        representation = serializer.data
+        representation['images'] = images_representation
+
+        return representation
 
 
 class ProductSearchSerializer(serializers.Serializer):

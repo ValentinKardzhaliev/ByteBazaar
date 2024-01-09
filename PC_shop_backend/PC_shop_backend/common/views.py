@@ -35,8 +35,8 @@ class IndexView(APIView):
             for concrete_model in concrete_models:
                 queryset.extend(concrete_model.objects.all())
 
-        # Serialize the products
-        product_serializer = ProductSerializer(queryset, many=True)
+        # Serialize the products with the updated serializer
+        product_serializer = ProductSerializer(queryset, many=True, context={'request': request})
 
         # Include products, search form, and search query in the context
         context = {
@@ -46,7 +46,6 @@ class IndexView(APIView):
         }
 
         return Response(context)
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

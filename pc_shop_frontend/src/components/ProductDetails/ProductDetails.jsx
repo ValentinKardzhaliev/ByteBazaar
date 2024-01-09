@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getProductByTypeAndId } from "../../services/productService";
 import { useParams } from "react-router-dom";
-import backgroundImage from "../../assets/images/search_bar_background.jpg";
 import "./ProductDetails.css";
 
 function ProductDetails() {
@@ -15,10 +14,14 @@ function ProductDetails() {
         getProductByTypeAndId(typeOfProduct, productId)
             .then((result) => {
                 setProduct(result);
-                setImagePath(`http://localhost:8000${result.image}`);
+
+                // Set imagePath to the first image in the product.images array
+                if (result.images && result.images.length > 0) {
+                    setImagePath(`http://localhost:8000${result.images[0].image}`);
+                }
             })
             .catch((err) => console.log(err));
-    }, []);
+    }, [typeOfProduct, productId]);
 
     function changeImage(imagePath) {
         setImagePath(imagePath);
@@ -55,18 +58,15 @@ function ProductDetails() {
                 <div className="product-images">
                     <img src={imagePath} alt="Product Image" id="main-image" />
                     <div className="image-slider">
-                        <img
-                            src={`http://localhost:8000${product.image}`}
-                            alt="Product Image"
-                            onClick={() =>
-                                changeImage(`http://localhost:8000${product.image}`)
-                            }
-                        />
-                        <img
-                            src={backgroundImage}
-                            alt="Product Image"
-                            onClick={() => changeImage(backgroundImage)}
-                        />
+                        {product.images && product.images.map((image, index) => (
+                            <img
+                                key={index}
+                                src={`http://localhost:8000${image.image}`}
+                                alt={`Product Image ${index}`}
+                                onClick={() => changeImage(`http://localhost:8000${image.image}`)}
+                            />
+                        ))}
+                        <i class="fa-solid fa-greater-than"></i>
                     </div>
                 </div>
 
@@ -87,6 +87,7 @@ function ProductDetails() {
                     <p className="price-container">
                         <span className="price">Price: {product.price}$</span>
                         <button className="buy-button">Add to Cart</button>
+                        
                     </p>
                 </div>
             </div>
@@ -107,28 +108,7 @@ function ProductDetails() {
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo,
                     ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
-
+                {/* ... Add more content as needed ... */}
             </div>
         </>
     );

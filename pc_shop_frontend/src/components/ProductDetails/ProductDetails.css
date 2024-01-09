@@ -19,10 +19,11 @@ body {
 }
 
 .product-images img {
-    width: 100%;
+    width: 80%;  /* Make the main image take 100% width */
     height: auto;
     padding: 10px;
     box-sizing: border-box;
+    object-fit: contain;  /* Ensure the image maintains its aspect ratio */
 }
 
 .image-slider {
@@ -32,8 +33,8 @@ body {
 
 .image-slider img {
     max-width: 100px;
+    height: auto;
     cursor: pointer;
-    margin-right: 15px;
 }
 
 .product-details-detailsPage {
@@ -47,12 +48,14 @@ body {
 }
 
 .characteristics h2 {
+    margin-left: -10px;
     font-size: 24px;
 }
 
 .characteristics p {
     font-family: Montserrat-Light;
     margin-left: 3%;
+    margin-top: -5px;
 }
 
 .product-name-detailsPage {
@@ -62,12 +65,9 @@ body {
 }
 
 .product-name-detailsPage:hover {
-    font-size: 32px;
-    color: #C00000;
-    margin-right: 10%;
     cursor: none;
+    color: #C00000;
 }
-
 
 .price-container {
     display: flex;
@@ -88,7 +88,6 @@ body {
     color: #fff;
     padding: 10px 20px;
     border: none;
-    /* border-radius: 5px; */
     cursor: pointer;
 }
 
@@ -100,7 +99,6 @@ body {
     -webkit-text-stroke: 2px #aeaeae;
 }
 
-
 .full-characteristics {
     margin-top: 20px;
 }
@@ -110,21 +108,14 @@ body {
     text-align: center;
 }
 
-
-.full-characteristics-link:link {
+.full-characteristics-link:link,
+.full-characteristics-link:visited {
     color: #C00000;
     text-decoration: none;
 }
 
-.full-characteristics-link:visited {
-    color: #C00000;
-}
-
-
-
 .characteristics p::before {
     content: '\f00c';
-    /* Unicode for the Font Awesome check icon */
     font-family: 'Font Awesome 6 Free';
     color: #C00000;
     margin-right: 10px;
