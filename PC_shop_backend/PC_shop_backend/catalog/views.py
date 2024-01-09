@@ -35,7 +35,6 @@ class ProductDetailsView(APIView):
                 'computer': Computer,
                 'monitor': Monitor,
                 'keyboard': Keyboard,
-                # Add more types as needed
             }[product_type]
 
             obj = model_class.objects.get(pk=pk)

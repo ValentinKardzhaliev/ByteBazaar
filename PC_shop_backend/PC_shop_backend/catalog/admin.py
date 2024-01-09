@@ -1,11 +1,16 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
+from .models import Computer, Monitor, Keyboard
+from PC_shop_backend.common.models import ProductImage
 
-from PC_shop_backend.catalog.models import Computer, Monitor, Keyboard
-
+class ProductImageInline(GenericTabularInline):
+    model = ProductImage
+    extra = 1
 
 @admin.register(Computer)
 class ComputerAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'processor', 'graphics', 'memory', 'storage']
+    inlines = [ProductImageInline]  # Add the inline for images
 
     def formfield_for_choice_field(self, db_field, request, **kwargs):
         if db_field.name == 'type':
@@ -16,6 +21,7 @@ class ComputerAdmin(admin.ModelAdmin):
 @admin.register(Monitor)
 class MonitorAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'resolution', 'refresh_rate', 'panel_type', 'size']
+    inlines = [ProductImageInline]  # Add the inline for images
 
     def formfield_for_choice_field(self, db_field, request, **kwargs):
         if db_field.name == 'type':
@@ -26,6 +32,7 @@ class MonitorAdmin(admin.ModelAdmin):
 @admin.register(Keyboard)
 class KeyboardAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'key_switch_type', 'backlight', 'color', 'wireless']
+    inlines = [ProductImageInline]  # Add the inline for images
 
     def formfield_for_choice_field(self, db_field, request, **kwargs):
         if db_field.name == 'type':
