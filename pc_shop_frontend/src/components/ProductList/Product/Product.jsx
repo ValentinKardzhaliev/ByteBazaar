@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+}
 
 function Product(props) {
     let characteristics = {
@@ -28,7 +28,7 @@ function Product(props) {
             characteristics[typeOfProduct].push(
                 props.product.resolution,
                 props.product.size
-              );
+            );
 
             break;
         case 'keyboard':
@@ -36,7 +36,7 @@ function Product(props) {
                 capitalizeFirstLetter(props.product.key_switch_type),
                 props.product.backlight ? 'Backlit' : 'Not Backlit', // Display a message based on the boolean value
                 props.product.color
-              );
+            );
             break;
 
         default:
