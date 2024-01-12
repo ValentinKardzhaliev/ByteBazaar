@@ -9,6 +9,8 @@ function ProductDetails() {
     const { typeOfProduct, productId } = useParams();
     const [product, setProduct] = useState({});
     const [imagePath, setImagePath] = useState("");
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [showLessThanIcon, setShowLessThanIcon] = useState(false);
 
     useEffect(() => {
         getProductByTypeAndId(typeOfProduct, productId)
@@ -23,8 +25,39 @@ function ProductDetails() {
             .catch((err) => console.log(err));
     }, [typeOfProduct, productId]);
 
-    function changeImage(imagePath) {
-        setImagePath(imagePath);
+    function changeImage(index) {
+        // Set the imagePath based on the selected index
+        setImagePath(`http://localhost:8000${product.images[index].image}`);
+    }
+
+    function handleNext() {
+        // Increment the currentIndex
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % product.images.length);
+      
+        // Check if there are hidden images (excluding the first image)
+        setShowLessThanIcon(currentIndex + 1 < product.images.length - 1);
+      
+        // Change the image
+        changeImage(currentIndex);
+      }
+
+    function handlePrev() {
+        // Decrement the currentIndex
+        setCurrentIndex((prevIndex) => {
+            const newIndex =
+                prevIndex === 0 ? product.images.length - 1 : prevIndex - 1;
+            setShowLessThanIcon(newIndex > 0);
+            return newIndex;
+        });
+
+        // Change the image
+        changeImage(currentIndex);
+    }
+    function handleLessThan() {
+        // Scroll to the first image and set currentIndex to 0
+        setCurrentIndex(0);
+        setShowLessThanIcon(false);
+        changeImage(0);
     }
 
     useEffect(() => {
@@ -49,7 +82,7 @@ function ProductDetails() {
         return () => {
             fullCharacteristicsLink.removeEventListener("click", handleViewFullCharacteristics);
         };
-    }, []);  // Empty dependency array means this effect runs once after the initial render
+    }, []); // Empty dependency array means this effect runs once after the initial render
 
     return (
         <>
@@ -58,15 +91,21 @@ function ProductDetails() {
                 <div className="product-images">
                     <img src={imagePath} alt="Product Image" id="main-image" />
                     <div className="image-slider">
-                        {product.images && product.images.map((image, index) => (
-                            <img
-                                key={index}
-                                src={`http://localhost:8000${image.image}`}
-                                alt={`Product Image ${index}`}
-                                onClick={() => changeImage(`http://localhost:8000${image.image}`)}
-                            />
-                        ))}
-                        <i class="fa-solid fa-greater-than"></i>
+                        {showLessThanIcon && (
+                            <i className="fa-solid fa-less-than" onClick={handleLessThan}></i>
+                        )}
+                        {product.images &&
+                            product.images.slice(currentIndex, currentIndex + 5).map((image, index) => (
+                                <img
+                                    key={index}
+                                    src={`http://localhost:8000${image.image}`}
+                                    alt={`Product Image ${index}`}
+                                    onClick={() => changeImage(currentIndex + index)}
+                                />
+                            ))}
+                        {product.images && product.images.length > 5 && (
+                            <i className="fa-solid fa-greater-than" onClick={handleNext}></i>
+                        )}
                     </div>
                 </div>
 
@@ -87,7 +126,6 @@ function ProductDetails() {
                     <p className="price-container">
                         <span className="price">Price: {product.price}$</span>
                         <button className="buy-button">Add to Cart</button>
-                        
                     </p>
                 </div>
             </div>
@@ -105,9 +143,11 @@ function ProductDetails() {
                     </li>
                     {/* ... Add more characteristics as needed ... */}
                 </ul>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Id delectus odio magnam minima tenetur numquam soluta! Impedit, explicabo,
-                    ipsum dolor facilis nisi minima ab eveniet a quasi culpa rem voluptates!</p>
+                <p>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio
+                    magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis
+                    nisi minima ab eveniet a quasi culpa rem voluptates!
+                </p>
                 {/* ... Add more content as needed ... */}
             </div>
         </>
