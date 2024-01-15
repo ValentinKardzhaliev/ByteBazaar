@@ -1,41 +1,10 @@
+import { characteristicsLogic } from '../../../utils/characteristicsLogic';
 import './Product.css';
 import { Link } from 'react-router-dom';
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function Product(props) {
-    let characteristics = {
-        computer: [],
-        monitor: [],
-        keyboard: [],
-    };
+    let characteristics = characteristicsLogic(props);
     let typeOfProduct = props.product.type;
-
-    switch (typeOfProduct) {
-        case 'computer':
-            characteristics[typeOfProduct].push(
-                props.product.processor,
-                props.product.graphics,
-                props.product.memory,
-                props.product.storage
-            );
-            break;
-        case 'monitor':
-            characteristics[typeOfProduct].push(props.product.resolution, props.product.size);
-            break;
-        case 'keyboard':
-            characteristics[typeOfProduct].push(
-                capitalizeFirstLetter(props.product.key_switch_type),
-                props.product.backlight ? 'Backlit' : 'Not Backlit',
-                props.product.color
-            );
-            break;
-        default:
-            break;
-    }
-
     // Render only the first image
     const firstImage = props.product.images.length > 0 ? (
         <img src={`http://localhost:8000${props.product.images[0].image}`} alt="Product Image" className="product-image" />
