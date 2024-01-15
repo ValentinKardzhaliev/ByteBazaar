@@ -11,11 +11,18 @@ function ProductDetails() {
     const [imagePath, setImagePath] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showLessThanIcon, setShowLessThanIcon] = useState(false);
+    const [productImages, setProductImages] = useState([]);
+    const [currentImages, setCurrentImages] = useState([]);
+    const [placeOfImage, setPlaceOfImage] = useState(0);
 
+    // 0, 1, 2, 3, 4, 5, 6, 7, 8
+    // 1, 2, 3, 4, 5
     useEffect(() => {
         getProductByTypeAndId(typeOfProduct, productId)
             .then((result) => {
                 setProduct(result);
+                setProductImages(result.images);
+                setCurrentImages(result.images.slice(0, 5));
 
                 // Set imagePath to the first image in the product.images array
                 if (result.images && result.images.length > 0) {
@@ -33,31 +40,41 @@ function ProductDetails() {
     function handleNext() {
         // Increment the currentIndex
         setCurrentIndex((prevIndex) => (prevIndex + 1) % product.images.length);
-      
-        // Check if there are hidden images (excluding the first image)
-        setShowLessThanIcon(currentIndex + 1 < product.images.length - 1);
-      
-        // Change the image
-        changeImage(currentIndex);
-      }
 
-    function handlePrev() {
-        // Decrement the currentIndex
-        setCurrentIndex((prevIndex) => {
-            const newIndex =
-                prevIndex === 0 ? product.images.length - 1 : prevIndex - 1;
-            setShowLessThanIcon(newIndex > 0);
-            return newIndex;
-        });
+        if (productImages.length >= currentImages.length) {
+            setCurrentImages(productImages.slice(placeOfImage + 1, placeOfImage + 6));
+            setPlaceOfImage(prev => prev + 1);
+        }
 
         // Change the image
-        changeImage(currentIndex);
+        // changeImage(currentIndex);
+
     }
+    function changeImageWhenClick(e) {
+        e.preventDefault();
+        setImagePath(e.target.src);
+    }
+
+    // function handlePrev() {
+    //     // Decrement the currentIndex
+    //     setCurrentIndex((prevIndex) => {
+    //         const newIndex =
+    //             prevIndex === 0 ? product.images.length - 1 : prevIndex - 1;
+    //         setShowLessThanIcon(newIndex > 0);
+    //         return newIndex;
+    //     });
+
+    //     // Change the image
+    //     changeImage(currentIndex);
+    // }
     function handleLessThan() {
         // Scroll to the first image and set currentIndex to 0
-        setCurrentIndex(0);
-        setShowLessThanIcon(false);
-        changeImage(0);
+        // setCurrentIndex(0);
+        // setShowLessThanIcon(false);
+        // changeImage(0);
+        setPlaceOfImage(placeOfImage => placeOfImage - 1);
+        setCurrentImages(productImages.slice(placeOfImage, placeOfImage + 5));
+
     }
 
     useEffect(() => {
@@ -84,6 +101,7 @@ function ProductDetails() {
         };
     }, []); // Empty dependency array means this effect runs once after the initial render
 
+
     return (
         <>
             <hr />
@@ -91,21 +109,24 @@ function ProductDetails() {
                 <div className="product-images">
                     <img src={imagePath} alt="Product Image" id="main-image" />
                     <div className="image-slider">
-                        {showLessThanIcon && (
+                        {placeOfImage !== 0 ?
                             <i className="fa-solid fa-less-than" onClick={handleLessThan}></i>
-                        )}
-                        {product.images &&
-                            product.images.slice(currentIndex, currentIndex + 5).map((image, index) => (
+                            : <></>
+                        }
+                        {currentImages &&
+                            currentImages.map((image, index) => (
                                 <img
                                     key={index}
                                     src={`http://localhost:8000${image.image}`}
                                     alt={`Product Image ${index}`}
-                                    onClick={() => changeImage(currentIndex + index)}
+                                    onClick={(e) => changeImageWhenClick(e)}
                                 />
                             ))}
-                        {product.images && product.images.length > 5 && (
-                            <i className="fa-solid fa-greater-than" onClick={handleNext}></i>
-                        )}
+                        {
+                            currentImages[currentImages.length - 1] !== productImages[productImages.length - 1] ?
+                                <i className="fa-solid fa-greater-than" onClick={handleNext}></i>
+                                : <></>
+                        }
                     </div>
                 </div>
 
