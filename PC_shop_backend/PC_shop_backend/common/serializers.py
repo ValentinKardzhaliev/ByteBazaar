@@ -51,6 +51,9 @@ class ProductSerializer(serializers.Serializer):
 
         return representation
 
+class FilteredProductSerializer(ProductSerializer):
+    min_price = serializers.DecimalField(required=False, allow_null=True, max_digits=10, decimal_places=2)
+    max_price = serializers.DecimalField(required=False, allow_null=True, max_digits=10, decimal_places=2)
 
 class ProductSearchSerializer(serializers.Serializer):
     search_query = serializers.CharField(

@@ -1,30 +1,27 @@
-from rest_framework import generics, status
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from ..common.filters import ProductFilterBackend
+from ..common.serializers import ProductSerializer, FilteredProductSerializer
+from rest_framework import viewsets
 from .models import Computer, Monitor, Keyboard
-from .serializers import ComputerSerializer, MonitorSerializer, KeyboardSerializer
-from .filters import ComputerFilter, MonitorFilter, KeyboardFilter
-from ..common.serializers import ProductSerializer
 
-
-class ComputerList(generics.ListAPIView):
+class ComputerViewSet(viewsets.ModelViewSet):
     queryset = Computer.objects.all()
-    serializer_class = ComputerSerializer
-    filter_class = ComputerFilter
+    serializer_class = FilteredProductSerializer
+    filter_backends = [ProductFilterBackend]
 
 
-class MonitorList(generics.ListAPIView):
+class MonitorViewSet(viewsets.ModelViewSet):
     queryset = Monitor.objects.all()
-    serializer_class = MonitorSerializer
-    filter_class = MonitorFilter
+    serializer_class = FilteredProductSerializer
+    filter_backends = [ProductFilterBackend]
 
-
-class KeyboardList(generics.ListAPIView):
+class KeyboardViewSet(viewsets.ModelViewSet):
     queryset = Keyboard.objects.all()
-    serializer_class = KeyboardSerializer
-    filter_class = KeyboardFilter
-
+    serializer_class = FilteredProductSerializer
+    filter_backends = [ProductFilterBackend]
 
 class ProductDetailsView(APIView):
     def get_object(self, product_type, pk):
