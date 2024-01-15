@@ -18,6 +18,9 @@ Register page:
 ![image](https://github.com/ValentinKardzhaliev/ByteBazaar/assets/121317495/22c63595-694e-4be7-9acd-4cea980ece58)
 ![image](https://github.com/ValentinKardzhaliev/ByteBazaar/assets/121317495/f9dac1f9-97b7-4484-a990-0f5c76d16aaf)
 
+Product details page:
+![image](https://github.com/ValentinKardzhaliev/ByteBazaar/assets/121317495/5800c366-2056-435c-ad72-700135f484b6)
+
 
 
 
