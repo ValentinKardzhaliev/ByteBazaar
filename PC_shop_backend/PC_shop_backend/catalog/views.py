@@ -12,6 +12,13 @@ class ComputerViewSet(viewsets.ModelViewSet):
     serializer_class = FilteredProductSerializer
     filter_backends = [ProductFilterBackend]
 
+    def list(self, request, *args, **kwargs):
+        # Handle custom filters for computers (e.g., graphics)
+        graphics = request.query_params.get('graphics')
+        if graphics:
+            self.queryset = self.queryset.filter(graphics=graphics)
+
+        return super().list(request, *args, **kwargs)
 
 class MonitorViewSet(viewsets.ModelViewSet):
     queryset = Monitor.objects.all()
