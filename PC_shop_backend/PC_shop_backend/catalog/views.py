@@ -13,10 +13,14 @@ class ComputerViewSet(viewsets.ModelViewSet):
     filter_backends = [ProductFilterBackend]
 
     def list(self, request, *args, **kwargs):
-        # Handle custom filters for computers (e.g., graphics)
+        # Handle custom filters for computers (e.g., graphics, processor)
         graphics = request.query_params.get('graphics')
+        processor = request.query_params.get('processor')
+
         if graphics:
             self.queryset = self.queryset.filter(graphics=graphics)
+        if processor:
+            self.queryset = self.queryset.filter(processor=processor)
 
         return super().list(request, *args, **kwargs)
 
