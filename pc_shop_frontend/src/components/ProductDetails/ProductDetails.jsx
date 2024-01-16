@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getProductByTypeAndId } from "../../services/productService";
 import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
+import { characteristicsLogic } from "../../utils/characteristicsLogic";
 
 function ProductDetails() {
     window.scrollTo(0, 0);
@@ -9,14 +10,11 @@ function ProductDetails() {
     const { typeOfProduct, productId } = useParams();
     const [product, setProduct] = useState({});
     const [imagePath, setImagePath] = useState("");
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [showLessThanIcon, setShowLessThanIcon] = useState(false);
+
     const [productImages, setProductImages] = useState([]);
     const [currentImages, setCurrentImages] = useState([]);
     const [placeOfImage, setPlaceOfImage] = useState(0);
 
-    // 0, 1, 2, 3, 4, 5, 6, 7, 8
-    // 1, 2, 3, 4, 5
     useEffect(() => {
         getProductByTypeAndId(typeOfProduct, productId)
             .then((result) => {
@@ -32,50 +30,26 @@ function ProductDetails() {
             .catch((err) => console.log(err));
     }, [typeOfProduct, productId]);
 
-    function changeImage(index) {
-        // Set the imagePath based on the selected index
-        setImagePath(`http://localhost:8000${product.images[index].image}`);
-    }
 
     function handleNext() {
-        // Increment the currentIndex
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % product.images.length);
-
         if (productImages.length >= currentImages.length) {
             setCurrentImages(productImages.slice(placeOfImage + 1, placeOfImage + 6));
             setPlaceOfImage(prev => prev + 1);
         }
-
-        // Change the image
-        // changeImage(currentIndex);
-
     }
     function changeImageWhenClick(e) {
         e.preventDefault();
         setImagePath(e.target.src);
     }
 
-    // function handlePrev() {
-    //     // Decrement the currentIndex
-    //     setCurrentIndex((prevIndex) => {
-    //         const newIndex =
-    //             prevIndex === 0 ? product.images.length - 1 : prevIndex - 1;
-    //         setShowLessThanIcon(newIndex > 0);
-    //         return newIndex;
-    //     });
-
-    //     // Change the image
-    //     changeImage(currentIndex);
-    // }
-    function handleLessThan() {
-        // Scroll to the first image and set currentIndex to 0
-        // setCurrentIndex(0);
-        // setShowLessThanIcon(false);
-        // changeImage(0);
-        setPlaceOfImage(placeOfImage => placeOfImage - 1);
-        setCurrentImages(productImages.slice(placeOfImage, placeOfImage + 5));
+    function handlePrev() {
+        let index = placeOfImage - 1;
+        setCurrentImages(productImages.slice(index, index + 5));
+        setPlaceOfImage(prev => prev - 1);
 
     }
+    let characteristics = characteristicsLogic({ product });
+    
 
     useEffect(() => {
         // Event listener for the 'View Full Characteristics' link
@@ -101,7 +75,6 @@ function ProductDetails() {
         };
     }, []); // Empty dependency array means this effect runs once after the initial render
 
-
     return (
         <>
             <hr />
@@ -110,7 +83,7 @@ function ProductDetails() {
                     <img src={imagePath} alt="Product Image" id="main-image" />
                     <div className="image-slider">
                         {placeOfImage !== 0 ?
-                            <i className="fa-solid fa-less-than" onClick={handleLessThan}></i>
+                            <i className="fa-solid fa-less-than" onClick={handlePrev}></i>
                             : <></>
                         }
                         {currentImages &&
@@ -124,7 +97,7 @@ function ProductDetails() {
                             ))}
                         {
                             currentImages[currentImages.length - 1] !== productImages[productImages.length - 1] ?
-                                <i className="fa-solid fa-greater-than" onClick={handleNext}></i>
+                                <i className="fa-solid fa-greater-than" onClick={handleNext} />
                                 : <></>
                         }
                     </div>
@@ -135,10 +108,10 @@ function ProductDetails() {
 
                     <div className="characteristics">
                         <h2>Basic Characteristics</h2>
-                        <p>Intel Core i5-13400F</p>
-                        <p>GeForce GTX 4060</p>
-                        <p>16GB DDR4</p>
-                        <p>1TB Gen4 PCIe NVMe SSD</p>
+                        <p>{product.processor}</p>
+                        <p>{product.graphics}</p>
+                        <p>{product.memory}</p>
+                        <p>{product.storage}</p>
                     </div>
                     <a href="#fullCharacteristics" className="full-characteristics-link">
                         View Full Characteristics
@@ -154,22 +127,18 @@ function ProductDetails() {
             <hr className="section-divider" />
 
             <div className="full-characteristics" id="fullCharacteristics">
+
                 <h2>Full Characteristics</h2>
-                <ul>
-                    <li>
-                        <strong>Material:</strong> High-quality fabric
-                    </li>
-                    <li>
-                        <strong>Weight:</strong> 500g
-                    </li>
-                    {/* ... Add more characteristics as needed ... */}
+                <p><strong>Description: </strong>{product.description}</p>
+
+                <ul>  
+                
+                {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
+                   
+
                 </ul>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id delectus odio
-                    magnam minima tenetur numquam soluta! Impedit, explicabo, ipsum dolor facilis
-                    nisi minima ab eveniet a quasi culpa rem voluptates!
-                </p>
-                {/* ... Add more content as needed ... */}
+
+
             </div>
         </>
     );

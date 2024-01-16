@@ -30,15 +30,26 @@ function Header() {
                                     <FontAwesomeIcon icon={faHeart} />
                                 </Link>
                             </li>
-
                         </>
                         :
-                        <li>
-                            <Link to="/login">
-                                <FontAwesomeIcon icon={faUser} />
-                            </Link>
-                        </li>
+                        <>
+                            <li>
+                                <Link to="/login">
+                                    <FontAwesomeIcon icon={faUser} />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/cart">
+                                    <FontAwesomeIcon icon={faCartShopping} />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/likes">
+                                    <FontAwesomeIcon icon={faHeart} />
+                                </Link>
+                            </li>
 
+                        </>
                     }
 
                     <li id="home">

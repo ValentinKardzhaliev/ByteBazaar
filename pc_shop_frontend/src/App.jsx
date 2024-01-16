@@ -29,6 +29,7 @@ function App() {
                                 <ProductList />
                             </>
                         } />
+                        <Route path='/cart' element={<Cart />} />
                         <Route path='/search/:searchParams' element={
                             <>
                                 <SearchBar />
@@ -42,7 +43,6 @@ function App() {
 
                         </Route>
                         <Route element={<IsNotLoggedIn />}>
-                            <Route path='/cart' element={<Cart />} />
                             <Route path='/logout' element={<Logout />} />
                         </Route>
                         <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
