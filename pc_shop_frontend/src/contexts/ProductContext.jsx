@@ -7,18 +7,22 @@ export default ProductContext;
 
 export const ProductProvider = ({ children }) => {
     const [products, setProducts] = useState([]);
+    const [currentProducts, setCurrentProducts] = useState([]);
 
     useEffect(() => {
         getAllProducts()
             .then(data => {
                 setProducts(data.products);
+                setCurrentProducts(data.products.slice(0, 3))
             })
             .catch(err => console.log(err))
     }, [])
 
     return (
         <ProductContext.Provider value={{
-            products,      
+            products,
+            currentProducts,
+            setCurrentProducts
         }}
         >
             {children}
