@@ -13,6 +13,9 @@ import Cart from './components/Cart/Cart.jsx';
 import IsNotLoggedIn from './components/common/IsNotLoggedIn.jsx';
 import SearchProductList from './components/SearchProductList/SearchProductList.jsx';
 import ProductDetails from './components/ProductDetails/ProductDetails.jsx';
+import ComputerList from './components/ComputerList/ComputerList.jsx';
+import MonitorList from './components/MonitorList/MonitorList.jsx';
+import KeyboardList from './components/KeyboardList/KeyboardList.jsx';
 
 function App() {
     return (
@@ -30,6 +33,15 @@ function App() {
                             </>
                         } />
                         <Route path='/cart' element={<Cart />} />
+                        <Route path='/computers' element={
+                            <ComputerList />
+                        } />
+                        <Route path='/monitors' element={
+                            <MonitorList />
+                        } />
+                        <Route path='/keyboards' element={
+                            <KeyboardList />
+                        } />
                         <Route path='/search/:searchParams' element={
                             <>
                                 <SearchBar />
