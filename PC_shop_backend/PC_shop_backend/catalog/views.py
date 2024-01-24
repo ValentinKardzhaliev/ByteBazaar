@@ -13,20 +13,20 @@ class ComputerViewSet(viewsets.ModelViewSet):
     filter_backends = [ProductFilterBackend]
 
     def list(self, request, *args, **kwargs):
-        # Handle case-insensitive filters for computers (e.g., graphics, processor, memory, storage)
+        # Handle case-insensitive partial matches for computers (e.g., graphics, processor, memory, storage)
         graphics = request.query_params.get('graphics', '').lower()
         processor = request.query_params.get('processor', '').lower()
         memory = request.query_params.get('memory', '').lower()
         storage = request.query_params.get('storage', '').lower()
 
         if graphics:
-            self.queryset = self.queryset.filter(graphics__iexact=graphics)
+            self.queryset = self.queryset.filter(graphics__icontains=graphics)
         if processor:
-            self.queryset = self.queryset.filter(processor__iexact=processor)
+            self.queryset = self.queryset.filter(processor__icontains=processor)
         if memory:
-            self.queryset = self.queryset.filter(memory__iexact=memory)
+            self.queryset = self.queryset.filter(memory__icontains=memory)
         if storage:
-            self.queryset = self.queryset.filter(storage__iexact=storage)
+            self.queryset = self.queryset.filter(storage__icontains=storage)
 
         return super().list(request, *args, **kwargs)
 
