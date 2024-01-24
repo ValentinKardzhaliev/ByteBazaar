@@ -1,3 +1,6 @@
+from functools import reduce
+
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -14,13 +17,18 @@ class ComputerViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         # Handle case-insensitive partial matches for computers (e.g., graphics, processor, memory, storage)
-        graphics = request.query_params.get('graphics', '').lower()
+        graphics_values = request.query_params.getlist('graphics', [])
+        graphics_values = [value.lower() for value in graphics_values]
+
         processor = request.query_params.get('processor', '').lower()
         memory = request.query_params.get('memory', '').lower()
         storage = request.query_params.get('storage', '').lower()
 
-        if graphics:
-            self.queryset = self.queryset.filter(graphics__icontains=graphics)
+        if graphics_values:
+            # Use Q objects to create an OR condition for graphics values
+            or_condition = reduce(lambda x, y: x | Q(graphics__icontains=y), graphics_values, Q())
+            self.queryset = self.queryset.filter(or_condition)
+
         if processor:
             self.queryset = self.queryset.filter(processor__icontains=processor)
         if memory:
