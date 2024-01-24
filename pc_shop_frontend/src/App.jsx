@@ -16,52 +16,54 @@ import ProductDetails from './components/ProductDetails/ProductDetails.jsx';
 import ComputerList from './components/ComputerList/ComputerList.jsx';
 import MonitorList from './components/MonitorList/MonitorList.jsx';
 import KeyboardList from './components/KeyboardList/KeyboardList.jsx';
+import { LoadingProvider } from './contexts/LoadingContext.jsx';
 
 function App() {
     return (
         <>
-            <AuthProvider>
-                <Header />
-                <ProductProvider>
+            <LoadingProvider>
+                <AuthProvider>
+                    <Header />
+                    <ProductProvider>
 
-                    <Routes>
-                        <Route path='/' element={
-                            <>
-                                <SearchBar />
-                                <h1 className='topOffers'>TOP OFFERS!!!</h1>
-                                <ProductList />
-                            </>
-                        } />
-                        <Route path='/cart' element={<Cart />} />
-                        <Route path='/computers' element={
-                            <ComputerList />
-                        } />
-                        <Route path='/monitors' element={
-                            <MonitorList />
-                        } />
-                        <Route path='/keyboards' element={
-                            <KeyboardList />
-                        } />
-                        <Route path='/search/:searchParams' element={
-                            <>
-                                <SearchBar />
-                                <h1 className='topOffers'>TOP OFFERS!!!</h1>
-                                <SearchProductList />
-                            </>
-                        } />
-                        <Route element={<IsLoggedIn />}>
-                            <Route path='/login' element={<Login />} />
-                            <Route path='/register' element={<Register />} />
+                        <Routes>
+                            <Route path='/' element={
+                                <>
+                                    <SearchBar />
+                                    <h1 className='topOffers'>TOP OFFERS!!!</h1>
+                                    <ProductList />
+                                </>
+                            } />
+                            <Route path='/cart' element={<Cart />} />
+                            <Route path='/computers' element={
+                                <ComputerList />
+                            } />
+                            <Route path='/monitors' element={
+                                <MonitorList />
+                            } />
+                            <Route path='/keyboards' element={
+                                <KeyboardList />
+                            } />
+                            <Route path='/search/:searchParams' element={
+                                <>
+                                    <SearchBar />
+                                    <h1 className='topOffers'>TOP OFFERS!!!</h1>
+                                    <SearchProductList />
+                                </>
+                            } />
+                            <Route element={<IsLoggedIn />}>
+                                <Route path='/login' element={<Login />} />
+                                <Route path='/register' element={<Register />} />
 
-                        </Route>
-                        <Route element={<IsNotLoggedIn />}>
-                            <Route path='/logout' element={<Logout />} />
-                        </Route>
-                        <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
-                    </Routes>
-                </ProductProvider>
-            </AuthProvider>
-
+                            </Route>
+                            <Route element={<IsNotLoggedIn />}>
+                                <Route path='/logout' element={<Logout />} />
+                            </Route>
+                            <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
+                        </Routes>
+                    </ProductProvider>
+                </AuthProvider>
+            </LoadingProvider>
         </>
 
     );
