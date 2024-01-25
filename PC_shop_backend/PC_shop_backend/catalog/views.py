@@ -1,6 +1,6 @@
 from functools import reduce
 
-from django.db.models import Q
+from django.db.models import Q, Count
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -74,3 +74,9 @@ class ProductDetailsView(APIView):
         serializer = ProductSerializer(product_instance)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class GraphicsCountView(APIView):
+    def get(self, request, *args, **kwargs):
+        graphics_counts = Computer.objects.values('graphics').annotate(count=Count('id')).order_by('-count')
+        return Response(graphics_counts)
