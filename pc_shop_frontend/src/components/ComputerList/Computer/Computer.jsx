@@ -15,10 +15,11 @@ function Computer(props) {
             {firstImage}
             <div className="computer-details">
                 <h2 className="computer-name">{props.product.name}</h2>
+                <ul className='characteristics'>
+                    {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
+                </ul>
             </div>
-            <ul className='characteristics'>
-                {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
-            </ul>
+
             <span className="computer-price"><p>$ {props.product.price}</p></span>
             <Link to={`/products/${props.product.type}/${props.product._id}`} className="computer-link">Details</Link>
         </li>
