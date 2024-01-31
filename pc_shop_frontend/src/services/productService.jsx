@@ -12,5 +12,30 @@ export const getProductsByCriteria = (searchingOption) => {
 
 export const getProductByTypeAndId = (typeOfProduct, productId) => {
     return fetch(`${baseUrl}/api/products/${typeOfProduct}/${productId}/`)
-    .then(res => res.json())
+        .then(res => res.json())
+}
+
+export const getAllComputers = () => {
+    return fetch(`${baseUrl}/api/products/computers/`)
+        .then(res => res.json())
+}
+
+export const getAllComputersByQueryParams = (queryParams) => {
+    return fetch(`${baseUrl}/api/products/computers/?${queryParams}`)
+        .then(res => res.json())
+}
+
+export const getAllGraphics = () => {
+    return fetch(`${baseUrl}/api/products/graphics-count/`)
+        .then(res => res.json())
+}
+
+export const getAllKeyboards = () => {
+    return fetch(`${baseUrl}/api/products/keyboards/`)
+        .then(res => res.json())
+}
+
+export const getAllMonitors = () => {
+    return fetch(`${baseUrl}/api/products/monitors/`)
+        .then(res => res.json())
 }

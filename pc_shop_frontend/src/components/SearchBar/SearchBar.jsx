@@ -3,6 +3,7 @@ import ProductBar from '../ProductBar/ProductBar.jsx';
 import { useNavigate } from 'react-router-dom';
 import './SearchBar.css'
 
+
 function SearchBar() {
     const navigate = useNavigate();
 

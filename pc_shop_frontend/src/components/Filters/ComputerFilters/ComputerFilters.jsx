@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getAllComputersByQueryParams, getAllGraphics } from '../../../services/productService';
 
 const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({
@@ -15,8 +16,7 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
     useEffect(() => {
         startLoading();
         // Fetch available graphics from the API
-        fetch('http://127.0.0.1:8000/api/products/graphics-count/')
-            .then((res) => res.json())
+        getAllGraphics()
             .then((graphicsCounts) => {
                 setAvailableGraphics(graphicsCounts);
                 stopLoading();
@@ -42,10 +42,6 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
     };
 
     useEffect(() => {
-        applyFilters();
-    }, [appliedFilters, setComputers]);
-
-    const applyFilters = () => {
         const queryParams = new URLSearchParams();
 
         // Add individual filters to queryParams
@@ -56,12 +52,16 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
             }
         });
 
+        startLoading();
         // Fetch computers based on all applied filters
-        fetch(`http://127.0.0.1:8000/api/products/computers/?${queryParams.toString()}`)
-            .then((res) => res.json())
-            .then((filteredComputers) => setComputers(filteredComputers))
+        getAllComputersByQueryParams(queryParams.toString())
+            .then((filteredComputers) => {
+                setComputers(filteredComputers);
+                stopLoading();
+
+            })
             .catch((err) => console.log(err));
-    };
+    }, [appliedFilters, setComputers]);
 
     return (
         <div>

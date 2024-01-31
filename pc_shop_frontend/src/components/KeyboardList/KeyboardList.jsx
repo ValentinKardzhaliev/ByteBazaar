@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import './KeyboardList.css'
 import Keyboard from './Keyboard/Keyboard';
 import LoadingContext from '../../contexts/LoadingContext';
+import { getAllKeyboards } from '../../services/productService';
 
 function KeyboardList() {
     const [keyboards, setKeyboards] = useState([]);
@@ -9,11 +10,12 @@ function KeyboardList() {
 
     useEffect(() => {
         startLoading();
-        fetch('http://127.0.0.1:8000/api/products/keyboards/').then(res => res.json())
+        getAllKeyboards()
             .then(keybs => {
                 setKeyboards(keybs);
                 stopLoading();
-            });
+            })
+            .catch((err) => console.log(err));
     }, []);
 
     return (

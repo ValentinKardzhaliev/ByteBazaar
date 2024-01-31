@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import './MonitorList.css'
 import Monitor from './Monitor/Monitor';
 import LoadingContext from '../../contexts/LoadingContext';
+import { getAllMonitors } from '../../services/productService';
 
 function MonitorList() {
     const [monitors, setMonitors] = useState([]);
@@ -9,11 +10,12 @@ function MonitorList() {
 
     useEffect(() => {
         startLoading();
-        fetch('http://127.0.0.1:8000/api/products/monitors/').then(res => res.json())
+        getAllMonitors()
             .then(monts => {
                 setMonitors(monts);
                 stopLoading();
-            } );
+            })
+            .catch((err) => console.log(err));
     }, []);
 
     return (
