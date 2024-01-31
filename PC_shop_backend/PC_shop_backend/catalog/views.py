@@ -19,6 +19,9 @@ class ComputerViewSet(viewsets.ModelViewSet):
         graphics_values = request.query_params.getlist('graphics', [])
         graphics_values = [value.lower() for value in graphics_values]
 
+        # Split graphics values using both comma and space
+        graphics_values = [item for sublist in [value.split(',') for value in graphics_values] for item in sublist]
+
         processor = request.query_params.get('processor', '').lower()
         memory = request.query_params.get('memory', '').lower()
         storage = request.query_params.get('storage', '').lower()
