@@ -2,73 +2,60 @@
     border: 1px solid #ccc;
     overflow: hidden;
     background-color: #fff;
-    margin: 0 10px 20px 0;
-    width: calc(20% - 20px);
-    padding: 30px;
+    margin: 0 0.7em 1.4em 0;
+    width: calc(20% - 1.4em); 
+    padding: 2.1em; 
     position: relative;
     flex-direction: column;
     height: auto;
     display: inline-flex;
-    align-items: flex-start; /* Align characteristics to the start */
+    align-items: flex-start;
+    overflow: hidden;
 }
-
 
 .product-image {
     width: 100%;
-    height: 255px;
-
-    /* Responsive styles for smaller screens */
-    @media screen and (max-width: 768px) {
-        height: 50%;
-    }
+    height: 20em;
 }
 
 .product-details {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    padding: 10px;
-    max-height: 50px; /* Set a maximum height, adjust as needed */
-    flex-grow: 1;
+    padding: 0.2em; 
 }
 
 .product-name {
     font-family: Montserrat-Bold;
-    margin: 0 0 10px;
-    font-size: 1.5em;
+    margin: 0 0 0.7143em;
+    font-size: 1.7em;
     color: #C00000;
-    
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Adjust the number of lines to display */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
-    /* Responsive styles for smaller screens */
-    @media screen and (max-width: 768px) {
-        font-size: 1.2em;
-    }
+.characteristics {
+    color: #000000;
+    list-style-type: disc;
+    font-size: 1.3em; 
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .product-price {
     color: black;
-    font-size: 20px;
-    margin-bottom: 10px;
+    font-size: 1.4em;
+    margin-bottom: 0.7em;
     position: absolute;
     bottom: 0;
-    left: 16px;
-
-    /* Responsive styles for smaller screens */
-    @media screen and (max-width: 768px) {
-        font-size: 16px;
-        margin-bottom: 8px;
-        left: 12px;
-        position: relative;
-    }
+    left: 1.1em;
 }
 
 .details-link {
     background-color: #C00000;
     color: #fff;
-    padding: 8px 16px;
+    padding: 0.6em 1.1em;
     cursor: pointer;
     font-size: 1.1em;
     text-decoration: none;
@@ -76,28 +63,7 @@
     align-self: flex-end;
     position: relative;
     margin-top: auto;
-    top: 21px;
-    left: 20px;
-
-    /* Responsive styles for smaller screens */
-    @media screen and (max-width: 768px) {
-        font-size: 0.9em;
-        padding: 6px 12px;
-    }
+    top: 1.5em;
+    left: 1.4em;
 }
 
-.characteristics {
-    color: #000000;
-    /* font-weight: bolder; */
-    list-style-type: disc;
-    font-size: 24px;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    align-items: flex-start; 
-
-    @media screen and (max-width: 768px) {
-        font-size: 16px;
-        padding: 8px;
-    }
-}
