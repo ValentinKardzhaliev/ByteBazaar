@@ -78,5 +78,5 @@ class ProductDetailsView(APIView):
 
 class GraphicsCountView(APIView):
     def get(self, request, *args, **kwargs):
-        graphics_counts = Computer.objects.values('graphics').annotate(count=Count('id')).order_by('-count')
+        graphics_counts = Computer.objects.values('graphics').annotate(count=Count('_id')).order_by('-count')
         return Response(graphics_counts)
