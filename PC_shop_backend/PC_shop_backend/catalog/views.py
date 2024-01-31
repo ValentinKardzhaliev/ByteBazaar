@@ -16,7 +16,6 @@ class ComputerViewSet(viewsets.ModelViewSet):
     filter_backends = [ProductFilterBackend]
 
     def list(self, request, *args, **kwargs):
-        # Handle case-insensitive partial matches for computers (e.g., graphics, processor, memory, storage)
         graphics_values = request.query_params.getlist('graphics', [])
         graphics_values = [value.lower() for value in graphics_values]
 
@@ -24,17 +23,24 @@ class ComputerViewSet(viewsets.ModelViewSet):
         memory = request.query_params.get('memory', '').lower()
         storage = request.query_params.get('storage', '').lower()
 
-        if graphics_values:
-            # Use Q objects to create an OR condition for graphics values
-            or_condition = reduce(lambda x, y: x | Q(graphics__icontains=y), graphics_values, Q())
-            self.queryset = self.queryset.filter(or_condition)
+        # Create a Q object for graphics values
+        graphics_condition = Q()
+        for graphics_value in graphics_values:
+            graphics_condition |= Q(graphics__icontains=graphics_value)
 
+        # Combine all conditions using AND
+        conditions = Q()  # Default to an AND condition
+        if graphics_condition:
+            conditions &= graphics_condition
         if processor:
-            self.queryset = self.queryset.filter(processor__icontains=processor)
+            conditions &= Q(processor__icontains=processor)
         if memory:
-            self.queryset = self.queryset.filter(memory__icontains=memory)
+            conditions &= Q(memory__icontains=memory)
         if storage:
-            self.queryset = self.queryset.filter(storage__icontains=storage)
+            conditions &= Q(storage__icontains=storage)
+
+        # Filter the queryset using the combined conditions
+        self.queryset = self.queryset.filter(conditions)
 
         return super().list(request, *args, **kwargs)
 
