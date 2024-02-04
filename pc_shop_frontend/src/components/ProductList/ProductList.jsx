@@ -4,8 +4,7 @@ import Product from './Product/Product.jsx';
 import './ProductList.css'
 
 function ProductList() {
-    const { products, currentProducts, setCurrentProducts, isLoading } = useContext(ProductContext);
-    const [placeOfProduct, setPlaceOfProduct] = useState(0);
+    const { products, currentProducts, setCurrentProducts, isLoading, placeOfProduct, setPlaceOfProduct } = useContext(ProductContext);
 
     function handleNext() {
         if (products.length >= currentProducts.length) {
@@ -27,7 +26,7 @@ function ProductList() {
                 <i className="fa-solid fa-less-than" onClick={handlePrev}></i>
                 : <></>
             }
-            {currentProducts &&
+            {
                 currentProducts.map(product => <Product key={product._id} product={product} />)}
             {
                 currentProducts[currentProducts.length - 1] !== products[products.length - 1] ?

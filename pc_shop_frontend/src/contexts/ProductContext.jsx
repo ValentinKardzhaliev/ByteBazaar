@@ -8,8 +8,9 @@ export default ProductContext;
 
 export const ProductProvider = ({ children }) => {
     const [products, setProducts] = useState([]);
-
     const [currentProducts, setCurrentProducts] = useState([]);
+    const [placeOfProduct, setPlaceOfProduct] = useState(0);
+
     const { isLoading, startLoading, stopLoading } = useContext(LoadingContext);
 
     useEffect(() => {
@@ -30,7 +31,9 @@ export const ProductProvider = ({ children }) => {
             products,
             currentProducts,
             setCurrentProducts,
-            isLoading
+            isLoading,
+            placeOfProduct,
+            setPlaceOfProduct
         }}
         >
             {children}
