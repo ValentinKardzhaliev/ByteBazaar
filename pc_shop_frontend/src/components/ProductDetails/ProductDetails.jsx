@@ -78,7 +78,7 @@ function ProductDetails() {
     return (
         <>
             <hr />
-            <div className="container">
+            <div className="product-details-page-container">
                 <div className="product-images">
                     <div className="main-image-container">
                         <img src={imagePath} alt="Product Image" id="main-image" />

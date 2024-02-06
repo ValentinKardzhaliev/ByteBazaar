@@ -1,11 +1,8 @@
 .body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: white;
+    background-color: #ffffff;
 }
 
-.container {
+.product-details-page-container {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;

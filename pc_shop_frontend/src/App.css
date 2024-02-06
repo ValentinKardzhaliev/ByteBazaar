@@ -18,7 +18,7 @@ body {
   margin: 0;
   font-size: 14px;
 
-  background-color: #f8f8f8f8;
+  background-color: #f8f8f8f8; /* This breaks the design in the product details page */
 }
 
 .topOffers {
