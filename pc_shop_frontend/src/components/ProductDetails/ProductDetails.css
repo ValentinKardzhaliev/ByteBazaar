@@ -20,11 +20,23 @@
 }
 
 .product-images img {
-    width: 80%;  /* Make the main image take 100% width */
+    width: 80%;  
     height: auto;
     padding: 10px;
     box-sizing: border-box;
-    object-fit: contain;  /* Ensure the image maintains its aspect ratio */
+    object-fit: contain;  
+}
+.main-image-container {
+    width: 40em;
+    height: 40em;
+    overflow: hidden;
+}
+
+#main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .image-slider {
@@ -37,7 +49,7 @@
 
 .image-slider img {
     max-width: 100px;
-    height: auto;
+    height: 10em;
     cursor: pointer;
 }
 

@@ -80,7 +80,9 @@ function ProductDetails() {
             <hr />
             <div className="container">
                 <div className="product-images">
-                    <img src={imagePath} alt="Product Image" id="main-image" />
+                    <div className="main-image-container">
+                        <img src={imagePath} alt="Product Image" id="main-image" />
+                    </div>
                     <div className="image-slider">
                         {placeOfImage !== 0 ?
                             <i className="fa-solid fa-less-than" onClick={handlePrev}></i>
