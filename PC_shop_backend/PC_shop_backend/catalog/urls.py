@@ -1,4 +1,3 @@
-# catalog/urls.py
 from django.urls import path
 from .views import ComputerViewSet, MonitorViewSet, KeyboardViewSet, ProductDetailsView, GraphicsCountView
 

@@ -1,5 +1,3 @@
-from functools import reduce
-
 from django.db.models import Q, Count
 from rest_framework import status
 from rest_framework.response import Response
@@ -9,6 +7,7 @@ from ..common.filters import ProductFilterBackend
 from ..common.serializers import ProductSerializer, FilteredProductSerializer
 from rest_framework import viewsets
 from .models import Computer, Monitor, Keyboard
+
 
 class ComputerViewSet(viewsets.ModelViewSet):
     queryset = Computer.objects.all()
@@ -32,7 +31,7 @@ class ComputerViewSet(viewsets.ModelViewSet):
             graphics_condition |= Q(graphics__icontains=graphics_value)
 
         # Combine all conditions using AND
-        conditions = Q()  # Default to an AND condition
+        conditions = Q()
         if graphics_condition:
             conditions &= graphics_condition
         if processor:
@@ -47,15 +46,43 @@ class ComputerViewSet(viewsets.ModelViewSet):
 
         return super().list(request, *args, **kwargs)
 
+
 class MonitorViewSet(viewsets.ModelViewSet):
     queryset = Monitor.objects.all()
     serializer_class = FilteredProductSerializer
     filter_backends = [ProductFilterBackend]
 
+    def list(self, request, *args, **kwargs):
+        resolution = request.query_params.get('resolution', '').lower()
+        refresh_rate = request.query_params.get('refresh_rate', '').lower()
+        panel_type = request.query_params.get('panel_type', '').lower()
+        size = request.query_params.get('size', '').lower()
+
+        resolution_condition = Q(resolution__icontains=resolution)
+        refresh_rate_condition = Q(refresh_rate__icontains=refresh_rate)
+        panel_type_condition = Q(panel_type__icontains=panel_type)
+        size_condition = Q(size__icontains=size)
+
+        conditions = Q()
+        if resolution:
+            conditions &= resolution_condition
+        if refresh_rate:
+            conditions &= refresh_rate_condition
+        if panel_type:
+            conditions &= panel_type_condition
+        if size:
+            conditions &= size_condition
+
+        self.queryset = self.queryset.filter(conditions)
+
+        return super().list(request, *args, **kwargs)
+
+
 class KeyboardViewSet(viewsets.ModelViewSet):
     queryset = Keyboard.objects.all()
     serializer_class = FilteredProductSerializer
     filter_backends = [ProductFilterBackend]
+
 
 class ProductDetailsView(APIView):
     def get_object(self, product_type, pk):
