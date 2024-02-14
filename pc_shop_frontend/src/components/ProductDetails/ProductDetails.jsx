@@ -1,15 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { getProductByTypeAndId } from "../../services/productService";
+import React, { useEffect, useState, useContext } from "react";
+import { getProductByTypeAndId, likeProduct } from "../../services/productService";
 import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
 import { characteristicsLogic } from "../../utils/characteristicsLogic";
+import AuthContext from "../../contexts/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 function ProductDetails() {
     window.scrollTo(0, 0);
+    const { user } = useContext(AuthContext);
 
     const { typeOfProduct, productId } = useParams();
     const [product, setProduct] = useState({});
     const [imagePath, setImagePath] = useState("");
+    const [isLiked, setIsLiked] = useState(false);
+    const handleLike = () => {
+        likeProduct(product._id, user.token).then(result => {
+            console.log(result);
+        }).catch(err => console.log(err))
+        setIsLiked(prev => !prev);
+    };
 
     const [productImages, setProductImages] = useState([]);
     const [currentImages, setCurrentImages] = useState([]);
@@ -49,7 +60,7 @@ function ProductDetails() {
 
     }
     let characteristics = characteristicsLogic({ product });
-    
+
 
     useEffect(() => {
         // Event listener for the 'View Full Characteristics' link
@@ -121,7 +132,22 @@ function ProductDetails() {
 
                     <p className="price-container">
                         <span className="price">Price: {product.price}$</span>
-                        <button className="buy-button">Add to Cart</button>
+                        {user.token
+                            ?
+                            <>
+                                <button className="buy-button">Add to Cart</button>
+
+
+                                <FontAwesomeIcon
+                                    icon={faHeart}
+                                    className={`like-button ${isLiked ? "liked" : ""}`}
+                                    onClick={handleLike}
+                                />
+
+                            </>
+                            :
+                            <button className="buy-button">Add to Cart</button>
+                        }
                     </p>
                 </div>
             </div>
@@ -133,10 +159,10 @@ function ProductDetails() {
                 <h2>Full Characteristics</h2>
                 <p><strong>Description: </strong>{product.description}</p>
 
-                <ul>  
-                
-                {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
-                   
+                <ul>
+
+                    {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
+
 
                 </ul>
 
