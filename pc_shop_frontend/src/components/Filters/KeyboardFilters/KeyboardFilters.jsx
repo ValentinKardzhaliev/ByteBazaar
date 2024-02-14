@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { getAllKeyboardsByQueryParams } from '../../../services/productService';
+import './KeyboardFilters.css';
 
 const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({
@@ -11,51 +12,58 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
         max_price: '',
     });
 
-    useEffect(() => {
+    const updateFilters = (field, value) => {
+        setAppliedFilters((prevFilters) => ({
+            ...prevFilters,
+            [field]: value,
+        }));
+    };
+
+    const applyFilters = () => {
         const queryParams = new URLSearchParams();
 
         // Add individual filters to queryParams
         Object.entries(appliedFilters).forEach(([key, value]) => {
-            if (value) {
-                // If the value is an array, join it with commas
+            if (value !== '' && value !== false) {
                 queryParams.append(key, Array.isArray(value) ? value.join(',') : value);
             }
         });
 
         startLoading();
-        // Fetch computers based on all applied filters
+
+        // Fetch keyboards based on all applied filters
         getAllKeyboardsByQueryParams(queryParams.toString())
             .then((filteredKeyboards) => {
                 setKeyboards(filteredKeyboards);
                 stopLoading();
-
             })
             .catch((err) => console.log(err));
-    }, [appliedFilters, setKeyboards]);
+    };
 
     return (
-        <div>
+        <div className="keyboard-filters">
             <label htmlFor="key_switch_type">Switch type:</label>
             <input
                 type="text"
                 id="key_switch_type"
                 value={appliedFilters.key_switch_type}
-                onChange={(e) => setAppliedFilters((prevFilters) => ({ ...prevFilters, key_switch_type: e.target.value }))}
+                onChange={(e) => updateFilters('key_switch_type', e.target.value)}
             />
+
             <label htmlFor="backlight">Backlight:</label>
             <input
                 type="checkbox"
                 id="backlight"
-                value={appliedFilters.backlight}
-                onChange={(e) => setAppliedFilters((prevFilters) => ({ ...prevFilters, backlight: e.target.checked }))}
+                checked={appliedFilters.backlight}
+                onChange={(e) => updateFilters('backlight', e.target.checked)}
             />
 
             <label htmlFor="wireless">Wireless:</label>
             <input
                 type="checkbox"
                 id="wireless"
-                value={appliedFilters.wireless}
-                onChange={(e) => setAppliedFilters((prevFilters) => ({ ...prevFilters, wireless: e.target.checked }))}
+                checked={appliedFilters.wireless}
+                onChange={(e) => updateFilters('wireless', e.target.checked)}
             />
 
             <label htmlFor="color">Color:</label>
@@ -63,24 +71,36 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
                 type="text"
                 id="color"
                 value={appliedFilters.color}
-                onChange={(e) => setAppliedFilters((prevFilters) => ({ ...prevFilters, color: e.target.value }))}
+                onChange={(e) => updateFilters('color', e.target.value)}
             />
 
             <label htmlFor="min_price">Min Price:</label>
+            <span className="price-indicator">{appliedFilters.min_price}</span>
             <input
-                type="text"
+                type="range"
                 id="min_price"
+                className="price-range"
+                min="0"
+                max="200"  
+                step="10"   
                 value={appliedFilters.min_price}
-                onChange={(e) => setAppliedFilters((prevFilters) => ({ ...prevFilters, min_price: e.target.value }))}
+                onChange={(e) => updateFilters('min_price', e.target.value)}
             />
 
             <label htmlFor="max_price">Max Price:</label>
+            <span className="price-indicator">{appliedFilters.max_price}</span>
             <input
-                type="text"
+                type="range"
                 id="max_price"
+                className="price-range"
+                min="0"
+                max="200"  
+                step="10"  
                 value={appliedFilters.max_price}
-                onChange={(e) => setAppliedFilters((prevFilters) => ({ ...prevFilters, max_price: e.target.value }))}
+                onChange={(e) => updateFilters('max_price', e.target.value)}
             />
+
+            <button className="apply-btn" onClick={applyFilters}>Apply filters</button>
         </div>
     );
 };
