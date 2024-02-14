@@ -25,6 +25,17 @@ export const getAllComputersByQueryParams = (queryParams) => {
         .then(res => res.json())
 }
 
+export const getAllMonitorsByQueryParams = (queryParams) => {
+    return fetch(`${baseUrl}/api/products/monitors/?${queryParams}`)
+        .then(res => res.json())
+}
+
+export const getAllKeyboardsByQueryParams = (queryParams) => {
+    return fetch(`${baseUrl}/api/products/keyboards/?${queryParams}`)
+        .then(res => res.json())
+}
+
+
 export const getAllGraphics = () => {
     return fetch(`${baseUrl}/api/products/graphics-count/`)
         .then(res => res.json())
