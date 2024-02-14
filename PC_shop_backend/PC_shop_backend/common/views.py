@@ -50,19 +50,22 @@ class IndexView(APIView):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_product(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+    try:
+        product_uuid = UUID(product_id)
+    except ValueError:
+        return Response({'error': 'Invalid UUID format'}, status=status.HTTP_400_BAD_REQUEST)
+
+    product = get_object_or_404(Product, _id=product_uuid)
     user = request.user
 
     existing_like = Like.objects.filter(user=user, product=product).first()
 
     if existing_like:
         existing_like.delete()
-
         message = 'Product unliked successfully.'
     else:
         new_like_object = Like.objects.create(user=user, product=product)
         new_like_object.save()
-
         message = 'Product liked successfully.'
 
     # Serialize the product
