@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllComputersByQueryParams, getAllGraphics } from '../../../services/productService';
+import Typography from '@material-ui/core/Typography'; 
+import Slider from '@material-ui/core/Slider'; 
 
 const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({
@@ -10,6 +12,13 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
         min_price: '',
         max_price: '',
     });
+    const [value, setValue] =  React.useState([500,3300]); 
+  
+    // Changing State when volume increases/decreases 
+    const rangeSelector = (event, newValue) => { 
+      setValue(newValue); 
+      console.log(newValue) 
+    }; 
 
     const [availableGraphics, setAvailableGraphics] = useState([]);
 
@@ -116,6 +125,17 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
                 value={appliedFilters.max_price}
                 onChange={(e) => setAppliedFilters((prevFilters) => ({ ...prevFilters, max_price: e.target.value }))}
             />
+
+            <h3>How to create Price Range Selector in ReactJS?</h3> 
+            <Typography id="range-slider" gutterBottom> 
+              Select Price Range: 
+            </Typography> 
+            <Slider 
+              value={value} 
+              onChange={rangeSelector} 
+              valueLabelDisplay="auto"
+            /> 
+            Your range of Price is between {value[0]} /- and {value[1]} /- 
         </div>
     );
 };
