@@ -9,26 +9,6 @@ from rest_framework import viewsets
 from .models import Computer, Monitor, Keyboard
 
 
-class BaseProductViewSet(viewsets.ModelViewSet):
-    serializer_class = FilteredProductSerializer
-    filter_backends = [ProductFilterBackend]
-
-    def filter_queryset(self, queryset):
-        params = self.get_filter_params(self.request)
-        conditions = Q()
-        for field, param in params.items():
-            if param:
-                conditions &= Q(**{f'{field}__icontains': param})
-        return queryset.filter(conditions)
-
-    def list(self, request, *args, **kwargs):
-        self.request = request
-        return super().list(request, *args, **kwargs)
-
-    def get_filter_params(self, request):
-        raise NotImplementedError("Subclasses must implement this method")
-
-
 class ComputerViewSet(viewsets.ModelViewSet):
     queryset = Computer.objects.all()
     serializer_class = FilteredProductSerializer
@@ -67,28 +47,66 @@ class ComputerViewSet(viewsets.ModelViewSet):
         return super().list(request, *args, **kwargs)
 
 
-class MonitorViewSet(BaseProductViewSet):
+class MonitorViewSet(viewsets.ModelViewSet):
     queryset = Monitor.objects.all()
+    serializer_class = FilteredProductSerializer
+    filter_backends = [ProductFilterBackend]
 
-    def get_filter_params(self, request):
-        return {
-            'resolution': request.query_params.get('resolution', '').lower(),
-            'refresh_rate': request.query_params.get('refresh_rate', '').lower(),
-            'panel_type': request.query_params.get('panel_type', '').lower(),
-            'size': request.query_params.get('size', '').lower(),
-        }
+    def list(self, request, *args, **kwargs):
+        resolution = request.query_params.get('resolution', '').lower()
+        refresh_rate = request.query_params.get('refresh_rate', '').lower()
+        panel_type = request.query_params.get('panel_type', '').lower()
+        size = request.query_params.get('size', '').lower()
+
+        resolution_condition = Q(resolution__icontains=resolution)
+        refresh_rate_condition = Q(refresh_rate__icontains=refresh_rate)
+        panel_type_condition = Q(panel_type__icontains=panel_type)
+        size_condition = Q(size__icontains=size)
+
+        conditions = Q()
+        if resolution:
+            conditions &= resolution_condition
+        if refresh_rate:
+            conditions &= refresh_rate_condition
+        if panel_type:
+            conditions &= panel_type_condition
+        if size:
+            conditions &= size_condition
+
+        self.queryset = self.queryset.filter(conditions)
+
+        return super().list(request, *args, **kwargs)
 
 
-class KeyboardViewSet(BaseProductViewSet):
+class KeyboardViewSet(viewsets.ModelViewSet):
     queryset = Keyboard.objects.all()
+    serializer_class = FilteredProductSerializer
+    filter_backends = [ProductFilterBackend]
 
-    def get_filter_params(self, request):
-        return {
-            'key_switch_type': request.query_params.get('key_switch_type', '').lower(),
-            'backlight': request.query_params.get('backlight', '').lower(),
-            'color': request.query_params.get('color', '').lower(),
-            'wireless': request.query_params.get('wireless', '').lower(),
-        }
+    def list(self, request, *args, **kwargs):
+        key_switch_type = request.query_params.get('key_switch_type', '').lower()
+        backlight = request.query_params.get('backlight', '').lower()
+        color = request.query_params.get('color', '').lower()
+        wireless = request.query_params.get('wireless', '').lower()
+
+        key_switch_type_condition = Q(key_switch_type__icontains=key_switch_type)
+        backlight_condition = Q(backlight=backlight == 'true')
+        color_condition = Q(color__icontains=color)
+        wireless_condition = Q(wireless=wireless == 'true')
+
+        conditions = Q()
+        if key_switch_type:
+            conditions &= key_switch_type_condition
+        if backlight:
+            conditions &= backlight_condition
+        if color:
+            conditions &= color_condition
+        if wireless:
+            conditions &= wireless_condition
+
+        self.queryset = self.queryset.filter(conditions)
+
+        return super().list(request, *args, **kwargs)
 
 
 class ProductDetailsView(APIView):
