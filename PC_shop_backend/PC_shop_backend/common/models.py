@@ -49,7 +49,6 @@ class ProductImage(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.UUIDField(default=uuid.uuid4, editable=False)
+    object_id = models.UUIDField()
     product = GenericForeignKey('content_type', 'object_id')
-
     liked_at = models.DateTimeField(auto_now_add=True)

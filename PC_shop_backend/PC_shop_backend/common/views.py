@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -49,31 +50,34 @@ class IndexView(APIView):
 
         return Response(context)
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_product(request, product_id):
-    try:
-        product_uuid = UUID(product_id)
-    except ValueError:
-        return Response({'error': 'Invalid UUID format'}, status=status.HTTP_400_BAD_REQUEST)
-
-    product = get_object_or_404(Product, _id=product_uuid)
     user = request.user
 
-    existing_like = Like.objects.filter(user=user, product=product).first()
+    # Get the ContentType for the Product model
+    content_type = ContentType.objects.get_for_model(Product)
+
+    # Get the product instance using the ContentType and object_id
+    product = get_object_or_404(content_type.model_class(), _id=product_id)
+
+    # Check if a like already exists for this user and product
+    existing_like = Like.objects.filter(user=user, content_type=content_type, object_id=product_id).first()
 
     if existing_like:
         existing_like.delete()
         message = 'Product unliked successfully.'
     else:
-        new_like_object = Like.objects.create(user=user, product=product)
+        # Create a new like for the user and product
+        new_like_object = Like.objects.create(user=user, content_type=content_type, object_id=product_id)
         new_like_object.save()
         message = 'Product liked successfully.'
 
     # Serialize the product
     product_serializer = ProductSerializer(product)
 
-    return Response({'message': message, 'product': product_serializer.data}, status=status.HTTP_200_OK)
+    return Response({'message': message, 'product': product_serializer.data, 'likes_count': product.get_likes_count()})
 
 
 class LikedProductsView(APIView):
