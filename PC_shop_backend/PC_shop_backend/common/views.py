@@ -2,6 +2,7 @@ from uuid import UUID
 
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -59,8 +60,11 @@ def like_product(request, product_id):
     # Get the ContentType for the Product model
     content_type = ContentType.objects.get_for_model(Product)
 
-    # Get the product instance using the ContentType and object_id
-    product = get_object_or_404(content_type.model_class(), _id=product_id)
+    try:
+        # Get the product instance using the ContentType and object_id
+        product = content_type.model_class().objects.get(_id=product_id)
+    except content_type.model_class().DoesNotExist:
+        raise Http404("Product not found")
 
     # Check if a like already exists for this user and product
     existing_like = Like.objects.filter(user=user, content_type=content_type, object_id=product_id).first()
@@ -78,7 +82,6 @@ def like_product(request, product_id):
     product_serializer = ProductSerializer(product)
 
     return Response({'message': message, 'product': product_serializer.data, 'likes_count': product.get_likes_count()})
-
 
 class LikedProductsView(APIView):
     permission_classes = [IsAuthenticated]
