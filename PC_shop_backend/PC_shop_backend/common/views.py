@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -78,7 +80,15 @@ class LikedProductsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        liked_products = Product.objects.filter(like__user=request.user)
+        liked_products_ids = Like.objects.filter(user=request.user).values_list('product_id', flat=True)
+
+        # Get all products, including subclasses
+        concrete_models = Product.__subclasses__()
+        liked_products = []
+        for concrete_model in concrete_models:
+            liked_products.extend(concrete_model.objects.filter(id__in=liked_products_ids))
+
+        # Serialize the liked products
         product_serializer = ProductSerializer(liked_products, many=True)
 
         return Response({'liked_products': product_serializer.data})
