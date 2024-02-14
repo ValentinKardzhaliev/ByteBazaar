@@ -1,7 +1,7 @@
 from django.db.models import Q
 from rest_framework import serializers
 
-from .models import Product, ProductImage
+from .models import Product, ProductImage, Like
 from ..catalog.models import Computer, Monitor, Keyboard
 from ..catalog.serializers import ComputerSerializer, MonitorSerializer, KeyboardSerializer
 
@@ -73,3 +73,8 @@ class ProductSearchSerializer(serializers.Serializer):
         # Serialize the queryset using ProductSerializer
         serializer = ProductSerializer(queryset, many=True)
         return serializer.data
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = '__all__'

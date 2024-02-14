@@ -1,9 +1,7 @@
-from uuid import UUID
+import logging
 
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
-from django.http import Http404
-from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -52,36 +50,46 @@ class IndexView(APIView):
         return Response(context)
 
 
+logger = logging.getLogger('django.db.backends')
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler())
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_product(request, product_id):
-    user = request.user
+    product_models = Product.__subclasses__()
 
-    # Get the ContentType for the Product model
-    content_type = ContentType.objects.get_for_model(Product)
-
-    try:
-        # Get the product instance using the ContentType and object_id
-        product = content_type.model_class().objects.get(_id=product_id)
-    except content_type.model_class().DoesNotExist:
-        raise Http404("Product not found")
-
-    # Check if a like already exists for this user and product
-    existing_like = Like.objects.filter(user=user, content_type=content_type, object_id=product_id).first()
-
-    if existing_like:
-        existing_like.delete()
-        message = 'Product unliked successfully.'
+    for model in product_models:
+        try:
+            product_instance = model.objects.get(pk=product_id)
+            break
+        except model.DoesNotExist:
+            continue
     else:
-        # Create a new like for the user and product
-        new_like_object = Like.objects.create(user=user, content_type=content_type, object_id=product_id)
-        new_like_object.save()
-        message = 'Product liked successfully.'
+        return Response({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    # Serialize the product
-    product_serializer = ProductSerializer(product)
+    user_instance = request.user
 
-    return Response({'message': message, 'product': product_serializer.data, 'likes_count': product.get_likes_count()})
+    content_type = ContentType.objects.get_for_model(product_instance)
+
+    has_liked = Like.objects.filter(
+        user=user_instance,
+        content_type=content_type,
+        product_id=product_instance.pk
+    ).exists()
+
+    if has_liked:
+        return Response({"detail": "You have already liked this product."}, status=status.HTTP_400_BAD_REQUEST)
+
+    like_instance = Like.objects.create(
+        user=user_instance,
+        content_type=content_type,
+        product_id=product_instance.pk
+    )
+
+    return Response({"detail": "Product liked successfully."}, status=status.HTTP_201_CREATED)
+
 
 class LikedProductsView(APIView):
     permission_classes = [IsAuthenticated]
