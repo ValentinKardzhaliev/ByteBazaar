@@ -35,6 +35,17 @@ export const getAllKeyboardsByQueryParams = (queryParams) => {
         .then(res => res.json())
 }
 
+export const likeProduct = (productId, token) => {
+    return fetch(`${baseUrl}/like_product/${productId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + token
+        },
+    })
+        .then(res => res.json())
+}
+
 
 export const getAllGraphics = () => {
     return fetch(`${baseUrl}/api/products/graphics-count/`)
