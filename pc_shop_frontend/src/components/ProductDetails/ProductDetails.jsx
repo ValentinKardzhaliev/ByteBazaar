@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getProductByTypeAndId, likeProduct } from "../../services/productService";
+import { getAllLikedForUser, getProductByTypeAndId, likeProduct } from "../../services/productService";
 import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
 import { characteristicsLogic } from "../../utils/characteristicsLogic";
@@ -15,32 +15,50 @@ function ProductDetails() {
     const [product, setProduct] = useState({});
     const [imagePath, setImagePath] = useState("");
     const [isLiked, setIsLiked] = useState(false);
+
+    if (user.token) {
+        useEffect(() => {
+            Promise.all([
+                getProductByTypeAndId(typeOfProduct, productId),
+                getAllLikedForUser(user.token)
+            ]).then(([productResult, likedResult]) => {
+                setProduct(productResult);
+                setProductImages(productResult.images);
+                setCurrentImages(productResult.images.slice(0, 5));
+
+                if (productResult.images && productResult.images.length > 0) {
+                    setImagePath(`http://localhost:8000${productResult.images[0].image}`);
+                }
+                setIsLiked(likedResult.liked_products.some((likedProduct) => likedProduct._id === productResult._id));
+            }).catch((err) => console.log(err));
+        }, [typeOfProduct, productId, user.token]);
+    } else {
+        useEffect(() => {
+            getProductByTypeAndId(typeOfProduct, productId)
+                .then((result) => {
+                    setProduct(result);
+                    setProductImages(result.images);
+                    setCurrentImages(result.images.slice(0, 5));
+
+                    // Set imagePath to the first image in the product.images array
+                    if (result.images && result.images.length > 0) {
+                        setImagePath(`http://localhost:8000${result.images[0].image}`);
+                    }
+                })
+                .catch((err) => console.log(err));
+        }, [typeOfProduct, productId]);
+    }
+
     const handleLike = () => {
+        setIsLiked(prevIsLiked => !prevIsLiked)
         likeProduct(product._id, user.token).then(result => {
             console.log(result);
-        }).catch(err => console.log(err))
-        setIsLiked(prev => !prev);
+        }).catch(err => console.log(err));
     };
 
     const [productImages, setProductImages] = useState([]);
     const [currentImages, setCurrentImages] = useState([]);
     const [placeOfImage, setPlaceOfImage] = useState(0);
-
-    useEffect(() => {
-        getProductByTypeAndId(typeOfProduct, productId)
-            .then((result) => {
-                setProduct(result);
-                setProductImages(result.images);
-                setCurrentImages(result.images.slice(0, 5));
-
-                // Set imagePath to the first image in the product.images array
-                if (result.images && result.images.length > 0) {
-                    setImagePath(`http://localhost:8000${result.images[0].image}`);
-                }
-            })
-            .catch((err) => console.log(err));
-    }, [typeOfProduct, productId]);
-
 
     function handleNext() {
         if (productImages.length >= currentImages.length) {

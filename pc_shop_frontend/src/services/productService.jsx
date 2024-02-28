@@ -46,6 +46,17 @@ export const likeProduct = (productId, token) => {
         .then(res => res.json())
 }
 
+export const getAllLikedForUser = (token) => {
+    return fetch(`${baseUrl}/liked_products/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + token
+        },
+    })
+        .then(res => res.json())
+}
+
 
 export const getAllGraphics = () => {
     return fetch(`${baseUrl}/api/products/graphics-count/`)

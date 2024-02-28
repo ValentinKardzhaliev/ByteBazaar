@@ -17,6 +17,7 @@ import ComputerList from './components/ComputerList/ComputerList.jsx';
 import MonitorList from './components/MonitorList/MonitorList.jsx';
 import KeyboardList from './components/KeyboardList/KeyboardList.jsx';
 import { LoadingProvider } from './contexts/LoadingContext.jsx';
+import UserLikedProducts from './components/UserLikedProducts/UserLikedProducts.jsx';
 
 function App() {
     return (
@@ -57,6 +58,7 @@ function App() {
 
                             </Route>
                             <Route element={<IsNotLoggedIn />}>
+                                <Route path='/likes' element={<UserLikedProducts />} />
                                 <Route path='/logout' element={<Logout />} />
                             </Route>
                             <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
