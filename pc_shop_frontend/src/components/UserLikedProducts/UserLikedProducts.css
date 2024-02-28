@@ -1,16 +1,20 @@
-.user-liked-products-container {
-    padding: 20px;
+.user-liked-products-content-wrapper {
+    width: 80%;
+    margin: 0 auto;
 }
 
 .user-liked-products {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
+
 .product-card {
-    width: 30%; /* Adjust this value as needed for responsiveness */
+    display: flex;
+    width: 100%;
     margin-bottom: 20px;
+    padding: 1em;
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
@@ -23,47 +27,99 @@
 }
 
 .productliked-image {
-    width: 100%;
+    width: 20em;
     height: auto;
 }
 
 .productliked-details {
+    display: flex;
+    flex-direction: column;
+    width: 50em;
     padding: 10px;
+    flex-wrap: wrap;
+    flex-grow: 0;
 }
+
+.details-inner-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+}
+
 
 .productliked-name {
-    color: #333;
-    text-decoration: none;
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    color: #C00000;
+    font-size: 25px;
 }
 
-.add-to-cart-button {
-    background-color: #007bff;
+.product-price-container {
+    display: flex;
+    align-items: center;
+}
+
+.label {
+    font-size: 20px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.productliked-price {
+    align-self: flex-end;
+    color: #C00000;
+    font-size: 20px;
+}
+
+
+.product-detailsPage-link {
+    margin-top: auto;
+    text-decoration: none;
+    color: #C00000;
+    font-size: 16px;
+}
+
+.productliked-actions {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    flex: 1;
+}
+
+.productliked-unlike {
+    align-self: flex-end;
+    font-size: 30px;
+    color: #C00000;
+}
+
+.productliked-add-to-cart {
+    background-color: #C00000;
     color: #fff;
     border: none;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: auto;
+    width: 100%;
+    font-size: 16px;
 }
 
-.add-to-cart-button:hover {
-    background-color: #0056b3;
+.productliked-add-to-cart:hover {
+    background-color: #c54646;
 }
 
 @media (max-width: 768px) {
     .product-card {
-        width: 45%; /* Adjust this value for smaller screens */
+        width: 45%;
+        /* Adjust this value for smaller screens */
     }
 }
 
 @media (max-width: 576px) {
     .product-card {
-        width: 100%; /* Display one product per row on smaller screens */
+        width: 100%;
+        /* Display one product per row on smaller screens */
     }
 }
