@@ -40,7 +40,6 @@ class IndexView(APIView):
         # Serialize the products with the updated serializer
         product_serializer = ProductSerializer(queryset, many=True, context={'request': request})
 
-        # Include products, search form, and search query in the context
         context = {
             'products': product_serializer.data,
             'search_form': search_form.data,
@@ -86,7 +85,7 @@ def like_product(request, product_id):
         Like.objects.create(
             user=user_instance,
             content_type=content_type,
-            object_id=product_instance.pk
+            product_id=product_instance.pk
         )
         return Response({"detail": "Product liked successfully."}, status=status.HTTP_201_CREATED)
 
