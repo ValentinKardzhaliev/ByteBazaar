@@ -20,12 +20,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Application definition
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(levelname)s %(asctime)s - %(message)s',
-)
 
 LOGGING = {
     'version': 1,

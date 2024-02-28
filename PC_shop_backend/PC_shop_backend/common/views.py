@@ -1,5 +1,3 @@
-import logging
-
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from rest_framework import status
@@ -49,11 +47,6 @@ class IndexView(APIView):
         return Response(context)
 
 
-logger = logging.getLogger('django.db.backends')
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler())
-
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_product(request, product_id):
@@ -100,7 +93,7 @@ class LikedProductsView(APIView):
         concrete_models = Product.__subclasses__()
         liked_products = []
         for concrete_model in concrete_models:
-            liked_products.extend(concrete_model.objects.filter(id__in=liked_products_ids))
+            liked_products.extend(concrete_model.objects.filter(_id__in=liked_products_ids))
 
         # Serialize the liked products
         product_serializer = ProductSerializer(liked_products, many=True)
