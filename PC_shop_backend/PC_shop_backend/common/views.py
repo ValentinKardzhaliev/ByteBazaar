@@ -73,22 +73,22 @@ def like_product(request, product_id):
 
     content_type = ContentType.objects.get_for_model(product_instance)
 
-    has_liked = Like.objects.filter(
+    existing_like = Like.objects.filter(
         user=user_instance,
         content_type=content_type,
         product_id=product_instance.pk
-    ).exists()
+    ).first()
 
-    if has_liked:
-        return Response({"detail": "You have already liked this product."}, status=status.HTTP_400_BAD_REQUEST)
-
-    like_instance = Like.objects.create(
-        user=user_instance,
-        content_type=content_type,
-        product_id=product_instance.pk
-    )
-
-    return Response({"detail": "Product liked successfully."}, status=status.HTTP_201_CREATED)
+    if existing_like:
+        existing_like.delete()
+        return Response({"detail": "Product unliked successfully."}, status=status.HTTP_200_OK)
+    else:
+        Like.objects.create(
+            user=user_instance,
+            content_type=content_type,
+            object_id=product_instance.pk
+        )
+        return Response({"detail": "Product liked successfully."}, status=status.HTTP_201_CREATED)
 
 
 class LikedProductsView(APIView):
