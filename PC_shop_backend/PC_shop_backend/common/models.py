@@ -26,8 +26,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
-    images = GenericRelation('common.ProductImage')  # Use the full path to ProductImage
-
+    images = GenericRelation('common.ProductImage')
     class Meta:
         abstract = True
 

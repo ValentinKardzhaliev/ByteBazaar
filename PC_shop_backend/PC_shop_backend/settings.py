@@ -1,5 +1,3 @@
-import logging
-
 from pathlib import Path
 import environ
 
@@ -20,22 +18,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    },
-}
 
 INSTALLED_APPS = [
     'django.contrib.admin',

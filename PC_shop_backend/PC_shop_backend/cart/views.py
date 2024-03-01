@@ -1,63 +1,64 @@
-import uuid
-from rest_framework import generics
+from django.shortcuts import get_object_or_404
+from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Cart, CartItem
-from .serializers import CartSerializer, CartItemSerializer
-from ..common.models import Product
 
-class CartView(generics.RetrieveUpdateAPIView):
-    serializer_class = CartSerializer
+from PC_shop_backend.cart.models import CartItem, Cart
+from PC_shop_backend.cart.serializers import CartSerializer
+from PC_shop_backend.common.models import Product
+from PC_shop_backend.common.serializers import ProductSerializer
 
-    def get_object(self):
-        if self.request.user.is_authenticated:
-            user = self.request.user
-            cart, created = Cart.objects.get_or_create(user=user)
-        else:
-            session_id = self.request.session.get('cart_session_id')
-            if not session_id:
-                session_id = uuid.uuid4().int >> 64
-                self.request.session['cart_session_id'] = str(session_id)
 
-            # Use the 'id' field for get_or_create
-            cart, created = Cart.objects.get_or_create(id=session_id)
+@api_view(['POST'])
+def add_to_cart(request, product_id):
+    try:
+        # Assuming product_id is a valid UUID string
+        product = None
 
-        return cart
+        # Iterate through concrete models to find the correct one
+        for model_class in Product.__subclasses__():
+            try:
+                product = model_class.objects.get(pk=product_id)
+                break  # Exit the loop if a valid product instance is found
+            except model_class.DoesNotExist:
+                continue
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context['user'] = self.request.user
-        return context
+        if not product:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    def get(self, request, *args, **kwargs):
-        cart = self.get_object()
-        serializer = self.get_serializer(cart)
-        return Response(serializer.data)
+        # Determine the product type dynamically
+        product_type = product.__class__.__name__.lower()
 
-class AddToCartView(generics.CreateAPIView):
-    queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
+        # Get or create a cart for the user
+        user_cart, created = Cart.objects.get_or_create(user=request.user)
 
-    def perform_create(self, serializer):
-        product_id = self.request.data.get('product_id')
-        product_model_name = self.request.data.get('product_model_name')
-        concrete_model = Product.__subclasses__()[product_model_name]
+        # Create or update CartItem
+        cart_item, created = CartItem.objects.get_or_create(
+            user=request.user,
+            product_type=product_type,
+            product_id=product._id,
+            defaults={'quantity': 1}
+        )
 
-        try:
-            product = concrete_model.objects.get(id=product_id)
-        except concrete_model.DoesNotExist:
-            return Response({'error': 'Product not found'}, status=404)
+        if not created:
+            cart_item.quantity += 1
+            cart_item.save()
 
-        if self.request.user.is_authenticated:
-            # For authenticated users, use the user field
-            serializer.save(user=self.request.user, product=product)
-        else:
-            # For anonymous users, use the session_id
-            session_id = self.request.session.get('cart_session_id')
-            if not session_id:
-                session_id = uuid.uuid4().int >> 64
-                self.request.session['cart_session_id'] = str(session_id)
+        # Update the user's cart
+        user_cart.items.add(cart_item)
 
-            # Save the cart item with the session_id
-            serializer.save(session_id=session_id, product=product)
+        # Serialize the product instance
+        product_serializer = ProductSerializer(product)
 
-        return Response({'message': 'Product added to cart'}, status=201)
+        # Serialize the cart
+        cart_serializer = CartSerializer(user_cart)
+
+        response_data = {
+            'product': product_serializer.data,
+            'cart': cart_serializer.data,
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
+
+    except ValueError:
+        return Response({'error': 'Invalid UUID format for product_id'}, status=status.HTTP_400_BAD_REQUEST)
