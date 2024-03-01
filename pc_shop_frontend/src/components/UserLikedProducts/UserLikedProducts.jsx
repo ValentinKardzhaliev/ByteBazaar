@@ -53,7 +53,7 @@ const UserLikedProducts = () => {
                                 <div className="productliked-details">
                                     <h2 className="productliked-name">{product.name}</h2>
                                     <div className="details-inner-container">
-                                        <Link to={`/product/${product._id}`} className="product-detailsPage-link">View Full Characteristics</Link>
+                                        <Link to={`/products/${product.type}/${product._id}`} className="product-detailsPage-link">View Full Characteristics</Link>
                                         <div className="product-price-container">
                                             <span className="label">Price:</span>
                                             <span className="productliked-price">{product.price}$</span>

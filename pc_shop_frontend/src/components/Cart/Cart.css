@@ -80,8 +80,7 @@
 
 .cart-buttons-container {
     display: flex;
-    margin-left: auto;
-    flex: 1;
+    /* margin-left: auto; */
 }
 
 .quantity-button {

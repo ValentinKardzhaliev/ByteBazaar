@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { getUserCart, increaseProductQuantity, decreaseProductQuantity, removeProductFromCart } from '../../services/productService';
 import AuthContext from '../../contexts/AuthContext';
+import { Link } from "react-router-dom";
+
 
 function Cart() {
     const { user } = useContext(AuthContext);
@@ -46,14 +48,16 @@ function Cart() {
                             <img src={`http://localhost:8000${item.product.images[0].image}`} alt={item.product.name} className="cart-product-image" />
                             <div className="cart-item-details">
                                 <p className="cart-product-name">Name - {item.product.name}</p>
-                                <div className="cart-buttons-container">
-                                    <button className="quantity-button decrease" onClick={() => decreaseQuantity(item.product._id)}>-</button>
-                                    <span className="cart-product-quantity">{item.quantity}</span>
-                                    <button className="quantity-button increase" onClick={() => increaseQuantity(item.product._id)}>+</button>
-                                    <span className="cart-product-price">${item.product.price * item.quantity}</span>
-                                    <button className="cart-delete-button" onClick={() => removeProduct(item.product._id)}><FontAwesomeIcon icon={faTrash} />Изтрий</button>
-                                </div>
+                                <Link to={`/products/${item.product.type}/${item.product._id}`} className="cart-productDetails-link">View Full Characteristics</Link>
                             </div>
+                            <div className="cart-buttons-container">
+                                <button className="quantity-button decrease" onClick={() => decreaseQuantity(item.product._id)}>-</button>
+                                <span className="cart-product-quantity">{item.quantity}</span>
+                                <button className="quantity-button increase" onClick={() => increaseQuantity(item.product._id)}>+</button>
+                                <span className="cart-product-price">${item.product.price * item.quantity}</span>
+                                <button className="cart-delete-button" onClick={() => removeProduct(item.product._id)}><FontAwesomeIcon icon={faTrash} />Изтрий</button>
+                            </div>
+
                         </div>
                     ))}
                 </div>
