@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -115,3 +116,19 @@ def get_user_cart(request):
                 item_data['product'] = product_serializer.data
 
     return Response(cart_data, status=status.HTTP_200_OK)
+
+
+def increase_quantity(request, product_id):
+    cart_item = get_object_or_404(CartItem, user=request.user, product_id=product_id)
+    cart_item.quantity += 1
+    cart_item.save()
+    return JsonResponse({'message': 'Quantity increased successfully'})
+
+
+def decrease_quantity(request, product_id):
+    cart_item = get_object_or_404(CartItem, user=request.user, product_id=product_id)
+
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+        cart_item.save()
+        return JsonResponse({'message': 'Quantity decreased successfully'})
