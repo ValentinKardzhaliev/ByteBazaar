@@ -136,4 +136,4 @@ def decrease_quantity(request, product_id):
         cart_item.save()
         return JsonResponse({'message': 'Quantity decreased successfully'})
     else:
-        return JsonResponse({'message': 'Quantity cannot be decreased below 1'})
+        return JsonResponse({'message': 'Quantity cannot be decreased below 1'}, status=400)
