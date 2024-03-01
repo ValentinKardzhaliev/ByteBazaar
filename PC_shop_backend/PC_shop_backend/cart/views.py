@@ -118,6 +118,8 @@ def get_user_cart(request):
     return Response(cart_data, status=status.HTTP_200_OK)
 
 
+
+@api_view(['POST'])
 def increase_quantity(request, product_id):
     cart_item = get_object_or_404(CartItem, user=request.user, product_id=product_id)
     cart_item.quantity += 1
@@ -125,6 +127,7 @@ def increase_quantity(request, product_id):
     return JsonResponse({'message': 'Quantity increased successfully'})
 
 
+@api_view(['POST'])
 def decrease_quantity(request, product_id):
     cart_item = get_object_or_404(CartItem, user=request.user, product_id=product_id)
 
