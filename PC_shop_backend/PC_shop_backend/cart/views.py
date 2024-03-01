@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -41,13 +40,10 @@ def add_to_cart(request, product_id):
 
         user_cart.items.add(cart_item)
 
-        product_serializer = ProductSerializer(product)
-
         cart_serializer = CartSerializer(user_cart)
 
         response_data = {
-            'product': product_serializer.data,
-            'cart': cart_serializer.data,
+            'message': 'You have added a product to the cart successfully',
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
@@ -64,4 +60,20 @@ def get_user_cart(request):
     # Serialize the cart data
     cart_serializer = CartSerializer(user_cart)
 
-    return Response(cart_serializer.data, status=status.HTTP_200_OK)
+    # Serialize product details for each item in the cart
+    cart_data = cart_serializer.data
+    product = None
+    for item_data in cart_data.get('items', []):
+        product_id = item_data.get('product_id')
+        if product_id:
+            for model_class in Product.__subclasses__():
+                try:
+                    product = model_class.objects.get(pk=product_id)
+                    break
+                except model_class.DoesNotExist:
+                    continue
+            if product:
+                product_serializer = ProductSerializer(product)
+                item_data['product'] = product_serializer.data
+
+    return Response(cart_data, status=status.HTTP_200_OK)
