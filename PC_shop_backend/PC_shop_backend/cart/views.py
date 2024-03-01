@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,17 +9,20 @@ from PC_shop_backend.common.models import Product
 from PC_shop_backend.common.serializers import ProductSerializer
 
 
+def get_product_by_id(product_id):
+    for model_class in Product.__subclasses__():
+        try:
+            product = model_class.objects.get(pk=product_id)
+            return product
+        except model_class.DoesNotExist:
+            continue
+    return None
+
+
 @api_view(['POST'])
 def add_to_cart(request, product_id):
     try:
-        product = None
-
-        for model_class in Product.__subclasses__():
-            try:
-                product = model_class.objects.get(pk=product_id)
-                break
-            except model_class.DoesNotExist:
-                continue
+        product = get_product_by_id(product_id)
 
         if not product:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -44,6 +48,40 @@ def add_to_cart(request, product_id):
 
         response_data = {
             'message': 'You have added a product to the cart successfully',
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
+
+    except ValueError:
+        return Response({'error': 'Invalid UUID format for product_id'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def remove_from_cart(request, product_id):
+    try:
+        product = get_product_by_id(product_id)
+
+        if not product:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        product_type = product.__class__.__name__.lower()
+
+        user_cart, created = Cart.objects.get_or_create(user=request.user)
+
+        cart_item = get_object_or_404(
+            CartItem,
+            user=request.user,
+            product_type=product_type,
+            product_id=product._id,
+        )
+
+        user_cart.items.remove(cart_item)
+        cart_item.delete()
+
+        cart_serializer = CartSerializer(user_cart)
+
+        response_data = {
+            'message': 'You have removed a product from the cart successfully',
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
