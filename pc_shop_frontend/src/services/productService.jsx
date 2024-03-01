@@ -46,8 +46,64 @@ export const likeProduct = (productId, token) => {
         .then(res => res.json())
 }
 
+export const addToCart = (productId, token) => {
+    return fetch(`${baseUrl}/api/cart/add/${productId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + token
+        },
+    })
+        .then(res => res.json())
+}
+
+export const increaseProductQuantity = (productId, token) => {
+    return fetch(`${baseUrl}/api/cart/increase_quantity/${productId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + token
+        },
+    })
+        .then(res => res.json())
+}
+
+export const decreaseProductQuantity = (productId, token) => {
+    return fetch(`${baseUrl}/api/cart/decrease_quantity/${productId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + token
+        },
+    })
+        .then(res => res.json())
+}
+
+export const removeProductFromCart = (productId, token) => {
+    return fetch(`${baseUrl}/api/cart/remove/${productId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + token
+        },
+    })
+        .then(res => res.json())
+}
+
+
 export const getAllLikedForUser = (token) => {
     return fetch(`${baseUrl}/liked_products/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + token
+        },
+    })
+        .then(res => res.json())
+}
+
+export const getUserCart = (token) => {
+    return fetch(`${baseUrl}/api/cart/user_cart/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

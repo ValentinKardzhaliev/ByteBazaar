@@ -1,54 +1,68 @@
-import './Cart.css'
+import { useContext, useEffect, useState } from 'react';
+import './Cart.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { getUserCart, increaseProductQuantity, decreaseProductQuantity, removeProductFromCart } from '../../services/productService';
+import AuthContext from '../../contexts/AuthContext';
 
 function Cart() {
-    const cartItems = [
-        {
-            id: 1,
-            name: 'Product 1',
-            price: 19.99,
-            image: 'https://placekitten.com/50/50', // Placeholder image
-        },
-        {
-            id: 2,
-            name: 'Product 2',
-            price: 29.99,
-            image: 'https://placekitten.com/50/51', // Placeholder image
-        },
-        // Add more items as needed
-    ];
-    const handleDetailsClick = (itemId) => {
-        // Handle details click, e.g., navigate to a product details page
-        console.log(`View details for item with ID ${itemId}`);
-    };
+    const { user } = useContext(AuthContext);
+    const [cartItems, setCartItems] = useState([]);
 
+    useEffect(() => {
+        getUserCart(user.token)
+            .then(result => {
+                setCartItems(result.items);
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    const increaseQuantity = (productId) => {
+        increaseProductQuantity(productId, user.token).then(result => {
+            setCartItems(prevCartItems => cartItems.map(i => i.product_id == productId ? { ...i, quantity: i.quantity + 1 } : i));
+        }).catch(err => console.log(err));
+    }
+
+    const decreaseQuantity = (productId) => {
+        decreaseProductQuantity(productId, user.token).then(result => {
+            setCartItems(prevCartItems => cartItems.map(i => i.product_id == productId && i.quantity > 1 ? { ...i, quantity: i.quantity - 1 } : i));
+        }).catch(err => console.log(err));
+    }
+
+    const removeProduct = (productId) => {
+        removeProductFromCart(productId, user.token).then(result => {
+            setCartItems(prevCartItems => cartItems.filter(i => i.product_id !== productId));
+        }).catch(err => console.log(err));
+    }
     return (
-        <div className="cart">
-            <h2>Your Cart</h2>
+        <div className="cart-container">
+            <h2 className="cart-title">Your Cart</h2>
             {cartItems.length === 0 ? (
-                <p>Your cart is empty.</p>
+                <p className="empty-cart-message">Your cart is empty.</p>
             ) : (
-                <ul>
+                <div className="cart-items-list">
                     {cartItems.map((item) => (
-                        <li key={item.id}>
-                            <div className="cart-item">
-                                <img src={item.image} alt={item.name} />
-                                <div className="item-details">
-                                    <p>{item.name}</p>
-                                    <br />
-                                    <p>${item.price.toFixed(2)}</p>
-                                    <br />
-                                    <button className='btnCartDetails' onClick={() => handleDetailsClick(item.id)}>
-                                        Details
-                                    </button>
+                        <div className="product-card" key={item.product._id}>
+                            <img src={`http://localhost:8000${item.product.images[0].image}`} alt={item.product.name} className="cart-product-image" />
+                            <div className="cart-item-details">
+                                <p className="cart-product-name">Name - {item.product.name}</p>
+                                <div className="cart-buttons-container">
+                                    <button className="quantity-button decrease" onClick={() => decreaseQuantity(item.product._id)}>-</button>
+                                    <span className="cart-product-quantity">{item.quantity}</span>
+                                    <button className="quantity-button increase" onClick={() => increaseQuantity(item.product._id)}>+</button>
+                                    <span className="cart-product-price">${item.product.price * item.quantity}</span>
+                                    <button className="cart-delete-button" onClick={() => removeProduct(item.product._id)}><FontAwesomeIcon icon={faTrash} />Изтрий</button>
                                 </div>
                             </div>
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                </div>
+
+
+
             )}
         </div>
-    )
+    );
 }
-
 
 export default Cart;

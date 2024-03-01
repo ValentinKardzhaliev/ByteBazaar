@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getAllLikedForUser, getProductByTypeAndId, likeProduct } from "../../services/productService";
+import { getAllLikedForUser, getProductByTypeAndId, likeProduct, addToCart } from "../../services/productService";
 import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
 import { characteristicsLogic } from "../../utils/characteristicsLogic";
@@ -55,6 +55,13 @@ function ProductDetails() {
             console.log(result);
         }).catch(err => console.log(err));
     };
+
+    const addProductToCart = () => {
+        addToCart(product._id, user.token).then(result => {
+            alert('You have successfully added a product to your cart!')
+            console.log(result);
+        }).catch(err => console.log(err))
+    }
 
     const [productImages, setProductImages] = useState([]);
     const [currentImages, setCurrentImages] = useState([]);
@@ -153,7 +160,7 @@ function ProductDetails() {
                         {user.token
                             ?
                             <>
-                                <button className="buy-button">Add to Cart</button>
+                                <button className="buy-button" onClick={addProductToCart}>Add to Cart</button>
 
 
                                 <FontAwesomeIcon
@@ -164,7 +171,7 @@ function ProductDetails() {
 
                             </>
                             :
-                            <button className="buy-button">Add to Cart</button>
+                            <>TODO: Make possible to add product when user is not logged in</>
                         }
                     </p>
                 </div>
