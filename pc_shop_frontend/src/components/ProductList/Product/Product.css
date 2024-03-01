@@ -3,7 +3,7 @@
     overflow: hidden;
     background-color: #fff;
     margin: 0 0.6em 1.4em 0.6em;
-    width: calc(20% - 1.4em); 
+    width: 25%;
     padding: 2.1em; 
     position: relative;
     flex-direction: column;
