@@ -13,6 +13,10 @@
   src: url(fonts/Montserrat-Light.ttf);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Montserrat, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   margin: 0;
