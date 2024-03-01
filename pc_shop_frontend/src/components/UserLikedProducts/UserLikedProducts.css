@@ -19,6 +19,7 @@
     border-radius: 5px;
     overflow: hidden;
     transition: all 0.3s ease;
+    flex: 0;
 }
 
 .product-card:hover {
@@ -28,7 +29,7 @@
 
 .productliked-image {
     width: 20em;
-    height: auto;
+    height: 20em;
 }
 
 .productliked-details {

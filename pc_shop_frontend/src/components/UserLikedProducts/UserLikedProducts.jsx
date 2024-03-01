@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getAllLikedForUser } from "../../services/productService";
+import { getAllLikedForUser, likeProduct, addToCart } from "../../services/productService";
 import { Link } from "react-router-dom";
 import "./UserLikedProducts.css"; // Define your CSS styles for responsiveness here
 import AuthContext from "../../contexts/AuthContext";
 import { faShoppingCart, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-
 
 const UserLikedProducts = () => {
     const { user } = useContext(AuthContext);
@@ -25,6 +23,19 @@ const UserLikedProducts = () => {
                 setLoading(false);
             });
     }, []);
+
+    const unLikeProduct = (productId) => {
+        likeProduct(productId, user.token).then(result => {
+            setLikedProducts(prevCartItems => likedProducts.filter(i => i._id !== productId))
+        }).catch(err => console.log(err));
+    }
+
+    const addProductToCart = (productId) => {
+        addToCart(productId, user.token).then(result => {
+            alert('You have successfully added a product to your cart!')
+            console.log(result);
+        }).catch(err => console.log(err))
+    }
 
     return (
         <div className="user-liked-products-container">
@@ -50,10 +61,10 @@ const UserLikedProducts = () => {
                                     </div>
                                 </div>
                                 <div className="productliked-actions">
-                                    <a href="#" className="productliked-unlike" role="button">
+                                    <a href="#" className="productliked-unlike" role="button" onClick={() => unLikeProduct(product._id)}>
                                         <FontAwesomeIcon icon={faHeart} />
                                     </a>
-                                    <button className="productliked-add-to-cart" onClick={() => handleAddToCart(product)}>
+                                    <button className="productliked-add-to-cart" onClick={() => addProductToCart(product._id)}>
                                         Add to Cart <FontAwesomeIcon icon={faShoppingCart} />
                                     </button>
                                 </div>
