@@ -3,7 +3,7 @@ import { getAllLikedForUser, likeProduct, addToCart } from "../../services/produ
 import { Link } from "react-router-dom";
 import "./UserLikedProducts.css"; // Define your CSS styles for responsiveness here
 import AuthContext from "../../contexts/AuthContext";
-import { faShoppingCart, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UserLikedProducts = () => {
@@ -62,7 +62,7 @@ const UserLikedProducts = () => {
                                 </div>
                                 <div className="productliked-actions">
                                     <a href="#" className="productliked-unlike" role="button" onClick={() => unLikeProduct(product._id)}>
-                                        <FontAwesomeIcon icon={faHeart} />
+                                        <FontAwesomeIcon icon={faX} />
                                     </a>
                                     <button className="productliked-add-to-cart" onClick={() => addProductToCart(product._id)}>
                                         Add to Cart <FontAwesomeIcon icon={faShoppingCart} />
