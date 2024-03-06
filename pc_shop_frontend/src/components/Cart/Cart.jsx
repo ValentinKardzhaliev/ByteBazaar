@@ -38,6 +38,7 @@ function Cart() {
     }
     return (
         <div className="cart-container">
+            <div className="">
             <h2 className="cart-title">Your Cart</h2>
             {cartItems.length === 0 ? (
                 <p className="empty-cart-message">Your cart is empty.</p>
@@ -68,10 +69,9 @@ function Cart() {
                         </div>
                     ))}
                 </div>
-
-
-
             )}
+            </div>
+        
         </div>
     );
 }
