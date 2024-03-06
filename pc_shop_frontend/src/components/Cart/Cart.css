@@ -76,6 +76,9 @@
     margin-right: 0.8em; 
 }
 
+.quantity-button {
+    cursor: pointer;
+}
 
 .cart-product-quantity {
     margin-top: auto;
