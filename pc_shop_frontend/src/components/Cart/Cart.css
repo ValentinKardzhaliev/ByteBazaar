@@ -1,6 +1,11 @@
 .cart-container {
-    width: 80%;
-    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.item-container {
+    width: 70%;
+    margin-left: 2em;
 }
 
 .cart-title {
@@ -43,9 +48,9 @@
 .cart-item-details {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 20em - 2em);
-    /* Adjust according to image width and padding */
+    width: 100%;
     padding: 10px;
+    box-sizing: border-box;
     flex-wrap: wrap;
     flex-grow: 0;
 }
@@ -96,6 +101,87 @@
     cursor: pointer;
     font-size: 26px;
     align-self: flex-end;
+}
+
+.buy-section {
+    width: 20em;
+    height: auto;
+    margin-top: 3.5em;
+    margin-right: 2em;
+}   
+
+.price-calculation-section {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000000;
+    align-items: center;
+}
+
+.calculation-item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calculation-item {
+    display: flex;
+}
+
+.calculation-item-image {
+    width: 10em;
+    height: 10em;
+}
+
+.calculation-item-price {
+    align-self: center;
+    font-size: 18px;
+    color: #C00000;
+    margin-left: 0.5em;
+}
+
+.and-icon {
+    font-size: 4em;
+    margin: 0.8em;
+}
+
+.shipping-fee-container {
+    display: flex;
+    align-items: center;
+}
+
+.shipping-fee {
+    margin-left: 0.8em;
+    font-size: 18px;
+    color: #C00000;
+}
+
+.divider-container {
+    width: 15em;
+    height: 3em;
+}
+
+.total-price-divider {
+}
+
+.total-price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.total-price-label {
+    margin-bottom: 0.2em;
+}
+
+.purchase-button {
+    padding: 1em;
+    width: 6.5em;
+    margin-bottom: 3em;
+    background-color: #C00000;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {

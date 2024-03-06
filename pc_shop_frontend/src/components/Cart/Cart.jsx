@@ -78,23 +78,32 @@ function Cart() {
                     </div>
                 )}
             </div>
-            <div>
-                {cartItems.map((item) => (
-                    <div key={item.product.name}>
-                        <div>
-                            <img width={100} height={100} src={`http://localhost:8000${item.product.images[0].image}`} alt={item.product.name} />
-                            <span>{item.product.price * item.quantity}$</span>
+            <div className="buy-section">
+                <div className='price-calculation-section'>
+                    {cartItems.map((item) => (
+                        <div key={item.product.name} className='calculation-item-container'>
+                            <div className='calculation-item'>
+                                <img src={`http://localhost:8000${item.product.images[0].image}`} alt={item.product.name} className='calculation-item-image' />
+                                <span className='calculation-item-price'>{item.product.price * item.quantity}$</span>
+
+                            </div>
+                            <FontAwesomeIcon icon={faPlus} className='and-icon' />
 
                         </div>
-                        <FontAwesomeIcon icon={faPlus} />
-
+                    ))}
+                    <div className="shipping-fee-container">
+                        <h3 className='shipping-fee-label'>Shipping fee:</h3>
+                        <span className="shipping-fee">7$</span>
                     </div>
-                ))}
-                <h4>Shipping fee: 7$</h4>
-                <hr width='10%' align='left' />
-                <h3>Total price:</h3>
-                <div>{Number(totalPrice + 7)}$</div>
-                <button>Buy</button>
+                    <div className="divider-container">
+                        <hr className='total-price-divider' />
+                    </div>
+                    <div className="total-price-container">
+                        <h1 className='total-price-label'>Total price:</h1>
+                        <div className='total-price'>{Number(totalPrice + 7)}$</div>
+                    </div>
+                    <button className='purchase-button'>Buy</button>
+                </div>
             </div>
 
         </div>
