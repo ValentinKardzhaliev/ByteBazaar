@@ -173,6 +173,10 @@
 .total-price-label {
     margin-bottom: 0.2em;
 }
+.total-price {
+    font-size: 22px;
+}
+
 
 .purchase-button {
     padding: 1em;
