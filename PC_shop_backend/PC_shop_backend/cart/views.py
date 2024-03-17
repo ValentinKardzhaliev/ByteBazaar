@@ -25,7 +25,11 @@ def get_or_create_user_cart(request):
     if request.user.is_authenticated:
         user_cart, created = Cart.objects.get_or_create(user=request.user)
     else:
-        user_cart, created = Cart.objects.get_or_create(token=uuid.uuid4())
+        token = uuid.uuid5(uuid.NAMESPACE_DNS, request.META.get('REMOTE_ADDR'))  # Generate token based on IP address
+        user_cart, created = Cart.objects.get_or_create(token=token)
+        if created:
+            user_cart.token = token
+            user_cart.save()
     return user_cart
 
 
