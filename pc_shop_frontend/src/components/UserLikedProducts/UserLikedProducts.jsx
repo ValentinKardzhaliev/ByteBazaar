@@ -47,7 +47,7 @@ const UserLikedProducts = () => {
                     <div className="user-liked-products">
                         {likedProducts.map((product) => (
                             <div className="product-card" key={product._id}>
-                                <Link to={`/product/${product._id}`}>
+                                <Link to={`/products/${product.type}/${product._id}`}>
                                     <img src={`http://localhost:8000${product.images[0].image}`} alt={product.name} className="productliked-image" />
                                 </Link>
                                 <div className="productliked-details">
