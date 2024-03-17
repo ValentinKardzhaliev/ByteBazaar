@@ -1,8 +1,9 @@
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+import uuid
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 from PC_shop_backend.cart.models import CartItem, Cart
 from PC_shop_backend.cart.serializers import CartSerializer
@@ -20,6 +21,34 @@ def get_product_by_id(product_id):
     return None
 
 
+def get_or_create_user_cart(request):
+    if request.user.is_authenticated:
+        user_cart, created = Cart.objects.get_or_create(user=request.user)
+    else:
+        user_cart, created = Cart.objects.get_or_create(token=uuid.uuid4())
+    return user_cart
+
+
+def handle_cart_item(request, product):
+    product_type = product.__class__.__name__.lower()
+
+    user_cart = get_or_create_user_cart(request)
+
+    cart_item, created = CartItem.objects.get_or_create(
+        user=request.user if request.user.is_authenticated else None,
+        product_type=product_type,
+        product_id=product.pk,
+        defaults={'quantity': 1}
+    )
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    user_cart.items.add(cart_item)
+    return cart_item
+
+
 @api_view(['POST'])
 def add_to_cart(request, product_id):
     try:
@@ -28,24 +57,7 @@ def add_to_cart(request, product_id):
         if not product:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        product_type = product.__class__.__name__.lower()
-
-        user_cart, created = Cart.objects.get_or_create(user=request.user)
-
-        cart_item, created = CartItem.objects.get_or_create(
-            user=request.user,
-            product_type=product_type,
-            product_id=product._id,
-            defaults={'quantity': 1}
-        )
-
-        if not created:
-            cart_item.quantity += 1
-            cart_item.save()
-
-        user_cart.items.add(cart_item)
-
-        cart_serializer = CartSerializer(user_cart)
+        cart_item = handle_cart_item(request, product)
 
         response_data = {
             'message': 'You have added a product to the cart successfully',
@@ -65,21 +77,11 @@ def remove_from_cart(request, product_id):
         if not product:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        product_type = product.__class__.__name__.lower()
+        cart_item = handle_cart_item(request, product)
 
-        user_cart, created = Cart.objects.get_or_create(user=request.user)
-
-        cart_item = get_object_or_404(
-            CartItem,
-            user=request.user,
-            product_type=product_type,
-            product_id=product._id,
-        )
-
+        user_cart = get_or_create_user_cart(request)
         user_cart.items.remove(cart_item)
         cart_item.delete()
-
-        cart_serializer = CartSerializer(user_cart)
 
         response_data = {
             'message': 'You have removed a product from the cart successfully',
@@ -93,13 +95,8 @@ def remove_from_cart(request, product_id):
 
 @api_view(['GET'])
 def get_user_cart(request):
-    # Retrieve the current user's cart
-    user_cart, created = Cart.objects.get_or_create(user=request.user)
-
-    # Serialize the cart data
+    user_cart = get_or_create_user_cart(request)
     cart_serializer = CartSerializer(user_cart)
-
-    # Serialize product details for each item in the cart
     cart_data = cart_serializer.data
     product = None
     for item_data in cart_data.get('items', []):
@@ -118,22 +115,31 @@ def get_user_cart(request):
     return Response(cart_data, status=status.HTTP_200_OK)
 
 
-
 @api_view(['POST'])
 def increase_quantity(request, product_id):
-    cart_item = get_object_or_404(CartItem, user=request.user, product_id=product_id)
+    user_cart = get_or_create_user_cart(request)
+    cart_item = get_object_or_404(CartItem,
+                                  user=request.user if request.user.is_authenticated else None,
+                                  token=request.session.session_key if not request.user.is_authenticated else None,
+                                  product_id=product_id
+                                  )
     cart_item.quantity += 1
     cart_item.save()
-    return JsonResponse({'message': 'Quantity increased successfully'})
+    return Response({'message': 'Quantity increased successfully'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
 def decrease_quantity(request, product_id):
-    cart_item = get_object_or_404(CartItem, user=request.user, product_id=product_id)
+    user_cart = get_or_create_user_cart(request)
+    cart_item = get_object_or_404(CartItem,
+                                  user=request.user if request.user.is_authenticated else None,
+                                  token=request.session.session_key if not request.user.is_authenticated else None,
+                                  product_id=product_id
+                                  )
 
     if cart_item.quantity > 1:
         cart_item.quantity -= 1
         cart_item.save()
-        return JsonResponse({'message': 'Quantity decreased successfully'})
+        return Response({'message': 'Quantity decreased successfully'}, status=status.HTTP_200_OK)
     else:
-        return JsonResponse({'message': 'Quantity cannot be decreased below 1'}, status=400)
+        return Response({'message': 'Quantity cannot be decreased below 1'}, status=status.HTTP_400_BAD_REQUEST)
