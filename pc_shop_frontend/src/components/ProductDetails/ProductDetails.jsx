@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getAllLikedForUser, getProductByTypeAndId, likeProduct, addToCart } from "../../services/productService";
+import { getAllLikedForUser, getProductByTypeAndId, likeProduct, addToCart, addToCartForGuest } from "../../services/productService";
 import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
 import { characteristicsLogic } from "../../utils/characteristicsLogic";
@@ -15,6 +15,8 @@ function ProductDetails() {
     const [product, setProduct] = useState({});
     const [imagePath, setImagePath] = useState("");
     const [isLiked, setIsLiked] = useState(false);
+
+    let addProductToCart;
 
     if (user.token) {
         useEffect(() => {
@@ -32,6 +34,13 @@ function ProductDetails() {
                 setIsLiked(likedResult.liked_products.some((likedProduct) => likedProduct._id === productResult._id));
             }).catch((err) => console.log(err));
         }, [typeOfProduct, productId, user.token]);
+
+        addProductToCart = function () {
+            addToCart(product._id, user.token).then(result => {
+                alert('You have successfully added a product to your cart!')
+                console.log(result);
+            }).catch(err => console.log(err))
+        }
     } else {
         useEffect(() => {
             getProductByTypeAndId(typeOfProduct, productId)
@@ -47,6 +56,13 @@ function ProductDetails() {
                 })
                 .catch((err) => console.log(err));
         }, [typeOfProduct, productId]);
+        addProductToCart = function () {
+            addToCartForGuest(product._id).then(result => {
+                alert('You have successfully added a product to your cart!')
+                console.log(result);
+            }).catch(err => console.log(err))
+        }
+
     }
 
     const handleLike = () => {
@@ -55,13 +71,6 @@ function ProductDetails() {
             console.log(result);
         }).catch(err => console.log(err));
     };
-
-    const addProductToCart = () => {
-        addToCart(product._id, user.token).then(result => {
-            alert('You have successfully added a product to your cart!')
-            console.log(result);
-        }).catch(err => console.log(err))
-    }
 
     const [productImages, setProductImages] = useState([]);
     const [currentImages, setCurrentImages] = useState([]);
@@ -171,7 +180,7 @@ function ProductDetails() {
 
                             </>
                             :
-                            <>TODO: Make possible to add product when user is not logged in</>
+                            <button className="buy-button" onClick={addProductToCart}>Add to Cart</button>
                         }
                     </p>
                 </div>

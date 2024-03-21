@@ -2,47 +2,87 @@ import { useContext, useEffect, useState } from 'react';
 import './Cart.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import { getUserCart, increaseProductQuantity, decreaseProductQuantity, removeProductFromCart } from '../../services/productService';
+import {
+    getUserCart, increaseProductQuantity, decreaseProductQuantity, removeProductFromCart,
+    getGuestCart, increaseProductQuantityForGuest, decreaseProductQuantityForGuest, removeProductFromCartForGuest
+} from '../../services/productService';
 import AuthContext from '../../contexts/AuthContext';
 import { Link } from "react-router-dom";
-
 
 function Cart() {
     const { user } = useContext(AuthContext);
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    useEffect(() => {
-        getUserCart(user.token)
-            .then(result => {
-                setCartItems(result.items);
-                result.items.forEach(item => {
-                    setTotalPrice(prevPrice => prevPrice + item.product.price * item.quantity)
-                });
-            })
-            .catch(err => console.log(err));
-    }, []);
+    let increaseQuantity;
+    let decreaseQuantity;
+    let removeProduct;
 
-    const increaseQuantity = (productId) => {
-        increaseProductQuantity(productId, user.token).then(result => {
-            setCartItems(prevCartItems => cartItems.map(i => i.product_id == productId ? { ...i, quantity: i.quantity + 1 } : i));
-            cartItems.forEach(i => i.product_id == productId ? setTotalPrice(prevPrice => prevPrice + Number(i.product.price)) : i);
-        }).catch(err => console.log(err));
+    if (user.token) {
+        useEffect(() => {
+            getUserCart(user.token)
+                .then(result => {
+                    setCartItems(result.items);
+                    result.items.forEach(item => {
+                        setTotalPrice(prevPrice => prevPrice + item.product.price * item.quantity)
+                    });
+                })
+                .catch(err => console.log(err));
+        }, []);
+
+        increaseQuantity = function (productId) {
+            increaseProductQuantity(productId, user.token).then(result => {
+                setCartItems(prevCartItems => cartItems.map(i => i.product_id == productId ? { ...i, quantity: i.quantity + 1 } : i));
+                cartItems.forEach(i => i.product_id == productId ? setTotalPrice(prevPrice => prevPrice + Number(i.product.price)) : i);
+            }).catch(err => console.log(err));
+        }
+
+        decreaseQuantity = function (productId) {
+            decreaseProductQuantity(productId, user.token).then(result => {
+                setCartItems(prevCartItems => cartItems.map(i => i.product_id == productId && i.quantity > 1 ? { ...i, quantity: i.quantity - 1 } : i));
+                cartItems.forEach(i => i.product_id == productId && i.quantity > 1 ? setTotalPrice(prevPrice => prevPrice - Number(i.product.price)) : i);
+            }).catch(err => console.log(err));
+        }
+
+        removeProduct = function (productId) {
+            removeProductFromCart(productId, user.token).then(result => {
+                setCartItems(prevCartItems => cartItems.filter(i => i.product_id !== productId));
+                cartItems.forEach(i => i.product_id == productId ? setTotalPrice(prevPrice => prevPrice - Number(i.product.price * i.quantity)) : i);
+            }).catch(err => console.log(err));
+        }
+    } else {
+        useEffect(() => {
+            getGuestCart()
+                .then(result => {
+                    setCartItems(result.items);
+                    result.items.forEach(item => {
+                        setTotalPrice(prevPrice => prevPrice + item.product.price * item.quantity)
+                    });
+                })
+                .catch(err => console.log(err));
+        }, []);
+        increaseQuantity = function (productId) {
+            increaseProductQuantityForGuest(productId).then(result => {
+                setCartItems(prevCartItems => cartItems.map(i => i.product_id == productId ? { ...i, quantity: i.quantity + 1 } : i));
+                cartItems.forEach(i => i.product_id == productId ? setTotalPrice(prevPrice => prevPrice + Number(i.product.price)) : i);
+            }).catch(err => console.log(err));
+        }
+
+        decreaseQuantity = function (productId) {
+            decreaseProductQuantityForGuest(productId).then(result => {
+                setCartItems(prevCartItems => cartItems.map(i => i.product_id == productId && i.quantity > 1 ? { ...i, quantity: i.quantity - 1 } : i));
+                cartItems.forEach(i => i.product_id == productId && i.quantity > 1 ? setTotalPrice(prevPrice => prevPrice - Number(i.product.price)) : i);
+            }).catch(err => console.log(err));
+        }
+
+        removeProduct = function (productId) {
+            removeProductFromCartForGuest(productId).then(result => {
+                setCartItems(prevCartItems => cartItems.filter(i => i.product_id !== productId));
+                cartItems.forEach(i => i.product_id == productId ? setTotalPrice(prevPrice => prevPrice - Number(i.product.price * i.quantity)) : i);
+            }).catch(err => console.log(err));
+        }
     }
 
-    const decreaseQuantity = (productId) => {
-        decreaseProductQuantity(productId, user.token).then(result => {
-            setCartItems(prevCartItems => cartItems.map(i => i.product_id == productId && i.quantity > 1 ? { ...i, quantity: i.quantity - 1 } : i));
-            cartItems.forEach(i => i.product_id == productId && i.quantity > 1 ? setTotalPrice(prevPrice => prevPrice - Number(i.product.price)) : i);
-        }).catch(err => console.log(err));
-    }
-
-    const removeProduct = (productId) => {
-        removeProductFromCart(productId, user.token).then(result => {
-            setCartItems(prevCartItems => cartItems.filter(i => i.product_id !== productId));
-            cartItems.forEach(i => i.product_id == productId ? setTotalPrice(prevPrice => prevPrice - Number(i.product.price * i.quantity)) : i);
-        }).catch(err => console.log(err));
-    }
     return (
         <div className="cart-container">
             <div className="item-container">
