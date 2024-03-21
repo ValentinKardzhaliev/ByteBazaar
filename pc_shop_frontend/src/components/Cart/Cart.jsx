@@ -5,7 +5,7 @@ import { faTrash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import {
     getUserCart, increaseProductQuantity, decreaseProductQuantity, removeProductFromCart,
     getGuestCart, increaseProductQuantityForGuest, decreaseProductQuantityForGuest, removeProductFromCartForGuest
-} from '../../services/productService';
+} from '../../services/cartService';
 import AuthContext from '../../contexts/AuthContext';
 import { Link } from "react-router-dom";
 

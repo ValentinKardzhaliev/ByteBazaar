@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getAllLikedForUser, getProductByTypeAndId, likeProduct, addToCart, addToCartForGuest } from "../../services/productService";
+import { addToCart, addToCartForGuest } from "../../services/cartService";
+import { getAllLikedProductsForUser, likeProduct } from "../../services/likeService";
+import { getProductByTypeAndId } from "../../services/productService";
 import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
 import { characteristicsLogic } from "../../utils/characteristicsLogic";
@@ -22,7 +24,7 @@ function ProductDetails() {
         useEffect(() => {
             Promise.all([
                 getProductByTypeAndId(typeOfProduct, productId),
-                getAllLikedForUser(user.token)
+                getAllLikedProductsForUser(user.token)
             ]).then(([productResult, likedResult]) => {
                 setProduct(productResult);
                 setProductImages(productResult.images);
