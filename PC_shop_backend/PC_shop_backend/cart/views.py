@@ -124,7 +124,6 @@ def increase_quantity(request, product_id):
     user_cart = get_or_create_user_cart(request)
     cart_item = get_object_or_404(CartItem,
                                   user=request.user if request.user.is_authenticated else None,
-                                  token=request.session.session_key if not request.user.is_authenticated else None,
                                   product_id=product_id
                                   )
     cart_item.quantity += 1
@@ -137,7 +136,6 @@ def decrease_quantity(request, product_id):
     user_cart = get_or_create_user_cart(request)
     cart_item = get_object_or_404(CartItem,
                                   user=request.user if request.user.is_authenticated else None,
-                                  token=request.session.session_key if not request.user.is_authenticated else None,
                                   product_id=product_id
                                   )
 

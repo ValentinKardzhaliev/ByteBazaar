@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getAllLikedForUser, likeProduct, addToCart } from "../../services/productService";
+import { getAllLikedProductsForUser, likeProduct } from "../../services/likeService";
+import { addToCart } from "../../services/cartService";
 import { Link } from "react-router-dom";
 import "./UserLikedProducts.css"; // Define your CSS styles for responsiveness here
 import AuthContext from "../../contexts/AuthContext";
@@ -13,7 +14,7 @@ const UserLikedProducts = () => {
 
     useEffect(() => {
         // Fetch liked products for the user
-        getAllLikedForUser(user.token)
+        getAllLikedProductsForUser(user.token)
             .then((result) => {
                 setLikedProducts(result.liked_products);
                 setLoading(false);
