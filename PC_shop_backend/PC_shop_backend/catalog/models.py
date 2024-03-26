@@ -13,6 +13,13 @@ class Computer(Product):
     memory = models.CharField(max_length=50)
     storage = models.CharField(max_length=50)
 
+    # Additional specifications
+    cooler = models.CharField(max_length=200, blank=True)
+    video_card = models.CharField(max_length=200, blank=True)
+    motherboard = models.CharField(max_length=200, blank=True)
+    power_supply = models.CharField(max_length=200, blank=True)
+    operating_system = models.CharField(max_length=200, blank=True)
+
     def __str__(self):
         return f"{self.name} - {self.processor} - {self.memory} - {self.storage}"
 
