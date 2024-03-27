@@ -6,11 +6,11 @@ function ProductBar() {
     return (
         <nav className="navBar">
             <ul className="navBar-list">
-                <li><Link to="/others">Others</Link></li>
-                <li><Link to="/accessories">Accessories</Link></li>
-                <li><Link to="/keyboards">Keyboards</Link></li>
-                <li><Link to="/monitors">Monitors</Link></li>
-                <li><Link to="/computers">Computers</Link></li>
+                <li><Link to="/catalog/others">Others</Link></li>
+                <li><Link to="/catalog/accessories">Accessories</Link></li>
+                <li><Link to="/catalog/keyboards">Keyboards</Link></li>
+                <li><Link to="/catalog/monitors">Monitors</Link></li>
+                <li><Link to="/catalog/computers">Computers</Link></li>
             </ul>
         </nav>
 
