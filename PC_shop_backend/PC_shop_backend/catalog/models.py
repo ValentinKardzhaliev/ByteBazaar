@@ -14,11 +14,11 @@ class Computer(Product):
     storage = models.CharField(max_length=50)
 
     # Additional specifications
-    cooler = models.CharField(max_length=200, blank=True)
-    video_card = models.CharField(max_length=200, blank=True)
-    motherboard = models.CharField(max_length=200, blank=True)
-    power_supply = models.CharField(max_length=200, blank=True)
-    operating_system = models.CharField(max_length=200, blank=True)
+    cooler = models.CharField(max_length=200, blank=True, null=True)
+    video_card = models.CharField(max_length=200, blank=True, null=True)
+    motherboard = models.CharField(max_length=200, blank=True, null=True)
+    power_supply = models.CharField(max_length=200, blank=True, null=True)
+    operating_system = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} - {self.processor} - {self.memory} - {self.storage}"
@@ -34,6 +34,12 @@ class Monitor(Product):
     refresh_rate = models.CharField(max_length=10)
     panel_type = models.CharField(max_length=20)
     size = models.CharField(max_length=5)
+
+    aspect_ratio = models.CharField(max_length=10, blank=True, null=True)
+    response_time = models.CharField(max_length=10, blank=True, null=True)
+    curvature = models.BooleanField(default=False)
+    adjustable_stand = models.BooleanField(default=False)
+    built_in_speakers = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} - {self.size} - {self.refresh_rate}"
