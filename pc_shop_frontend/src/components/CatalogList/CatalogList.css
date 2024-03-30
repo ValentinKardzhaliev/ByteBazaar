@@ -1,9 +1,8 @@
-.monitor-list{
+.item-list {
     position: relative;
     list-style: none;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    margin: 4%;
+    justify-content:flex-start;
 }

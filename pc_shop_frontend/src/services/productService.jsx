@@ -6,19 +6,8 @@ export const getAllProducts = () => {
     return fetch(`${baseUrl}/`)
         .then(res => res.json())
 }
-
-export const getAllComputers = () => {
-    return fetch(`${baseUrl}/api/products/computers/`)
-        .then(res => res.json())
-}
-
-export const getAllKeyboards = () => {
-    return fetch(`${baseUrl}/api/products/keyboards/`)
-        .then(res => res.json())
-}
-
-export const getAllMonitors = () => {
-    return fetch(`${baseUrl}/api/products/monitors/`)
+export const getItems = (category) => {
+    return fetch(`${baseUrl}/api/products/${category}/`)
         .then(res => res.json())
 }
 
