@@ -1,4 +1,7 @@
 from pathlib import Path
+
+import cloudinary as cloudinary
+import cloudinary_storage
 import environ
 
 env = environ.Env()
@@ -17,7 +20,6 @@ SECRET_KEY = 'django-insecure-!h93gq@_^p9se+^k1=tfusk747ixc&)%1@nxi%j$1!ip98-*=$
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -57,7 +59,6 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny'],
 }
 
-
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'PC_shop_backend.urls'
@@ -81,12 +82,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'PC_shop_backend.wsgi.application'
 
-
-
 DATABASES = {
     'default': {
         # change sqlite3 for postgresql
-        'ENGINE':'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('DATABASE_NAME'),
         'USER': env('DATABASE_USER'),
         'PASSWORD': env('DATABASE_PASS'),
@@ -132,6 +131,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET'),
+}
+
+cloudinary.config(**CLOUDINARY_STORAGE)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
@@ -140,8 +149,8 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = "/media/"
+# MEDIA_ROOT = BASE_DIR / 'media'
+# MEDIA_URL = "/media/"
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
