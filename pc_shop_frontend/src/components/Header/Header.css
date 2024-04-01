@@ -10,47 +10,69 @@
 .navbar-element-container {
     max-width: var(--container-max-width);
     margin: 0 auto;
-}
-
-nav ul {
+    display: flex;
     list-style-type: none;
-    margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #C00000;
 }
 
-nav li {
-    float: right;
+.navbar-right-side {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0 10px;
+    justify-content: space-between;
 }
 
-nav li a {
-    display: block;
+.navbar-right-side a {
+    display: flex;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 10px 25px 10px 45px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 28px;
+    align-self: center;
+    align-items: center;
 }
 
-nav #home {
+.home {
     float: left;
-    font-weight: bold;
+    font-weight: 600;
+    margin-left: 1em;
 }
 
-#userName a {
-    font-size: 20px;
+.home a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 10px 10px;
+    font-size: 32px;
 }
 
-#userName:hover {
-    background-color: #C00000;
+.category-menu {
+    margin-left: 3.5em;
+    display: flex;
 }
 
-
-nav li:hover {
-    background-color: #111;
+.category-menu a{
+    display: flex;
+    text-decoration: none;
+    color: white;
+    padding: 8px;
+    font-size: 28px;
+    align-items: center;
+    align-self: center;
 }
 
-nav #home:hover {
-    background-color: transparent;
+.category-menu-text {
+    margin-left: 0.5em;
+}
+
+.search-bar-section {
+    margin: 0 auto;
+}
+
+.search-bar-section form input { 
+    width: 34em;
+    height: 2.2em;
 }

@@ -1,9 +1,11 @@
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faCartShopping, faUser, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCartShopping, faUser, faSignOut, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import './Header.css'
+import SearchForm from '../SearchForm/SearchForm'
 import { useContext } from 'react';
 import AuthContext from '../../contexts/AuthContext';
+import './Header.css';
 
 function Header() {
     const { user } = useContext(AuthContext);
@@ -12,66 +14,60 @@ function Header() {
         <header className="sticky-top">
             <nav className="navbar">
                 <div className="navbar-element-container">
-                    <ul>
-                        {user.token
-                            ?
+                    <div className="home">
+                        <Link to="/">ByteBazaar</Link>
+                    </div>
+                    <div className="category-menu">
+                        <Link to='#'>
+                            <FontAwesomeIcon icon={faBars} />
+                            <div className="category-menu-text">
+                                Menu
+                            </div>
+                        </Link>
+                    </div>
+                    <div className="search-bar-section">
+                        <SearchForm /> {/* Use the SearchForm component here */}
+                    </div>
+                    <div className="navbar-right-side">
+                        {user.token ? (
                             <>
-                                <li>
-                                    <Link to="/logout">
-                                        <FontAwesomeIcon icon={faSignOut} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/cart">
-                                        <FontAwesomeIcon icon={faCartShopping} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/likes">
-                                        <FontAwesomeIcon icon={faHeart} />
-                                    </Link>
-                                </li>
-                            </>
-                            :
-                            <>
-                                <li>
-                                    <Link to="/login">
-                                        <FontAwesomeIcon icon={faUser} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/cart">
-                                        <FontAwesomeIcon icon={faCartShopping} />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/likes">
-                                        <FontAwesomeIcon icon={faHeart} />
-                                    </Link>
-                                </li>
+                                <Link to="/logout">
+                                    <FontAwesomeIcon icon={faSignOut} />
+                                </Link>
+                                <Link to="/cart">
+                                    <FontAwesomeIcon icon={faCartShopping} />
+                                </Link>
+
+
+                                <Link to="/likes">
+                                    <FontAwesomeIcon icon={faHeart} />
+                                </Link>
 
                             </>
-                        }
+                        ) : (
+                            <>
+                                <Link to="/login">
+                                    <FontAwesomeIcon icon={faUser} />
+                                </Link>
 
-                        <li id="home">
-                            <Link to="/">ByteBazaar</Link>
-                        </li>
-                        {user.token
-                            ?
-                            <li id="userName">
-                                <Link to="/">Welcome, {user.username}!</Link>
-                            </li>
-                            :
-                            <></>
-                        }
 
-                    </ul>
+                                <Link to="/cart">
+                                    <FontAwesomeIcon icon={faCartShopping} />
+                                </Link>
+
+
+                                <Link to="/likes">
+                                    <FontAwesomeIcon icon={faHeart} />
+                                </Link>
+
+                            </>
+                        )}
+
+                    </div>
                 </div>
-
             </nav>
-        </header>
-    )
+        </header >
+    );
 }
-
 
 export default Header;
