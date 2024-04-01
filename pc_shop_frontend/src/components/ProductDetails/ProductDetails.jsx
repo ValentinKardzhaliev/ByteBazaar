@@ -31,7 +31,7 @@ function ProductDetails() {
                 setCurrentImages(productResult.images.slice(0, 5));
 
                 if (productResult.images && productResult.images.length > 0) {
-                    setImagePath(`http://localhost:8000${productResult.images[0].image}`);
+                    setImagePath(`${productResult.images[0].image}`);
                 }
                 setIsLiked(likedResult.liked_products.some((likedProduct) => likedProduct._id === productResult._id));
             }).catch((err) => console.log(err));
@@ -139,7 +139,7 @@ function ProductDetails() {
                             currentImages.map((image, index) => (
                                 <img
                                     key={index}
-                                    src={`http://localhost:8000${image.image}`}
+                                    src={`${image.image}`}
                                     alt={`Product Image ${index}`}
                                     onClick={(e) => changeImageWhenClick(e)}
                                 />
