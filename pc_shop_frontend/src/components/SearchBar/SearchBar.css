@@ -1,70 +1,9 @@
-.search-bar-section {
-    text-align: center;
-    background-color: black;
-    position: relative;
-    height: 30em;
+.first-image-container {
+    display: flex;
+    justify-content: center;
 }
 
-.search-bar-section img {
-    width: 45em;
-    height: auto;
-    z-index: -1;
-}
-
-.center-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 35px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
-.form-content {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0.1em;
-    border-radius: 25px;
-}
-
-.form-content input {
-    width: 40%;
-    padding: 0.6em;
-    box-sizing: border-box;
-    font-size: 16px;
-    border: none;
-    border-radius: 3em;
-}
-
-.form-content button {
-    width: 2.5em;
-    height: 2em;
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    top: 50%;
-    left: -0.5%;
-    transform: translate(-105%, 10%);
-}
-
-.form-content button::before {
-    content: "\f002";
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    font-size: 20px;
-    color: transparent;
-}
-
-.form-content:hover button::before {
-    color: black; /* Change the color on hover over the form */
-}
-
-.form-content button span {
-    display: none;
+.home-page-first-image {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
 }

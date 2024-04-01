@@ -11,60 +11,63 @@ function Header() {
     return (
         <header className="sticky-top">
             <nav className="navbar">
-                <ul>
-                    {user.token
-                        ?
-                        <>
-                            <li>
-                                <Link to="/logout">
-                                    <FontAwesomeIcon icon={faSignOut} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/cart">
-                                    <FontAwesomeIcon icon={faCartShopping} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/likes">
-                                    <FontAwesomeIcon icon={faHeart} />
-                                </Link>
-                            </li>
-                        </>
-                        :
-                        <>
-                            <li>
-                                <Link to="/login">
-                                    <FontAwesomeIcon icon={faUser} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/cart">
-                                    <FontAwesomeIcon icon={faCartShopping} />
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/likes">
-                                    <FontAwesomeIcon icon={faHeart} />
-                                </Link>
-                            </li>
+                <div className="navbar-element-container">
+                    <ul>
+                        {user.token
+                            ?
+                            <>
+                                <li>
+                                    <Link to="/logout">
+                                        <FontAwesomeIcon icon={faSignOut} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/cart">
+                                        <FontAwesomeIcon icon={faCartShopping} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/likes">
+                                        <FontAwesomeIcon icon={faHeart} />
+                                    </Link>
+                                </li>
+                            </>
+                            :
+                            <>
+                                <li>
+                                    <Link to="/login">
+                                        <FontAwesomeIcon icon={faUser} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/cart">
+                                        <FontAwesomeIcon icon={faCartShopping} />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/likes">
+                                        <FontAwesomeIcon icon={faHeart} />
+                                    </Link>
+                                </li>
 
-                        </>
-                    }
+                            </>
+                        }
 
-                    <li id="home">
-                        <Link to="/">ByteBazaar</Link>
-                    </li>
-                    {user.token
-                        ?
-                        <li id="userName">
-                            <Link to="/">Welcome, {user.username}!</Link>
+                        <li id="home">
+                            <Link to="/">ByteBazaar</Link>
                         </li>
-                        :
-                        <></>
-                    }
+                        {user.token
+                            ?
+                            <li id="userName">
+                                <Link to="/">Welcome, {user.username}!</Link>
+                            </li>
+                            :
+                            <></>
+                        }
 
-                </ul>
+                    </ul>
+                </div>
+
             </nav>
         </header>
     )

@@ -4,7 +4,12 @@
     background-color: #C00000;
     /* Add a background color as needed */
     z-index: 100;
-    /* Adjust z-index as needed */
+    margin-bottom: 1em;
+}    
+
+.navbar-element-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
 }
 
 nav ul {
