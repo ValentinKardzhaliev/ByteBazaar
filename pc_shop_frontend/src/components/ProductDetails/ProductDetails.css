@@ -142,9 +142,10 @@
     margin-top: 20px;
 }
 
-.full-characteristics h2 {
+.full-characteristics h1 {
     color: #333;
     text-align: center;
+    margin: 2em 0;
 }
 
 .full-characteristics-link:link,

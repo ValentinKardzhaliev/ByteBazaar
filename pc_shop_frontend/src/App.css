@@ -27,12 +27,14 @@ body {
   font-size: 14px;
 }
 
-.topOffers {
-  transform: rotate(-8.73deg);
-  margin-top: 1em;
+.trending-offers-container {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.trending-offers {
   color: rgb(0, 0, 0);
-  font-size: 3.5em;
-  margin-left: 0.7em;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  width: 7em;
+  font-size: 32px;
+  margin-top: 1.5em;
 }

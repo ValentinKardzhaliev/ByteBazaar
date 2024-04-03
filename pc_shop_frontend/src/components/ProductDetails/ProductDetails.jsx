@@ -106,7 +106,7 @@ function ProductDetails() {
         const handleViewFullCharacteristics = (e) => {
             e.preventDefault();
             const fullCharacteristicsSection = document.querySelector("#fullCharacteristics");
-            const h2Element = fullCharacteristicsSection.querySelector("h2");
+            const h2Element = fullCharacteristicsSection.querySelector("h1");
             const headerHeight = document.querySelector("header").offsetHeight;
 
             window.scrollTo({
@@ -194,7 +194,7 @@ function ProductDetails() {
 
             <div className="full-characteristics" id="fullCharacteristics">
 
-                <h2>Full Characteristics</h2>
+                <h1>Full Characteristics</h1>
 
                 {/* <p><strong>Description: </strong>{product.description}</p> */}
 
@@ -204,7 +204,7 @@ function ProductDetails() {
                             {/* Iterating over all keys and displaying key-value pairs */}
                             {productKeys.map((key, index) => (
                                 <tr key={key} className={index % 2 === 0 ? "even-row" : "odd-row"}>
-                                    <td><strong>{key}</strong></td>
+                                    <td>{key}</td>
                                     <td>
                                         {productWithoutSpecificProperties[key] === false ? <span><FontAwesomeIcon
                                             icon={faX}

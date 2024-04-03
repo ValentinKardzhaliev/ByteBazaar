@@ -29,7 +29,9 @@ function App() {
                             <Route path='/' element={
                                 <>
                                     <HomePageImage />
-                                    <h1 className='topOffers'>TOP OFFERS!!!</h1>
+                                    <div className="trending-offers-container">
+                                        <p className='trending-offers'>Trending Offers</p>
+                                    </div>
                                     <ProductList />
                                 </>
                             } />
@@ -40,7 +42,7 @@ function App() {
                             <Route path='/search/:searchParams' element={
                                 <>
                                     <HomePageImage />
-                                    <h1 className='topOffers'>TOP OFFERS!!!</h1>
+
                                     <SearchProductList />
                                 </>
                             } />
