@@ -7,7 +7,7 @@ import "./ProductDetails.css";
 import { characteristicsLogic } from "../../utils/characteristicsLogic";
 import AuthContext from "../../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 
 function ProductDetails() {
     window.scrollTo(0, 0);
@@ -96,7 +96,10 @@ function ProductDetails() {
 
     }
     let characteristics = characteristicsLogic({ product });
+    const { images, name, _id, type, price, description, is_available, created_at, modified_at,
+        ...productWithoutSpecificProperties } = product;
 
+    const productKeys = Object.keys(productWithoutSpecificProperties);
 
     useEffect(() => {
         // Event listener for the 'View Full Characteristics' link
@@ -163,6 +166,7 @@ function ProductDetails() {
                     <a href="#fullCharacteristics" className="full-characteristics-link">
                         View Full Characteristics
                     </a>
+                    <hr className="characteristics-price-divider"/>
 
                     <p className="price-container">
                         <span className="price">Price: {product.price}$</span>
@@ -186,7 +190,7 @@ function ProductDetails() {
                 </div>
             </div>
 
-            <hr className="section-divider" />
+            <hr className="characteristics-divider" />
 
             <div className="full-characteristics" id="fullCharacteristics">
 
@@ -194,14 +198,29 @@ function ProductDetails() {
 
                 {/* <p><strong>Description: </strong>{product.description}</p> */}
 
-
-                <ul>
-
-                    {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
-
-
-                </ul>
-
+                <div className="characteristics-table">
+                    <table className="product-table">
+                        <tbody>
+                            {/* Iterating over all keys and displaying key-value pairs */}
+                            {productKeys.map((key, index) => (
+                                <tr key={key} className={index % 2 === 0 ? "even-row" : "odd-row"}>
+                                    <td><strong>{key}</strong></td>
+                                    <td>
+                                        {productWithoutSpecificProperties[key] === false ? <span><FontAwesomeIcon
+                                            icon={faX}
+                                            className="product-details-x-icon"
+                                        /></span> :
+                                            productWithoutSpecificProperties[key] === true ? <span><FontAwesomeIcon
+                                                icon={faCheck}
+                                                className="product-details-check-icon"
+                                            /></span> :
+                                                <span>{productWithoutSpecificProperties[key]}</span>}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
         </>
