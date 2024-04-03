@@ -157,10 +157,8 @@ function ProductDetails() {
 
                     <div className="characteristics">
                         <h2>Basic Characteristics</h2>
-                        <p>{product.processor}</p>
-                        <p>{product.graphics}</p>
-                        <p>{product.memory}</p>
-                        <p>{product.storage}</p>
+                        {characteristics[typeOfProduct].map((c, index) => <p key={index}>{c}</p>)}
+
                     </div>
                     <a href="#fullCharacteristics" className="full-characteristics-link">
                         View Full Characteristics
@@ -193,7 +191,9 @@ function ProductDetails() {
             <div className="full-characteristics" id="fullCharacteristics">
 
                 <h2>Full Characteristics</h2>
-                <p><strong>Description: </strong>{product.description}</p>
+
+                {/* <p><strong>Description: </strong>{product.description}</p> */}
+
 
                 <ul>
 
