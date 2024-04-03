@@ -14,6 +14,12 @@ class Computer(Product):
         ('bluetooth', 'Bluetooth'),
     ]
 
+    COOLING_CHOICES = [
+        ('air', 'Air Cooling'),
+        ('liquid', 'Liquid Cooling'),
+        ('passive', 'Passive Cooling'),
+    ]
+
     processor = models.CharField(max_length=50)
     graphics = models.CharField(max_length=50)
     memory = models.CharField(max_length=50)
@@ -25,7 +31,7 @@ class Computer(Product):
     power_supply = models.CharField(max_length=200, blank=True, null=True)
     operating_system = models.CharField(max_length=200, blank=True, null=True)
     case = models.CharField(max_length=200, blank=True, null=True)
-    cooling_solution = models.CharField(max_length=200, blank=True, null=True)
+    cooling_solution = models.CharField(max_length=20, choices=COOLING_CHOICES, blank=True, null=True)
     network = models.CharField(max_length=20, choices=NETWORK_CHOICES, blank=True, null=True)
 
     def __str__(self):
