@@ -20,8 +20,7 @@ function CatalogList() {
                 stopLoading();
             })
             .catch((err) => console.log(err));
-    }, [])
-
+    }, [category])
 
     return (
         <>

@@ -34,8 +34,8 @@ function Header() {
                                 {/* Your dropdown menu content here */}
                                 <Link to="/catalog/computers" onClick={toggleMenu}>Computers</Link>
                                 <Link to="/catalog/monitors" onClick={toggleMenu}>Monitors</Link>
-                                <Link to="/catalog/periphery">Periphery</Link>
-                                <Link to="/catalog/accessories">Accessories</Link>
+                                <Link to="#">Periphery</Link>
+                                <Link to="#">Accessories</Link>
                                 {/*<Link to="/catalog/others">Others</Link>*/}
                             </div>
                         )}
