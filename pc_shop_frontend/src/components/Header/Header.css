@@ -87,19 +87,17 @@
     display: block;
     position: absolute;
     top: 100%;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 1000; /* Ensure it's above other content */
+    background-color: #C00000;
+    padding: 8px;
+    z-index: 1000;
+    /* Ensure it's above other content */
 }
 
 .category-menu-content a {
     display: block;
-    padding: 5px 0;
+    padding: 7px;
+    font-size: 20px;
     text-decoration: none;
-    color: #333;
-}
-
-.category-menu-content a:hover {
-    background-color: #f0f0f0;
+    color: #ffffff;
+    
 }

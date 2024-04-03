@@ -11,9 +11,8 @@ function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
+        setIsMenuOpen(prev => !prev);
     };
-
 
 
     return (
@@ -33,9 +32,11 @@ function Header() {
                         {isMenuOpen && (
                             <div className="category-menu-content">
                                 {/* Your dropdown menu content here */}
-                                <Link to="/category1">Category 1</Link>
-                                <Link to="/category2">Category 2</Link>
-                                <Link to="/category3">Category 3</Link>
+                                <Link to="/catalog/computers" onClick={toggleMenu}>Computers</Link>
+                                <Link to="/catalog/monitors" onClick={toggleMenu}>Monitors</Link>
+                                <Link to="/catalog/periphery">Periphery</Link>
+                                <Link to="/catalog/accessories">Accessories</Link>
+                                {/*<Link to="/catalog/others">Others</Link>*/}
                             </div>
                         )}
                     </div>
