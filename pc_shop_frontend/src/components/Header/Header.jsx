@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartShopping, faUser, faSignOut, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import SearchForm from '../SearchForm/SearchForm'
-import { useContext } from 'react';
 import AuthContext from '../../contexts/AuthContext';
 import './Header.css';
 
 function Header() {
     const { user } = useContext(AuthContext);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+
 
     return (
         <header className="sticky-top">
@@ -18,12 +24,20 @@ function Header() {
                         <Link to="/">ByteBazaar</Link>
                     </div>
                     <div className="category-menu">
-                        <Link to='#'>
+                        <div onClick={toggleMenu} className="category-menu-dropdown">
                             <FontAwesomeIcon icon={faBars} />
                             <div className="category-menu-text">
                                 Menu
                             </div>
-                        </Link>
+                        </div>
+                        {isMenuOpen && (
+                            <div className="category-menu-content">
+                                {/* Your dropdown menu content here */}
+                                <Link to="/category1">Category 1</Link>
+                                <Link to="/category2">Category 2</Link>
+                                <Link to="/category3">Category 3</Link>
+                            </div>
+                        )}
                     </div>
                     <div className="search-bar-section">
                         <SearchForm />

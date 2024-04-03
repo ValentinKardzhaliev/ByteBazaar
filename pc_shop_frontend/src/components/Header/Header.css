@@ -54,7 +54,7 @@
     display: flex;
 }
 
-.category-menu a {
+.category-menu-dropdown {
     display: flex;
     text-decoration: none;
     color: white;
@@ -80,4 +80,26 @@
 .search-bar-section form input::placeholder {
     margin-left: 0.2em;
     font-size: 16px;
+}
+
+
+.category-menu-content {
+    display: block;
+    position: absolute;
+    top: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.category-menu-content a {
+    display: block;
+    padding: 5px 0;
+    text-decoration: none;
+    color: #333;
+}
+
+.category-menu-content a:hover {
+    background-color: #f0f0f0;
 }
