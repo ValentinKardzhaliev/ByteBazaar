@@ -15,7 +15,6 @@ class Computer(Product):
 
     # Additional specifications
     cooler = models.CharField(max_length=200, blank=True, null=True)
-    video_card = models.CharField(max_length=200, blank=True, null=True)
     motherboard = models.CharField(max_length=200, blank=True, null=True)
     power_supply = models.CharField(max_length=200, blank=True, null=True)
     operating_system = models.CharField(max_length=200, blank=True, null=True)
