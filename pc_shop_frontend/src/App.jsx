@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header/Header.jsx';
 import ProductList from './components/ProductList/ProductList.jsx';
-import SearchBar from './components/SearchBar/SearchBar.jsx';
+import HomePageImage from './components/HomePageImage/HomePageImage.jsx';
 import { ProductProvider } from './contexts/ProductContext.jsx';
 import Login from './components/Login/Login.jsx';
 import { AuthProvider } from './contexts/AuthContext.jsx';
@@ -28,7 +28,7 @@ function App() {
                         <Routes>
                             <Route path='/' element={
                                 <>
-                                    <SearchBar />
+                                    <HomePageImage />
                                     <h1 className='topOffers'>TOP OFFERS!!!</h1>
                                     <ProductList />
                                 </>
@@ -39,7 +39,7 @@ function App() {
                             } />
                             <Route path='/search/:searchParams' element={
                                 <>
-                                    <SearchBar />
+                                    <HomePageImage />
                                     <h1 className='topOffers'>TOP OFFERS!!!</h1>
                                     <SearchProductList />
                                 </>

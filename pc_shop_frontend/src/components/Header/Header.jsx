@@ -26,7 +26,7 @@ function Header() {
                         </Link>
                     </div>
                     <div className="search-bar-section">
-                        <SearchForm /> {/* Use the SearchForm component here */}
+                        <SearchForm />
                     </div>
                     <div className="navbar-right-side">
                         {user.token ? (

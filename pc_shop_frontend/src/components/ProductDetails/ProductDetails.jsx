@@ -53,7 +53,7 @@ function ProductDetails() {
 
                     // Set imagePath to the first image in the product.images array
                     if (result.images && result.images.length > 0) {
-                        setImagePath(`http://localhost:8000${result.images[0].image}`);
+                        setImagePath(`${result.images[0].image}`);
                     }
                 })
                 .catch((err) => console.log(err));

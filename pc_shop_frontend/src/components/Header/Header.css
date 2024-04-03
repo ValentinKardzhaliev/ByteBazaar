@@ -5,7 +5,7 @@
     /* Add a background color as needed */
     z-index: 100;
     margin-bottom: 1em;
-}    
+}
 
 .navbar-element-container {
     max-width: var(--container-max-width);
@@ -54,7 +54,7 @@
     display: flex;
 }
 
-.category-menu a{
+.category-menu a {
     display: flex;
     text-decoration: none;
     color: white;
@@ -72,7 +72,12 @@
     margin: 0 auto;
 }
 
-.search-bar-section form input { 
+.search-bar-section form input {
     width: 34em;
     height: 2.2em;
+}
+
+.search-bar-section form input::placeholder {
+    margin-left: 0.2em;
+    font-size: 16px;
 }
