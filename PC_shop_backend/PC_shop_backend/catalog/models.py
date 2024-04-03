@@ -8,6 +8,12 @@ class Computer(Product):
         super().__init__(*args, **kwargs)
         self.type = 'computer'
 
+    NETWORK_CHOICES = [
+        ('ethernet', 'Ethernet'),
+        ('wifi', 'Wi-Fi'),
+        ('bluetooth', 'Bluetooth'),
+    ]
+
     processor = models.CharField(max_length=50)
     graphics = models.CharField(max_length=50)
     memory = models.CharField(max_length=50)
@@ -18,6 +24,9 @@ class Computer(Product):
     motherboard = models.CharField(max_length=200, blank=True, null=True)
     power_supply = models.CharField(max_length=200, blank=True, null=True)
     operating_system = models.CharField(max_length=200, blank=True, null=True)
+    case = models.CharField(max_length=200, blank=True, null=True)
+    cooling_solution = models.CharField(max_length=200, blank=True, null=True)
+    network = models.CharField(max_length=20, choices=NETWORK_CHOICES, blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} - {self.processor} - {self.memory} - {self.storage}"
@@ -60,8 +69,6 @@ class Keyboard(Product):
     backlight = models.BooleanField(default=False)
     color = models.CharField(max_length=20, blank=True, null=True)
     wireless = models.BooleanField(default=False)
-
-    # Additional specifications
     format = models.CharField(
         max_length=20,
         choices=[
@@ -73,6 +80,8 @@ class Keyboard(Product):
             ('keypad', 'Keypad'),
         ]
     )
+
+    # Additional specifications
     layout = models.CharField(max_length=20, choices=[('ansi', 'ANSI'), ('iso', 'ISO')], default='ansi')
     polling_rate_hz = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,
                                           help_text="Polling rate in Hz")
