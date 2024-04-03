@@ -5,7 +5,7 @@ from PC_shop_backend.common.models import Product
 
 class Computer(Product):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)  # Call the superclass constructor
+        super().__init__(*args, **kwargs)
         self.type = 'computer'
 
     processor = models.CharField(max_length=50)
@@ -25,15 +25,15 @@ class Computer(Product):
 
 class Monitor(Product):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)  # Call the superclass constructor
+        super().__init__(*args, **kwargs)
         self.type = 'monitor'
-
 
     resolution = models.CharField(max_length=20)
     refresh_rate = models.CharField(max_length=10)
     panel_type = models.CharField(max_length=20)
     size = models.CharField(max_length=5)
 
+    # Additional specifications
     aspect_ratio = models.CharField(max_length=10, blank=True, null=True)
     response_time = models.CharField(max_length=10, blank=True, null=True)
     curvature = models.BooleanField(default=False)
@@ -46,7 +46,7 @@ class Monitor(Product):
 
 class Keyboard(Product):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)  # Call the superclass constructor
+        super().__init__(*args, **kwargs)
         self.type = 'keyboard'
 
     key_switch_type = models.CharField(
@@ -55,12 +55,29 @@ class Keyboard(Product):
             ('membrane', 'Membrane'),
             ('mechanical', 'Mechanical'),
             ('scissor', 'Scissor'),
-            # Add more types as needed
         ]
     )
     backlight = models.BooleanField(default=False)
-    color = models.CharField(max_length=20, blank=True, null=True)  # Overall keyboard color
+    color = models.CharField(max_length=20, blank=True, null=True)
     wireless = models.BooleanField(default=False)
+
+    # Additional specifications
+    format = models.CharField(
+        max_length=20,
+        choices=[
+            ('full_size', 'Full size'),
+            ('tenkeyless', 'Tenkeyless (TKL)'),
+            ('compact_75', 'Compact (75%)'),
+            ('compact_65', 'Compact (65%)'),
+            ('mini_60', 'Mini (60%)'),
+            ('keypad', 'Keypad'),
+        ]
+    )
+    layout = models.CharField(max_length=20, choices=[('ansi', 'ANSI'), ('iso', 'ISO')], default='ansi')
+    polling_rate_hz = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,
+                                          help_text="Polling rate in Hz")
+    brand = models.CharField(max_length=100, blank=True, null=True, help_text="Brand of the keyboard")
+    key_rollover = models.IntegerField(blank=True, null=True, help_text="Key rollover (N-key rollover)")
 
     def __str__(self):
         backlight_info = 'Backlight' if self.backlight else 'Not Backlit'
