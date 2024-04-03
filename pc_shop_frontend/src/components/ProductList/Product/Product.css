@@ -4,7 +4,7 @@
     background-color: #fff;
     margin: 0 0.6em 1.4em 0.6em;
     width: 25%;
-    padding: 2.1em; 
+    padding: 2.1em;
     position: relative;
     flex-direction: column;
     height: auto;
@@ -19,7 +19,7 @@
 }
 
 .product-details {
-    padding: 0.2em; 
+    padding: 0.2em;
 }
 
 .product-name {
@@ -28,15 +28,17 @@
     font-size: 1.7em;
     color: #C00000;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Adjust the number of lines to display */
+    -webkit-line-clamp: 2;
+    /* Adjust the number of lines to display */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
 .characteristics {
+    line-height: 1.4em;
     color: #000000;
     list-style-type: disc;
-    font-size: 1.3em; 
+    font-size: 1.3em;
     padding: 0.5em;
     display: flex;
     flex-direction: column;
@@ -66,4 +68,3 @@
     top: 1.5em;
     left: 1.4em;
 }
-
