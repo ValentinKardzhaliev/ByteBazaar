@@ -74,16 +74,16 @@
     font-size: 22px;
 }
 
-.characteristics {
+.product-details-characteristics {
     margin-top: 15px;
 }
 
-.characteristics h2 {
+.product-details-characteristics h2 {
     margin-left: -10px;
     font-size: 24px;
 }
 
-.characteristics p {
+.product-details-characteristics p {
     font-family: Montserrat-Light;
     margin-left: 3%;
     margin-top: -5px;
@@ -154,7 +154,7 @@
     text-decoration: none;
 }
 
-.characteristics p::before {
+.product-details-characteristics p::before {
     content: '\f00c';
     font-family: 'Font Awesome 6 Free';
     color: #C00000;

@@ -158,7 +158,7 @@ function ProductDetails() {
                 <div className="product-details-detailsPage">
                     <h1 className="product-name-detailsPage">{product.name}</h1>
 
-                    <div className="characteristics">
+                    <div className="product-details-characteristics">
                         <h2>Basic Characteristics</h2>
                         {characteristics[typeOfProduct].map((c, index) => <p key={index}>{c}</p>)}
 

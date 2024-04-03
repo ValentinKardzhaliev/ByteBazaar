@@ -9,18 +9,21 @@ function Product(props) {
     const firstImage = props.product.images.length > 0 ? (
         <img src={`${props.product.images[0].image}`} alt="Product Image" className="product-image" />
     ) : null;
+    const roundedProductPrice = Math.round(props.product.price)
 
     return (
         <li className="product-item">
             {firstImage}
             <div className="product-details">
                 <h2 className="product-name">{props.product.name}</h2>
-                <ul className='characteristics'>
+                <ul className="characteristics">
                     {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
                 </ul>
             </div>
-            <span className="product-price"><p>$ {props.product.price}</p></span>
-            <Link to={`/products/${props.product.type}/${props.product._id}`} className="details-link">Details</Link>
+            <span className="product-price"><p>{roundedProductPrice}$</p></span>
+            <div className="details-link-container">
+                <Link to={`/products/${props.product.type}/${props.product._id}`} className="details-link">Details</Link>
+            </div>
         </li>
     );
 }

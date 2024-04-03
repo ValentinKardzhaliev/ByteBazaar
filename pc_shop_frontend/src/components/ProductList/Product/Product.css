@@ -1,16 +1,17 @@
 .product-item {
-    border: 1px solid #ccc;
     overflow: hidden;
     background-color: #fff;
     margin: 0 0.6em 1.4em 0.6em;
-    width: 25%;
-    padding: 2.1em;
+    width: 20%;
+    padding: 20px 12px 12px 12px;
     position: relative;
     flex-direction: column;
     height: auto;
     display: inline-flex;
     align-items: flex-start;
     overflow: hidden;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
 }
 
 .product-image {
@@ -24,47 +25,53 @@
 
 .product-name {
     font-family: Montserrat-Bold;
-    margin: 0 0 0.7143em;
     font-size: 1.7em;
+    margin-bottom: 0;
     color: #C00000;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    /* Adjust the number of lines to display */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
 .characteristics {
+    margin-top: 12px;
     line-height: 1.4em;
     color: #000000;
     list-style-type: disc;
     font-size: 1.3em;
-    padding: 0.5em;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    padding-left: 30px;
 }
 
 .product-price {
+    margin-top: auto;
     color: black;
-    font-size: 1.4em;
-    margin-bottom: 0.7em;
-    position: absolute;
-    bottom: 0;
-    left: 1.1em;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 600;
+}
+
+.product-price p {
+    margin-top: 12px;
+}
+
+.details-link-container {
+    margin-top: 2px;
+    margin-bottom: 12px;
+    
 }
 
 .details-link {
     background-color: #C00000;
     color: #fff;
-    padding: 0.6em 1.1em;
     cursor: pointer;
+    padding: 10px 20px 10px 20px;
     font-size: 1.1em;
     text-decoration: none;
     transition: background-color 0.3s, color 0.3s;
     align-self: flex-end;
-    position: relative;
-    margin-top: auto;
-    top: 1.5em;
-    left: 1.4em;
+    font-weight: 700;
 }
