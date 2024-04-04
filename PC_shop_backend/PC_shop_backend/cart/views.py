@@ -2,6 +2,7 @@ import uuid
 
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
@@ -26,7 +27,7 @@ def get_or_create_user_cart(request):
     if request.user.is_authenticated:
         user_cart, created = Cart.objects.get_or_create(user=request.user)
     else:
-        token = uuid.uuid5(uuid.NAMESPACE_DNS, request.META.get('REMOTE_ADDR'))  # Generate token based on IP address
+        token = uuid.uuid5(uuid.NAMESPACE_DNS, request.META.get('REMOTE_ADDR'))
         user_cart, created = Cart.objects.get_or_create(token=token)
         if created:
             user_cart.token = token
@@ -180,16 +181,26 @@ class OrderCreateView(APIView):
 
         serializer = OrderSerializer(data=order_data)
         if serializer.is_valid():
-            serializer.save()  # Move this line here
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class OrderDetailView(APIView):
-    def get(self, request, order_id):
-        try:
-            order = Order.objects.get(pk=order_id)
-            serializer = OrderSerializer(order)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Order.DoesNotExist:
-            return Response({'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
+class OrderListView(ListAPIView):
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Order.objects.filter(user=user)
+        else:
+            remote_addr = self.request.META.get('REMOTE_ADDR')
+            if remote_addr:
+                token = uuid.uuid5(uuid.NAMESPACE_DNS, remote_addr)
+                try:
+                    cart = Cart.objects.get(token=token)
+                    return Order.objects.filter(cart=cart)
+                except Cart.DoesNotExist:
+                    return Order.objects.none()
+            else:
+                return Order.objects.none()

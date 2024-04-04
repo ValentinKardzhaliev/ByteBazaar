@@ -7,6 +7,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = ['id', 'product_type', 'product_id', 'quantity']
 
+
 class CartSerializer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True)
     token = serializers.UUIDField(read_only=True)
@@ -34,6 +35,8 @@ class CartSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    token = serializers.UUIDField(allow_null=True)
+
     class Meta:
         model = Order
         fields = '__all__'
