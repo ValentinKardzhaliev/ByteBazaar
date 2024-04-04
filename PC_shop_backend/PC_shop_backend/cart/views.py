@@ -4,9 +4,10 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
 
-from PC_shop_backend.cart.models import CartItem, Cart
-from PC_shop_backend.cart.serializers import CartSerializer
+from PC_shop_backend.cart.models import CartItem, Cart, Order
+from PC_shop_backend.cart.serializers import CartSerializer, OrderSerializer
 from PC_shop_backend.common.models import Product
 from PC_shop_backend.common.serializers import ProductSerializer
 
@@ -145,3 +146,44 @@ def decrease_quantity(request, product_id):
         return Response({'message': 'Quantity decreased successfully'}, status=status.HTTP_200_OK)
     else:
         return Response({'message': 'Quantity cannot be decreased below 1'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OrderCreateView(APIView):
+    def post(self, request):
+        cart_id = request.data.get('cart')
+        shipping_address = request.data.get('shipping_address')
+        payment_info = request.data.get('payment_info')
+
+        try:
+            cart = Cart.objects.get(pk=cart_id)
+        except Cart.DoesNotExist:
+            return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if cart.user_id:
+            user = cart.user_id
+        else:
+            user = None
+
+        order_data = {
+            'user': user,
+            'cart': cart_id,
+            'shipping_fee': 7.00,
+            'shipping_address': shipping_address,
+            'payment_info': payment_info
+        }
+
+        serializer = OrderSerializer(data=order_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OrderDetailView(APIView):
+    def get(self, request, order_id):
+        try:
+            order = Order.objects.get(pk=order_id)
+            serializer = OrderSerializer(order)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Order.DoesNotExist:
+            return Response({'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
