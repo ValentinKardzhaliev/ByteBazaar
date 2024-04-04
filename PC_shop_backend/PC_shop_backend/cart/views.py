@@ -161,20 +161,26 @@ class OrderCreateView(APIView):
 
         if cart.user_id:
             user = cart.user_id
+            order_data = {
+                'user': user,
+                'cart': cart_id,
+                'shipping_fee': 7.00,
+                'shipping_address': shipping_address,
+                'payment_info': payment_info
+            }
         else:
-            user = None
-
-        order_data = {
-            'user': user,
-            'cart': cart_id,
-            'shipping_fee': 7.00,
-            'shipping_address': shipping_address,
-            'payment_info': payment_info
-        }
+            token = cart.token
+            order_data = {
+                'cart': cart_id,
+                'token': token,
+                'shipping_fee': 7.00,
+                'shipping_address': shipping_address,
+                'payment_info': payment_info
+            }
 
         serializer = OrderSerializer(data=order_data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save()  # Move this line here
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
