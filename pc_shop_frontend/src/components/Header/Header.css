@@ -102,3 +102,31 @@
     color: #ffffff;
     
 }
+.category-menu-content a:hover {
+    background-color: #c82727;
+    
+}
+.category-periphery-menu-content {
+    display: block;
+    position: absolute;
+    top: 100%;
+    background-color: #C00000;
+    padding: 8px;
+    z-index: 1000;
+    margin-left: 145px;
+    margin-top: 110px;
+    /* Ensure it's above other content */
+}
+
+.category-periphery-menu-content a {
+    display: block;
+    padding: 7px;
+    font-size: 20px;
+    text-decoration: none;
+    color: #ffffff;
+    
+}
+.category-periphery-menu-content a:hover {
+    background-color: #c82727;
+    
+}
