@@ -132,6 +132,7 @@ function Cart() {
 
                             </div>
                         ))}
+
                     </div>
                     <div className="shipping-fee-container">
                         <h3 className='shipping-fee-label'>Shipping fee:</h3>
