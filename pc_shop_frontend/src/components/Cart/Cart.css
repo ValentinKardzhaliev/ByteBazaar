@@ -124,6 +124,14 @@
     height: 30em;
 }
 
+.calculation-all-products::-webkit-scrollbar {
+    width: 15px;
+}
+
+.calculation-all-products::-webkit-scrollbar-thumb {
+    background-color: #aeaeae;
+}
+
 .calculation-item-container {
     display: flex;
     flex-direction: column;
