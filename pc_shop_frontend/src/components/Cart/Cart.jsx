@@ -120,17 +120,19 @@ function Cart() {
             </div>
             <div className="buy-section">
                 <div className='price-calculation-section'>
-                    {cartItems.map((item) => (
-                        <div key={item.product.name} className='calculation-item-container'>
-                            <div className='calculation-item'>
-                                <img src={`${item.product.images[0].image}`} alt={item.product.name} className='calculation-item-image' />
-                                <span className='calculation-item-price'>{item.product.price * item.quantity}$</span>
+                    <div className="calculation-all-products">
+                        {cartItems.map((item) => (
+                            <div key={item.product.name} className='calculation-item-container'>
+                                <div className='calculation-item'>
+                                    <img src={`${item.product.images[0].image}`} alt={item.product.name} className='calculation-item-image' />
+                                    <span className='calculation-item-price'>{item.product.price * item.quantity}$</span>
+
+                                </div>
+                                <FontAwesomeIcon icon={faPlus} className='and-icon' />
 
                             </div>
-                            <FontAwesomeIcon icon={faPlus} className='and-icon' />
-
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                     <div className="shipping-fee-container">
                         <h3 className='shipping-fee-label'>Shipping fee:</h3>
                         <span className="shipping-fee">7$</span>
