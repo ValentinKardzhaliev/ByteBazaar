@@ -78,29 +78,53 @@ const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
                 onChange={(e) => updateFilters('size', e.target.value)}
             />
 
-            <label htmlFor="min_price">Min Price:</label>
-            <input
-                type="range"
-                id="min_price"
-                min="0"
-                max="800"  // Adjust the max value as needed
-                step="50"   // Adjust the step value as needed
-                value={appliedFilters.min_price}
-                onChange={(e) => updateFilters('min_price', e.target.value)}
-            />
-            <span>{appliedFilters.min_price}</span>
-
-            <label htmlFor="max_price">Max Price:</label>
-            <input
-                type="range"
-                id="max_price"
-                min="0"
-                max="800"  // Adjust the max value as needed
-                step="50"   // Adjust the step value as needed
-                value={appliedFilters.max_price}
-                onChange={(e) => updateFilters('max_price', e.target.value)}
-            />
-            <span>{appliedFilters.max_price}</span>
+            <label htmlFor="price_range">Price Range:</label>
+            <div className="range_container">
+                <div className="sliders_control">
+                    <input
+                        id="fromSlider"
+                        type="range"
+                        value={appliedFilters.min_price}
+                        min="0"
+                        max="800"
+                        onChange={(e) => updateFilters('min_price', e.target.value)}
+                    />
+                    <input
+                        id="toSlider"
+                        type="range"
+                        value={appliedFilters.max_price}
+                        min="0"
+                        max="800"
+                        onChange={(e) => updateFilters('max_price', e.target.value)}
+                    />
+                </div>
+                <div className="form_control">
+                    <div className="form_control_container">
+                        <div className="form_control_container__time">Min</div>
+                        <input
+                            className="form_control_container__time__input"
+                            type="number"
+                            id="fromInput"
+                            value={appliedFilters.min_price}
+                            min="0"
+                            max="800"
+                            onChange={(e) => updateFilters('min_price', e.target.value)}
+                        />
+                    </div>
+                    <div className="form_control_container">
+                        <div className="form_control_container__time">Max</div>
+                        <input
+                            className="form_control_container__time__input"
+                            type="number"
+                            id="toInput"
+                            value={appliedFilters.max_price}
+                            min="0"
+                            max="800"
+                            onChange={(e) => updateFilters('max_price', e.target.value)}
+                        />
+                    </div>
+                </div>
+            </div>
 
             <button onClick={applyFilters}>Apply Filters</button>
         </div>
