@@ -73,4 +73,7 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Order #{self.id} - {self.user.username}"
+        if self.user:
+            return f"Order #{self.id} - {self.user.username}"
+        else:
+            return f"Order #{self.id} - Anonymous User"
