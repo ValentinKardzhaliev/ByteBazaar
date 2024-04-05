@@ -74,31 +74,28 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
                 onChange={(e) => updateFilters('color', e.target.value)}
             />
 
-            <label htmlFor="min_price">Min Price:</label>
-            <span className="price-indicator">{appliedFilters.min_price}</span>
-            <input
-                type="range"
-                id="min_price"
-                className="price-range"
-                min="0"
-                max="200"  
-                step="10"   
-                value={appliedFilters.min_price}
-                onChange={(e) => updateFilters('min_price', e.target.value)}
-            />
-
-            <label htmlFor="max_price">Max Price:</label>
-            <span className="price-indicator">{appliedFilters.max_price}</span>
-            <input
-                type="range"
-                id="max_price"
-                className="price-range"
-                min="0"
-                max="200"  
-                step="10"  
-                value={appliedFilters.max_price}
-                onChange={(e) => updateFilters('max_price', e.target.value)}
-            />
+            <label htmlFor="price_range">Price Range:</label>
+            <div className="range_container">
+                <div className="sliders_control">
+                    <input
+                        id="fromSlider"
+                        type="range"
+                        value={appliedFilters.min_price}
+                        min="0"
+                        max="3000"
+                        onChange={(e) => updateFilters('min_price', e.target.value)}
+                    />
+                    <input
+                        id="toSlider"
+                        type="range"
+                        value={appliedFilters.max_price}
+                        min="0"
+                        max="3000"
+                        onChange={(e) => updateFilters('max_price', e.target.value)}
+                    />
+                </div>
+                <span>Min: {appliedFilters.min_price} - Max: {appliedFilters.max_price}</span>
+            </div>
 
             <button className="apply-btn" onClick={applyFilters}>Apply filters</button>
         </div>
