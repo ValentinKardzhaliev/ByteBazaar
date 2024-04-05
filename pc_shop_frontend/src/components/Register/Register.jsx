@@ -23,7 +23,7 @@ function Register() {
             <h2>Register</h2>
             <form className="register-form" onSubmit={registerHandler}>
                 <div className="form-group">
-                    <label htmlFor="username">Username:</label>
+                    <label htmlFor="username">Username:*</label>
                     <input
                         type="text"
                         id="username"
@@ -32,7 +32,7 @@ function Register() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="email">Email:</label>
+                    <label htmlFor="email">Email:*</label>
                     <input
                         type="email"
                         id="email"
@@ -49,7 +49,7 @@ function Register() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password">Password:*</label>
                     <input
                         type="password"
                         id="password"
@@ -58,7 +58,7 @@ function Register() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password_confirmation">Confirm password:</label>
+                    <label htmlFor="password_confirmation">Confirm password:*</label>
                     <input
                         type="password"
                         id="password_confirmation"

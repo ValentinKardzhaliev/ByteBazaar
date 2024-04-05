@@ -52,10 +52,6 @@
     transition: background-color 0.3s;
 }
 
-.form-group button:hover {
-    background-color: #45a049;
-}
-
 .form-options {
     margin-top: 20px;
 }
@@ -79,7 +75,6 @@ input[type=password] {
 .forgot-password a {
     color: #007bff;
     text-decoration: none;
-    margin-right: 10px;
 }
 
 .forgot-password a:hover {
