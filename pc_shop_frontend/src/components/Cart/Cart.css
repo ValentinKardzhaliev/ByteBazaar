@@ -23,11 +23,12 @@
     display: flex;
     width: 100%;
     margin-bottom: 20px;
-    padding: 10px;
+    padding: 1em;
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
     transition: all 0.3s ease;
+    flex: 0;
 }
 
 .product-card:hover {
@@ -41,8 +42,8 @@
 }
 
 .cart-product-image {
-    width: 20em;
-    height: 20em;
+    width: 15em;
+    height: 15em;
 }
 
 .cart-item-details {
