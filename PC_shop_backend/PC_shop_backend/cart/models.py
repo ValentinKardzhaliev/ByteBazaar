@@ -33,7 +33,7 @@ class Cart(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=True, blank=True)
-    token = models.UUIDField(editable=False, null=True)
+    token = models.UUIDField(editable=False, null=True, blank=True)
     cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
     shipping_fee = models.DecimalField(max_digits=6, decimal_places=2, default=7.00)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

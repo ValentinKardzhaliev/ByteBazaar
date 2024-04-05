@@ -35,7 +35,7 @@ class CartSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    token = serializers.UUIDField(allow_null=True)
+    token = serializers.UUIDField(allow_null=True, required=False)
 
     class Meta:
         model = Order
