@@ -19,6 +19,7 @@
 
 :root {
   --container-max-width: 1366px;
+  --dropdown-menu-height: 222px
 }
 
 body {
