@@ -128,7 +128,7 @@
 .calculation-all-products {
     overflow-y: auto;
     overflow-x: hidden; 
-    height: 30em;
+    max-height: 30em;
 }
 
 .calculation-all-products::-webkit-scrollbar {
