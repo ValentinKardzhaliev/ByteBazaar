@@ -1,11 +1,18 @@
 .cart-container {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+}
+
+.item-container-buy-wrapper {
+    display: flex;
 }
 
 .item-container {
-    width: 70%;
-    margin-left: 4em;
+    width: 75%;
+    margin-top: 1em;
 }
 
 .cart-title {
@@ -105,17 +112,17 @@
 }
 
 .buy-section {
-    width: 20em;
+    width: 23em;
     height: auto;
-    margin-top: 3.5em;
-    margin-right: 2em;
+    margin-top: 1em;
+    margin-left: auto;
 }
 
 .price-calculation-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
 }
 
 .calculation-all-products {
@@ -137,7 +144,7 @@
     flex-direction: column;
     align-items: center;
     margin-top: 1em;
-    padding: 0 2.3em;
+    padding: 0 3.8em;
 }
 
 .calculation-item {
