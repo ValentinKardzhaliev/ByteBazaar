@@ -15,7 +15,7 @@ function Product(props) {
         <li className="product-item">
             {firstImage}
             <div className="product-details">
-                <h2 className="product-name">{props.product.name}</h2>
+                <p className="product-name">{props.product.name}</p>
                 <ul className="characteristics">
                     {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
                 </ul>

@@ -9,7 +9,6 @@
     height: auto;
     display: inline-flex;
     align-items: flex-start;
-    overflow: hidden;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
 }
@@ -24,7 +23,7 @@
 
 .product-name {
     font-family: Montserrat-Bold;
-    font-size: 1.7em;
+    font-size: 20px;
     margin-bottom: 0;
     color: #C00000;
     display: -webkit-box;
@@ -38,7 +37,7 @@
     line-height: 1.4em;
     color: #000000;
     list-style-type: disc;
-    font-size: 1.3em;
+    font-size: 16px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
