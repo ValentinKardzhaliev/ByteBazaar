@@ -98,3 +98,31 @@ class Keyboard(Product):
         backlight_info = 'Backlight' if self.backlight else 'Not Backlit'
         color_info = f" - Color: {self.color}" if self.color else ""
         return f"{self.name} - {self.get_key_switch_type_display()} - {backlight_info}{color_info} - {'Wireless' if self.wireless else 'Wired'}"
+
+
+class Mouse(Product):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type = 'mouse'
+
+    dpi = models.IntegerField(help_text="Dots per inch (DPI)")
+    tracking_type = models.CharField(
+        max_length=30,
+        choices=[
+            ('optical', 'Optical'),
+            ('laser', 'Laser'),
+            ('trackball', 'Trackball'),
+        ]
+    )
+    buttons = models.IntegerField(help_text="Number of buttons")
+    ergonomic = models.BooleanField(default=False)
+    wireless = models.BooleanField(default=False)
+    color = models.CharField(max_length=20, blank=True, null=True)
+    polling_rate_hz = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,
+                                          help_text="Polling rate in Hz")
+    brand = models.CharField(max_length=100, blank=True, null=True, help_text="Brand of the mouse")
+
+    def __str__(self):
+        wireless_info = 'Wireless' if self.wireless else 'Wired'
+        color_info = f" - Color: {self.color}" if self.color else ""
+        return f"{self.name} - DPI: {self.dpi} - {self.tracking_type} - {wireless_info} - {self.buttons} buttons{color_info}"
