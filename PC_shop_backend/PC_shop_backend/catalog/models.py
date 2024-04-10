@@ -126,3 +126,37 @@ class Mouse(Product):
         wireless_info = 'Wireless' if self.wireless else 'Wired'
         color_info = f" - Color: {self.color}" if self.color else ""
         return f"{self.name} - DPI: {self.dpi} - {self.tracking_type} - {wireless_info} - {self.buttons} buttons{color_info}"
+
+
+class Headphones(Product):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type = "headphones"
+
+    HEADPHONES_TYPE_CHOICES = [
+        ('over_ear', 'Over-ear'),
+        ('on_ear', 'On-ear'),
+        ('in_ear', 'In-ear'),
+        ('earbuds', 'Earbuds'),
+        ('neckband', 'Neckband'),
+        ('true_wireless', 'True wireless'),
+        ('bone_conduction', 'Bone conduction'),
+        ('open_back', 'Open-back'),
+        ('closed_back', 'Closed-back'),
+    ]
+
+    type = models.CharField(max_length=20, choices=HEADPHONES_TYPE_CHOICES)
+    wireless = models.BooleanField(default=False)
+    brand = models.CharField(max_length=100, blank=True, null=True, help_text="Brand of the headphones")
+    impedance_ohms = models.IntegerField(blank=True, null=True, help_text="Impedance in Ohms")
+    sensitivity_db = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,
+                                         help_text="Sensitivity in dB")
+    frequency_response = models.CharField(max_length=50, blank=True, null=True, help_text="Frequency response range")
+    color = models.CharField(max_length=20, blank=True, null=True, help_text="Color of the headphones")
+    noise_cancelling = models.BooleanField(default=False, help_text="Does it have noise-cancelling feature?")
+    microphone = models.BooleanField(default=False, help_text="Does it have a built-in microphone?")
+    foldable = models.BooleanField(default=False, help_text="Is it foldable for easy storage?")
+
+    def __str__(self):
+        wireless_info = 'Wireless' if self.wireless else 'Wired'
+        return f"{self.name} - Type: {self.get_type_display()} - {wireless_info} - Brand: {self.brand}"
