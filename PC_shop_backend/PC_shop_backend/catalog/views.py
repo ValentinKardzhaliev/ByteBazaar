@@ -1,9 +1,11 @@
+from django.apps import apps
 from django.db.models import Q, Count
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ..common.filters import ProductFilterBackend
+from ..common.models import Product
 from ..common.serializers import ProductSerializer, FilteredProductSerializer
 from rest_framework import viewsets
 from .models import Computer, Monitor, Keyboard
@@ -149,7 +151,7 @@ class CharacteristicCountView(APIView):
 
         counts = {}
         for subclass in valid_subclasses:
-            if characteristic not in subclass._meta.get_all_field_names():
+            if not hasattr(subclass, characteristic):
                 counts[subclass.__name__] = {
                     "error": f"{characteristic} is not a valid characteristic of {subclass.__name__} model."}
                 continue
