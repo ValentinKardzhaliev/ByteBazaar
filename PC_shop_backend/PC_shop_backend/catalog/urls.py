@@ -12,6 +12,7 @@ urlpatterns = [
     path('keyboards/', keyboard_list, name='keyboard-list'),
     path('<str:product_type>/<uuid:pk>/', ProductDetailsView.as_view(), name='product-details'),
     path('graphics-count/', GraphicsCountView.as_view(), name='graphics count'),
-    path('characteristic-count/<str:characteristic>/', CharacteristicCountView.as_view(), name='characteristic_count'),
+    path('characteristic-count/<str:product_type>/', CharacteristicCountView.as_view(),
+         name='characteristic_count'),
 ]
 

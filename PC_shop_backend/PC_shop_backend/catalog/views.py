@@ -146,17 +146,26 @@ class GraphicsCountView(APIView):
 
 
 class CharacteristicCountView(APIView):
-    def get(self, request, characteristic, *args, **kwargs):
+    def get(self, request, product_type, *args, **kwargs):
         valid_subclasses = [model for model in apps.get_models() if issubclass(model, Product)]
 
         counts = {}
         for subclass in valid_subclasses:
-            if not hasattr(subclass, characteristic):
+            if not hasattr(subclass, 'type'):
                 counts[subclass.__name__] = {
-                    "error": f"{characteristic} is not a valid characteristic of {subclass.__name__} model."}
+                    "error": f"'type' attribute not found in {subclass.__name__} model."}
                 continue
 
-            counts[subclass.__name__] = list(
-                subclass.objects.values(characteristic).annotate(count=Count('_id')).order_by('-count'))
+            if subclass.__name__.lower() == product_type.lower():
+                characteristics = {}
+                product_fields = [field.name for field in Product._meta.get_fields()]
+                for field in subclass._meta.get_fields():
+                    if field.name not in product_fields:
+                        characteristics[field.name] = list(
+                            subclass.objects.values(field.name).annotate(count=Count('_id')).order_by('-count'))
+                counts[subclass.__name__] = characteristics
+                break
+        else:
+            counts = {"error": f"No subclass matches the product type '{product_type}'."}
 
         return Response(counts)
