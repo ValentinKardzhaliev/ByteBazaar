@@ -141,3 +141,20 @@ class GraphicsCountView(APIView):
     def get(self, request, *args, **kwargs):
         graphics_counts = Computer.objects.values('graphics').annotate(count=Count('_id')).order_by('-count')
         return Response(graphics_counts)
+
+
+class CharacteristicCountView(APIView):
+    def get(self, request, characteristic, *args, **kwargs):
+        valid_subclasses = [model for model in apps.get_models() if issubclass(model, Product)]
+
+        counts = {}
+        for subclass in valid_subclasses:
+            if characteristic not in subclass._meta.get_all_field_names():
+                counts[subclass.__name__] = {
+                    "error": f"{characteristic} is not a valid characteristic of {subclass.__name__} model."}
+                continue
+
+            counts[subclass.__name__] = list(
+                subclass.objects.values(characteristic).annotate(count=Count('_id')).order_by('-count'))
+
+        return Response(counts)
