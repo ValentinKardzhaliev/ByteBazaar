@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { getAllComputersByQueryParams, getAllGraphics } from '../../../services/productService';
+import { getAllComputersByQueryParams, getAllCharacteristics } from '../../../services/productService';
 
 const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({
         graphics: [],
-        processor: '',
-        memory: '',
-        storage: '',
+        processor: [],
+        memory: [],
+        storage: [],
+        cooler: [],
+        motherboard: [],
+        power_supply: [],
+        operating_system: [],
+        case: [],
+        cooling_solution: [],
+        network: [],
         min_price: '',
         max_price: '',
     });
 
     const updateFilters = (field, value) => {
-        setAppliedFilters((prevFilters) => ({
+        setAppliedFilters(prevFilters => ({
             ...prevFilters,
             [field]: value,
         }));
@@ -21,7 +28,6 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
     const applyFilters = () => {
         const queryParams = new URLSearchParams();
 
-        // Add individual filters to queryParams
         Object.entries(appliedFilters).forEach(([key, value]) => {
             if (value !== '' && value !== false) {
                 queryParams.append(key, Array.isArray(value) ? value.join(',') : value);
@@ -29,81 +35,65 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
         });
 
         startLoading();
-        // Fetch computers based on all applied filters
+
         getAllComputersByQueryParams(queryParams.toString())
-            .then((filteredComputers) => {
+            .then(filteredComputers => {
                 setComputers(filteredComputers);
                 stopLoading();
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
     };
-    const [availableGraphics, setAvailableGraphics] = useState([]);
+
+    const [availableCharacteristics, setAvailableCharacteristics] = useState({});
 
     useEffect(() => {
         startLoading();
-        // Fetch available graphics from the API
-        getAllGraphics()
-            .then((graphicsCounts) => {
-                setAvailableGraphics(graphicsCounts);
+
+        getAllCharacteristics('computer')
+            .then(characteristics => {
+                setAvailableCharacteristics(characteristics.Computer);
                 stopLoading();
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
     }, []);
 
-    const handleCheckboxChange = (selectedGraphics) => {
-        setAppliedFilters((prevFilters) => ({
-            ...prevFilters,
-            graphics: selectedGraphics,
-        }));
-    };
-
-    const toggleCheckbox = (graphic) => {
-        if (appliedFilters.graphics.includes(graphic)) {
-            // If the graphic is already selected, remove it
-            handleCheckboxChange(appliedFilters.graphics.filter((g) => g !== graphic));
+    const toggleCheckbox = (filterName, value) => {
+        const updatedFilters = [...appliedFilters[filterName] || []];
+        const index = updatedFilters.indexOf(value);
+        if (index === -1) {
+            updatedFilters.push(value);
         } else {
-            // If the graphic is not selected, add it
-            handleCheckboxChange([...appliedFilters.graphics, graphic]);
+            updatedFilters.splice(index, 1);
         }
+        updateFilters(filterName, updatedFilters);
     };
 
-    return (
-        <div>
-            <h2>Graphics Filter</h2>
-            {availableGraphics.map(({ graphics, count }) => (
-                <label key={graphics}>
+    const renderCheckboxes = (characteristic, characteristicName) => (
+        <>
+            {characteristic.map(item => (
+                <label key={item[characteristicName]}>
                     <input
                         type="checkbox"
-                        value={graphics}
-                        checked={appliedFilters.graphics.includes(graphics)}
-                        onChange={() => toggleCheckbox(graphics)}
+                        value={item[characteristicName]}
+                        checked={appliedFilters[characteristicName].includes(item[characteristicName])}
+                        onChange={() => toggleCheckbox(characteristicName, item[characteristicName])}
                     />
-                    {`${graphics} (${count})`}
+                    {`${item[characteristicName]} (${item.count})`}
                     <br />
                 </label>
             ))}
+        </>
+    );
 
-            <label htmlFor="processor">Processor:</label>
-            <input
-                type="text"
-                id="processor"
-                value={appliedFilters.processor}
-                onChange={(e) => updateFilters('processor', e.target.value)}
-            />
-            <label htmlFor="storage">Storage:</label>
-            <input
-                type="text"
-                id="storage"
-                value={appliedFilters.storage}
-                onChange={(e) => updateFilters('storage', e.target.value)}
-            />
-            <label htmlFor="memory">Memory:</label>
-            <input
-                type="text"
-                id="memory"
-                value={appliedFilters.memory}
-                onChange={(e) => updateFilters('memory', e.target.value)}
-            />
+    return (
+        <div>
+            <h2>Computer Filters</h2>
+            {Object.entries(availableCharacteristics).map(([key, value]) => (
+                <div key={key}>
+                    <h3>{key.replace('_', ' ').toUpperCase()}</h3>
+                    {renderCheckboxes(value, key)}
+                </div>
+            ))}
 
             <label htmlFor="price_range">Price Range:</label>
             <div className="range_container">

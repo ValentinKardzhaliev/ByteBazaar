@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { getAllMonitorsByQueryParams } from '../../../services/productService';
+import { getAllCharacteristics, getAllMonitorsByQueryParams } from '../../../services/productService';
 
 const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({
-        resolution: '',
-        refresh_rate: '',
-        panel_type: '',
-        size: '',
+        resolution: [],
+        refresh_rate: [],
+        panel_type: [],
+        size: [],
+        aspect_ratio: [],
+        response_time: [],
+        curvature: [],
+        adjustable_stand: [],
+        built_in_speakers: [],
         min_price: '',
         max_price: '',
     });
+    const [availableCharacteristics, setAvailableCharacteristics] = useState({});
 
     const updateFilters = (field, value) => {
-        setAppliedFilters((prevFilters) => ({
+        setAppliedFilters(prevFilters => ({
             ...prevFilters,
             [field]: value,
         }));
@@ -21,62 +27,70 @@ const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
     const applyFilters = () => {
         const queryParams = new URLSearchParams();
 
-        // Add individual filters to queryParams
         Object.entries(appliedFilters).forEach(([key, value]) => {
-            if (value !== '' && value !== false) {
+            if (value !== '' && value.length > 0) {
                 queryParams.append(key, Array.isArray(value) ? value.join(',') : value);
             }
         });
 
         startLoading();
-        // Fetch monitors based on all applied filters
+
         getAllMonitorsByQueryParams(queryParams.toString())
-            .then((filteredMonitors) => {
+            .then(filteredMonitors => {
                 setMonitors(filteredMonitors);
                 stopLoading();
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
     };
 
     useEffect(() => {
-        // This effect runs when the component mounts
-        // It can be used for initial setup, but we don't make a request here
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        startLoading();
+
+        getAllCharacteristics('monitor')
+            .then(graphicsCounts => {
+                setAvailableCharacteristics(graphicsCounts.Monitor);
+                stopLoading();
+            })
+            .catch(err => console.log(err));
     }, []);
+
+    const toggleCheckbox = (filterName, value) => {
+        const updatedFilters = [...appliedFilters[filterName]];
+        const index = updatedFilters.indexOf(value);
+        if (index === -1) {
+            updatedFilters.push(value);
+        } else {
+            updatedFilters.splice(index, 1);
+        }
+        updateFilters(filterName, updatedFilters);
+    };
+
+    const renderCheckboxes = (characteristic, characteristicName) => (
+        <>
+            {characteristic.map(item => (
+                <label key={item[characteristicName]}>
+                    <input
+                        type="checkbox"
+                        value={item[characteristicName]}
+                        checked={appliedFilters[characteristicName].includes(item[characteristicName])}
+                        onChange={() => toggleCheckbox(characteristicName, item[characteristicName])}
+                    />
+                    {`${item[characteristicName]} (${item.count})`}
+                    <br />
+                </label>
+            ))}
+        </>
+    );
 
     return (
         <div>
-            <label htmlFor="resolution">Resolution:</label>
-            <input
-                type="text"
-                id="resolution"
-                value={appliedFilters.resolution}
-                onChange={(e) => updateFilters('resolution', e.target.value)}
-            />
-
-            <label htmlFor="refresh_rate">Refresh rate:</label>
-            <input
-                type="text"
-                id="refresh_rate"
-                value={appliedFilters.refresh_rate}
-                onChange={(e) => updateFilters('refresh_rate', e.target.value)}
-            />
-
-            <label htmlFor="panel_type">Panel type:</label>
-            <input
-                type="text"
-                id="panel_type"
-                value={appliedFilters.panel_type}
-                onChange={(e) => updateFilters('panel_type', e.target.value)}
-            />
-
-            <label htmlFor="size">Size:</label>
-            <input
-                type="text"
-                id="size"
-                value={appliedFilters.size}
-                onChange={(e) => updateFilters('size', e.target.value)}
-            />
+            <h2>Filters</h2>
+            {Object.entries(availableCharacteristics).map(([key, value]) => (
+                <div key={key}>
+                    <h3>{key.replace('_', ' ').toUpperCase()}</h3>
+                    {renderCheckboxes(value, key)}
+                </div>
+            ))}
 
             <label htmlFor="price_range">Price Range:</label>
             <div className="range_container">

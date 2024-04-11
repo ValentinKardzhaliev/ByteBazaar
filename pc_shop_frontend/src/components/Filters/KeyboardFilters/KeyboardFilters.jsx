@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
-import { getAllKeyboardsByQueryParams } from '../../../services/productService';
+import React, { useState, useEffect } from 'react';
+import { getAllKeyboardsByQueryParams, getAllCharacteristics } from '../../../services/productService';
 import './KeyboardFilters.css';
 
 const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({
-        key_switch_type: '',
+        key_switch_type: [],
         backlight: false,
         wireless: false,
-        color: '',
+        color: [],
+        format: [],
+        layout: [],
+        polling_rate_hz: [],
+        brand: [],
+        key_rollover: [],
         min_price: '',
         max_price: '',
     });
 
     const updateFilters = (field, value) => {
-        setAppliedFilters((prevFilters) => ({
+        setAppliedFilters(prevFilters => ({
             ...prevFilters,
             [field]: value,
         }));
@@ -22,7 +27,6 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
     const applyFilters = () => {
         const queryParams = new URLSearchParams();
 
-        // Add individual filters to queryParams
         Object.entries(appliedFilters).forEach(([key, value]) => {
             if (value !== '' && value !== false) {
                 queryParams.append(key, Array.isArray(value) ? value.join(',') : value);
@@ -31,32 +35,74 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
 
         startLoading();
 
-        // Fetch keyboards based on all applied filters
         getAllKeyboardsByQueryParams(queryParams.toString())
-            .then((filteredKeyboards) => {
+            .then(filteredKeyboards => {
                 setKeyboards(filteredKeyboards);
                 stopLoading();
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
     };
+
+    const [availableCharacteristics, setAvailableCharacteristics] = useState({});
+
+    useEffect(() => {
+        startLoading();
+
+        getAllCharacteristics('keyboard')
+            .then(characteristics => {
+                setAvailableCharacteristics(characteristics.Keyboard);
+                stopLoading();
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    const toggleCheckbox = (filterName, value) => {
+        const updatedFilters = [...appliedFilters[filterName] || []];
+        const index = updatedFilters.indexOf(value);
+        if (index === -1) {
+            updatedFilters.push(value);
+        } else {
+            updatedFilters.splice(index, 1);
+        }
+        updateFilters(filterName, updatedFilters);
+    };
+
+    const renderCheckboxes = (characteristic, characteristicName) => (
+        <>
+            {characteristic.map(item => {
+                // Render checkboxes for all characteristics except boolean ones
+                if (typeof item[characteristicName] !== 'boolean') {
+                    return (
+                        <label key={item[characteristicName]}>
+                            <input
+                                type="checkbox"
+                                value={item[characteristicName]}
+                                checked={appliedFilters[characteristicName].includes(item[characteristicName])}
+                                onChange={() => toggleCheckbox(characteristicName, item[characteristicName])}
+                            />
+                            {`${item[characteristicName]} (${item.count})`}
+                            <br />
+                        </label>
+                    );
+                }
+                // Return null for boolean characteristics to skip rendering them
+                return null;
+            })}
+
+
+        </>
+    );
+
 
     return (
         <div className="keyboard-filters">
-            <label htmlFor="key_switch_type">Switch type:</label>
-            <input
-                type="text"
-                id="key_switch_type"
-                value={appliedFilters.key_switch_type}
-                onChange={(e) => updateFilters('key_switch_type', e.target.value)}
-            />
-
-            <label htmlFor="backlight">Backlight:</label>
-            <input
-                type="checkbox"
-                id="backlight"
-                checked={appliedFilters.backlight}
-                onChange={(e) => updateFilters('backlight', e.target.checked)}
-            />
+            <h2>Keyboard Filters</h2>
+            {Object.entries(availableCharacteristics).map(([key, value]) => (
+                <div key={key}>
+                    <h3>{key.replace('_', ' ').toUpperCase()}</h3>
+                    {renderCheckboxes(value, key)}
+                </div>
+            ))}
 
             <label htmlFor="wireless">Wireless:</label>
             <input
@@ -65,14 +111,16 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
                 checked={appliedFilters.wireless}
                 onChange={(e) => updateFilters('wireless', e.target.checked)}
             />
-
-            <label htmlFor="color">Color:</label>
+            <br />
+            {/* Render 'backlight' checkbox outside the loop */}
+            <label htmlFor="backlight">Backlight:</label>
             <input
-                type="text"
-                id="color"
-                value={appliedFilters.color}
-                onChange={(e) => updateFilters('color', e.target.value)}
+                type="checkbox"
+                id="backlight"
+                checked={appliedFilters.backlight}
+                onChange={(e) => updateFilters('backlight', e.target.checked)}
             />
+            <br />
 
             <label htmlFor="price_range">Price Range:</label>
             <div className="range_container">

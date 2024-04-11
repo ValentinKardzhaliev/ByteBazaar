@@ -37,8 +37,8 @@ export const getAllKeyboardsByQueryParams = (queryParams) => {
         .then(res => res.json())
 }
 
-export const getAllGraphics = () => {
-    return fetch(`${baseUrl}/api/products/graphics-count/`)
+export const getAllCharacteristics = (characteristic) => {
+    return fetch(`${baseUrl}/api/products/characteristic-count/${characteristic}/`)
         .then(res => res.json())
 }
 
