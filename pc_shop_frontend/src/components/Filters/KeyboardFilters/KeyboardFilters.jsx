@@ -16,6 +16,7 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
         min_price: '',
         max_price: '',
     });
+    const [availableCharacteristics, setAvailableCharacteristics] = useState({});
 
     const updateFilters = (field, value) => {
         setAppliedFilters(prevFilters => ({
@@ -43,7 +44,6 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
             .catch(err => console.log(err));
     };
 
-    const [availableCharacteristics, setAvailableCharacteristics] = useState({});
 
     useEffect(() => {
         startLoading();
@@ -66,7 +66,6 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
         }
         updateFilters(filterName, updatedFilters);
     };
-
     const renderCheckboxes = (characteristic, characteristicName) => (
         <>
             {characteristic.map(item => {
@@ -88,8 +87,6 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
                 // Return null for boolean characteristics to skip rendering them
                 return null;
             })}
-
-
         </>
     );
 
@@ -98,22 +95,25 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
         <div className="keyboard-filters">
             <h2>Keyboard Filters</h2>
             {Object.entries(availableCharacteristics).map(([key, value]) => (
-                <div key={key}>
-                    <h3>{key.replace('_', ' ').toUpperCase()}</h3>
-                    {renderCheckboxes(value, key)}
-                </div>
+                value.map((currentKey, currentValue) => typeof currentKey[key] == 'boolean' ? null :
+                    <div key={currentKey}>
+                        <h3>{key.replace('_', ' ').toUpperCase()}</h3>
+
+                        {renderCheckboxes(value, key)}
+                    </div>)
+
             ))}
 
-            <label htmlFor="wireless">Wireless:</label>
+            <h3>Wireless:</h3>
             <input
                 type="checkbox"
                 id="wireless"
                 checked={appliedFilters.wireless}
                 onChange={(e) => updateFilters('wireless', e.target.checked)}
             />
-            <br />
+            
             {/* Render 'backlight' checkbox outside the loop */}
-            <label htmlFor="backlight">Backlight:</label>
+            <h3>Backlight:</h3>
             <input
                 type="checkbox"
                 id="backlight"
