@@ -19,7 +19,7 @@ SECRET_KEY = 'django-insecure-!h93gq@_^p9se+^k1=tfusk747ixc&)%1@nxi%j$1!ip98-*=$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['bytebazaar.pythonanywhere.com.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['ByteBazaar.pythonanywhere.com', 'bytebazaar.pythonanywhere.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
