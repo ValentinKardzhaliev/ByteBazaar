@@ -84,8 +84,7 @@ WSGI_APPLICATION = 'PC_shop_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        # change sqlite3 for postgresql
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': env('DATABASE_ENGINE'),
         'NAME': env('DATABASE_NAME'),
         'USER': env('DATABASE_USER'),
         'PASSWORD': env('DATABASE_PASS'),
@@ -93,6 +92,7 @@ DATABASES = {
         'PORT': env('DATABASE_PORT')
     }
 }
+
 
 # DATABASES = {
 #     'default': {
