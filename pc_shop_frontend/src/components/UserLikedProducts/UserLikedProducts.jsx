@@ -46,10 +46,10 @@ const UserLikedProducts = () => {
                     <p>Loading...</p>
                 ) : (
                     <div className="user-liked-products">
-                        {likedProducts.map((product) => (
+                        {likedProducts.length == 0 ? (<p>No liked products</p>) : likedProducts.map((product) => (
                             <div className="product-card" key={product._id}>
                                 <Link to={`/products/${product.type}/${product._id}`}>
-                                    <img src={`${product.images[0].image}`} alt={product.name} className="productliked-image" />
+                                    <img src={`https://bytebazaar.pythonanywhere.com/${product.images[0].image}`} alt={product.name} className="productliked-image" />
                                 </Link>
                                 <div className="productliked-details">
                                     <h2 className="productliked-name">{product.name}</h2>

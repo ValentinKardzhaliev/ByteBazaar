@@ -31,7 +31,7 @@ function ProductDetails() {
                 setCurrentImages(productResult.images.slice(0, 5));
 
                 if (productResult.images && productResult.images.length > 0) {
-                    setImagePath(`${productResult.images[0].image}`);
+                    setImagePath(`https://bytebazaar.pythonanywhere.com/${productResult.images[0].image}`);
                 }
                 setIsLiked(likedResult.liked_products.some((likedProduct) => likedProduct._id === productResult._id));
             }).catch((err) => console.log(err));
@@ -53,7 +53,7 @@ function ProductDetails() {
 
                     // Set imagePath to the first image in the product.images array
                     if (result.images && result.images.length > 0) {
-                        setImagePath(`${result.images[0].image}`);
+                        setImagePath(`https://bytebazaar.pythonanywhere.com/${result.images[0].image}`);
                     }
                 })
                 .catch((err) => console.log(err));
@@ -68,6 +68,7 @@ function ProductDetails() {
     }
 
     const handleLike = () => {
+        //TODO: Make not logged in user cannot like
         setIsLiked(prevIsLiked => !prevIsLiked)
         likeProduct(product._id, user.token).then(result => {
             console.log(result);
@@ -142,7 +143,7 @@ function ProductDetails() {
                             currentImages.map((image, index) => (
                                 <img
                                     key={index}
-                                    src={`${image.image}`}
+                                    src={`https://bytebazaar.pythonanywhere.com/${image.image}`}
                                     alt={`Product Image ${index}`}
                                     onClick={(e) => changeImageWhenClick(e)}
                                 />

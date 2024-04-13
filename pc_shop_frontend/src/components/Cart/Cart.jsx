@@ -94,7 +94,7 @@ function Cart() {
                         <div className="cart-items-list">
                             {cartItems.map((item) => (
                                 <div className="product-card" key={item.product._id}>
-                                    <img src={`${item.product.images[0].image}`} alt={item.product.name} className="cart-product-image" />
+                                    <img src={`https://bytebazaar.pythonanywhere.com/${item.product.images[0].image}`} alt={item.product.name} className="cart-product-image" />
                                     <div className="cart-item-details">
                                         <h2 className="cart-product-name">Name - {item.product.name}</h2>
                                         <Link to={`/products/${item.product.type}/${item.product._id}`} className="cart-productDetails-link">View Full Characteristics</Link>
@@ -125,7 +125,7 @@ function Cart() {
                             {cartItems.map((item) => (
                                 <div key={item.product.name} className='calculation-item-container'>
                                     <div className='calculation-item'>
-                                        <img src={`${item.product.images[0].image}`} alt={item.product.name} className='calculation-item-image' />
+                                        <img src={`https://bytebazaar.pythonanywhere.com/${item.product.images[0].image}`} alt={item.product.name} className='calculation-item-image' />
                                         <span className='calculation-item-price'>{item.product.price * item.quantity}$</span>
 
                                     </div>

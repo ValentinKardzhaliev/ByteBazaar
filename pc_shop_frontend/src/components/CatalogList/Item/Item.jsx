@@ -7,7 +7,7 @@ function Item(props) {
     let typeOfProduct = props.product.type;
     // Render only the first image
     const firstImage = props.product.images.length > 0 ? (
-        <img src={`${props.product.images[0].image}`} alt="Product Image" className="item-image" />
+        <img src={`https://bytebazaar.pythonanywhere.com/${props.product.images[0].image}`} alt="Product Image" className="item-image" />
     ) : null;
 
     return (

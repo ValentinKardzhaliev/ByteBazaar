@@ -1,4 +1,4 @@
-const baseUrl = 'http://127.0.0.1:8000/api/auth/';
+const baseUrl = 'https://bytebazaar.pythonanywhere.com/api/auth/';
 
 export const loginUser = (username, password) => {
     return fetch(`${baseUrl}login/`, {
