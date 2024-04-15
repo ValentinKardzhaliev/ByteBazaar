@@ -101,7 +101,7 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
                     <input
                         id="fromSlider"
                         type="range"
-                        value={appliedFilters.min_price}
+                        value={appliedFilters.min_price || '0'} 
                         min="0"
                         max="3000"
                         onChange={(e) => updateFilters('min_price', e.target.value)}
@@ -109,7 +109,7 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
                     <input
                         id="toSlider"
                         type="range"
-                        value={appliedFilters.max_price}
+                        value={appliedFilters.max_price || '3000'} 
                         min="0"
                         max="3000"
                         onChange={(e) => updateFilters('max_price', e.target.value)}
