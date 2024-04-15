@@ -21,7 +21,9 @@ function Item(props) {
             </div>
 
             <span className="item-price"><p>$ {props.product.price}</p></span>
-            <Link to={`/products/${props.product.type}/${props.product._id}`} className="item-details-link">Details</Link>
+            <div className="item-details-link-container">
+                <Link to={`/products/${props.product.type}/${props.product._id}`} className="item-details-link">Details</Link>
+            </div>
         </li>
     );
 }

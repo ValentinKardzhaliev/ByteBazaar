@@ -1,10 +1,14 @@
+.computer-products-page-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .item-list {
     position: relative;
     list-style: none;
     padding: 0;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    margin-bottom: auto;
 }
 
 .range_container {
