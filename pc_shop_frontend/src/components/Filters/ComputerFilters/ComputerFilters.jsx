@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllComputersByQueryParams, getAllCharacteristics } from '../../../services/productService';
+import './ComputerFilters.css'
 
 const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({
@@ -105,16 +106,9 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
     };
 
     return (
-        <div>
-            <h2>Computer Filters</h2>
-            {Object.entries(availableCharacteristics).map(([key, value]) => (
-                <div key={key}>
-                    <h3>{key.replace('_', ' ').toUpperCase()}</h3>
-                    {renderCheckboxes(value, key)}
-                </div>
-            ))}
-
-            <label htmlFor="price_range">Price Range:</label>
+        <div className='filters-container'>
+            <button onClick={applyFilters}>Apply Filters</button>
+            <p><label htmlFor="price_range">Price Range:</label></p>
             <div className="range_container">
                 <div className="sliders_control">
                     <input
@@ -124,7 +118,7 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
                         min="0"
                         max="3000"
                         step={50}
-                        onChange={handleMinPriceChange} 
+                        onChange={handleMinPriceChange}
                     />
                     <input
                         id="toSlider"
@@ -133,13 +127,19 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
                         min="0"
                         max="3000"
                         step={50}
-                        onChange={handleMaxPriceChange} 
+                        onChange={handleMaxPriceChange}
                     />
                 </div>
                 <span>Min: {appliedFilters.min_price} - Max: {appliedFilters.max_price}</span>
             </div>
+            {Object.entries(availableCharacteristics).map(([key, value]) => (
+                <div key={key}>
+                    <h3>{key.replace('_', ' ').toUpperCase()}</h3>
+                    {renderCheckboxes(value, key)}
+                </div>
+            ))}
 
-            <button onClick={applyFilters}>Apply Filters</button>
+
         </div>
     );
 };

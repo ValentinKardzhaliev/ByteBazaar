@@ -25,9 +25,7 @@ function CatalogList() {
     return (
         <>
             <div className="computer-products-page-container">
-                <div className="filters-container">
-                    {FiltersComponent}
-                </div>
+                {FiltersComponent}
                 <ul className="item-list">
                     {isLoading ? <h1>Loading...</h1> : items.length === 0 && <h1>No products found!</h1>}
                     {items.map(item => <Item key={item._id} product={item} />)}
