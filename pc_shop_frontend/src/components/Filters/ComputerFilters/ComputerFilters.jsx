@@ -84,6 +84,25 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
             ))}
         </>
     );
+    const handleMinPriceChange = (e) => {
+        const newMinPrice = parseInt(e.target.value);
+        const newMaxPrice = parseInt(appliedFilters.max_price);
+
+        if (newMinPrice > newMaxPrice) {
+            updateFilters('max_price', newMinPrice.toString());
+        }
+        updateFilters('min_price', newMinPrice.toString());
+    };
+
+    const handleMaxPriceChange = (e) => {
+        const newMaxPrice = parseInt(e.target.value);
+        const newMinPrice = parseInt(appliedFilters.min_price);
+
+        if (newMaxPrice < newMinPrice) {
+            updateFilters('min_price', newMaxPrice.toString());
+        }
+        updateFilters('max_price', newMaxPrice.toString());
+    };
 
     return (
         <div>
@@ -101,18 +120,20 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
                     <input
                         id="fromSlider"
                         type="range"
-                        value={appliedFilters.min_price || '0'} 
+                        value={appliedFilters.min_price || '0'}
                         min="0"
                         max="3000"
-                        onChange={(e) => updateFilters('min_price', e.target.value)}
+                        step={50}
+                        onChange={handleMinPriceChange} 
                     />
                     <input
                         id="toSlider"
                         type="range"
-                        value={appliedFilters.max_price || '3000'} 
+                        value={appliedFilters.max_price || '3000'}
                         min="0"
                         max="3000"
-                        onChange={(e) => updateFilters('max_price', e.target.value)}
+                        step={50}
+                        onChange={handleMaxPriceChange} 
                     />
                 </div>
                 <span>Min: {appliedFilters.min_price} - Max: {appliedFilters.max_price}</span>
