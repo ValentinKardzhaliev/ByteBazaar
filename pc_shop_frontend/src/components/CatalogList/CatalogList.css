@@ -1,6 +1,5 @@
 .computer-products-page-container {
     display: flex;
-    justify-content: space-between;
 }
 
 .item-list {
@@ -9,4 +8,5 @@
     padding: 0;
     display: flex;
     margin-bottom: auto;
+    width: 100%;
 }
