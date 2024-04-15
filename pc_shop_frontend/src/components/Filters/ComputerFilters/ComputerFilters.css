@@ -1,6 +1,7 @@
 .filters-container {
     border: 1px solid #ccc;
     padding: 20px;
+    margin-left: 2em;
 }
 
 .range_container {
