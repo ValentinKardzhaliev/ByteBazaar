@@ -1,5 +1,5 @@
 .filters-container {
-    border: 1px solid #ccc;
+    box-shadow: 0px 4px 4px 0px #00000040;
     padding: 20px;
     margin-left: 2em;
 }
@@ -7,7 +7,7 @@
 .range_container {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 100%;
 }
 
 .sliders_control {
@@ -23,29 +23,38 @@
     color: #635a5a;
 }
 
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    width: 100%;
+    position: absolute;
+    background-color: #C00000;
+    pointer-events: none;
+    top: 0;
+    z-index: 0; 
+}
+
+
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     pointer-events: all;
-    width: 24px;
+    width: 24px; 
     height: 24px;
-    background-color: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1px #C6C6C6;
+    background-color: #000000;
+    border: 1px solid #C6C6C6;
     cursor: pointer;
+    z-index: 1;
 }
 
 input[type=range]::-moz-range-thumb {
     pointer-events: all;
     width: 24px;
-    height: 24px;
-    background-color: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1px #C6C6C6;
+    height: 24px; 
+    background-color: #000000;
+    border: 1px solid #C6C6C6;
     cursor: pointer;
-}
-
-input[type=range]::-webkit-slider-thumb:hover {
-    background: #f7f7f7;
+    z-index: 1;
 }
 
 input[type=range]::-webkit-slider-thumb:active {
@@ -61,22 +70,13 @@ input[type="number"] {
     border: none;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    opacity: 1;
-}
-
-input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 2px;
-    width: 100%;
-    position: absolute;
-    background-color: #C6C6C6;
-    pointer-events: none;
-}
-
 #fromSlider {
     height: 0;
     z-index: 1;
+}
+
+#fromSlider::-webkit-slider-thumb {
+    z-index: 10000;
+    position: relative; /* Ensure the thumb is positioned relative to the track */
+    top: 4px; /* Adjust the position to align with the other thumb */
 }
