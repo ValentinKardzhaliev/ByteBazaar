@@ -116,7 +116,7 @@ def send_email(request):
         name = data.get('name')
         email = data.get('email')
         message = data.get('message')
-        recipients = ['valentinkardzhaliev@gmail.com', 'simitchievbogomil@gmail.com']
+        recipients = ['valentinkardzhaliev@gmail.com', 'simitchievbogomil@gmail.com', 'iordan.paunov@abv.bg']
 
         subject = f"Message from {name}"
         email_message = f"Sender's Name: {name}\nSender's Email: {email}\n\nMessage:\n{message}"
