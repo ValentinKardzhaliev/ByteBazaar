@@ -14,7 +14,7 @@ const Footer = () => {
         const formData = { name, email, message };
 
         try {
-            const response = await fetch('http://localhost:8000/send_email/', {
+            const response = await fetch('https://bytebazaar.pythonanywhere.com/send_email/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
