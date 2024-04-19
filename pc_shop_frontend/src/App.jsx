@@ -16,6 +16,8 @@ import ProductDetails from './components/ProductDetails/ProductDetails.jsx';
 import { LoadingProvider } from './contexts/LoadingContext.jsx';
 import UserLikedProducts from './components/UserLikedProducts/UserLikedProducts.jsx';
 import CatalogList from './components/CatalogList/CatalogList.jsx';
+import Footer from './components/Footer/Footer.jsx';
+
 
 function App() {
     return (
@@ -57,6 +59,9 @@ function App() {
                             </Route>
                             <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
                         </Routes>
+
+                        <Footer />
+
                     </ProductProvider>
                 </AuthProvider>
             </LoadingProvider>
