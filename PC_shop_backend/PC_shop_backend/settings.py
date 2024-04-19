@@ -1,7 +1,4 @@
 from pathlib import Path
-
-import cloudinary as cloudinary
-import cloudinary_storage
 import environ
 
 env = environ.Env()
