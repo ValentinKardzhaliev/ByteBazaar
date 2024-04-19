@@ -1,5 +1,13 @@
+import json
+import smtplib
+from email.mime.text import MIMEText
+
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -99,3 +107,37 @@ class LikedProductsView(APIView):
         product_serializer = ProductSerializer(liked_products, many=True)
 
         return Response({'liked_products': product_serializer.data})
+
+
+@csrf_exempt
+def send_email(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        name = data.get('name')
+        email = data.get('email')
+        message = data.get('message')
+        recipients = ['valentinkardzhaliev@gmail.com', 'simitchievbogomil@gmail.com']
+
+        subject = f"Message from {name}"
+        email_message = f"Sender's Name: {name}\nSender's Email: {email}\n\nMessage:\n{message}"
+
+        try:
+            msg = MIMEText(email_message)
+            msg["Subject"] = subject
+            msg["From"] = settings.GMAIL_USERNAME
+            msg["To"] = ', '.join(recipients)
+
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
+                smtp_server.login(settings.GMAIL_USERNAME, settings.GMAIL_APP_PASSWORD)
+                smtp_server.sendmail(settings.GMAIL_USERNAME, recipients, msg.as_string())
+
+            return JsonResponse({'success': True, 'message': 'Email sent successfully'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method'})
+
+
+def get_csrf_token(request):
+    csrf_token = get_token(request)
+    return JsonResponse({'csrfToken': csrf_token})

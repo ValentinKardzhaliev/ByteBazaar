@@ -1,17 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Footer.css';
 
 const Footer = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [csrfToken, setCsrfToken] = useState('');
+
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = { name, email, message };
-        console.log(formData);
-        // TODO: Implement the email sending logic on your server
-        // Example: fetch('/sendEmail', { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'application/json' }});
+
+        try {
+            const response = await fetch('http://localhost:8000/send_email/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log('Email sent successfully');
+                setName('');
+                setEmail('');
+                setMessage('');
+            } else {
+                console.error('Error sending email:', data.message);
+            }
+        } catch (error) {
+            console.error('Error sending email:', error.message);
+        }
     };
 
     return (

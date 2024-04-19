@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import environ
 
 env = environ.Env()
@@ -16,7 +17,7 @@ SECRET_KEY = 'django-insecure-!h93gq@_^p9se+^k1=tfusk747ixc&)%1@nxi%j$1!ip98-*=$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ByteBazaar.pythonanywhere.com', 'bytebazaar.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['ByteBazaar.pythonanywhere.com', 'bytebazaar.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -45,9 +47,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-
 ]
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -57,6 +58,9 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost:5173']
+
+
 
 ROOT_URLCONF = 'PC_shop_backend.urls'
 
@@ -139,6 +143,10 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = "/media/"
+
+
+GMAIL_USERNAME = env('EMAIL_HOST_USER')
+GMAIL_APP_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
