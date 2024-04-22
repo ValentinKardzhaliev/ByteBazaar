@@ -61,8 +61,8 @@ function Header() {
                     </div>
                     <div className="navbar-right-side">
                         <div className="user-menu">
-                            <div className="user-menu-icon">
-                                <FontAwesomeIcon icon={faUser} onClick={toggleUserMenu} />
+                            <div className="user-menu-icon" onClick={toggleUserMenu}>
+                                <FontAwesomeIcon icon={faUser}/>
                             </div>
                             {isUserMenuOpen && (
                                 <div className="user-dropdown-menu">
