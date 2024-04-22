@@ -70,7 +70,7 @@ function CheckoutPage() {
         <div className="checkout-container">
             <h2>Checkout</h2>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
+                <div className="checkout-form-group">
                     <label htmlFor="shippingAddress">Shipping Address:</label>
                     <input
                         type="text"
@@ -80,7 +80,7 @@ function CheckoutPage() {
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="checkout-form-group">
                     <label htmlFor="paymentInfo">Payment Information:</label>
                     <input
                         type="text"
@@ -90,7 +90,7 @@ function CheckoutPage() {
                         required
                     />
                 </div>
-                <button type="submit">Submit Order</button>
+                <button type="checkout-submit">Submit Order</button>
             </form>
         </div>
     );
