@@ -69,12 +69,12 @@ function Header() {
                                     {user.token ? (
                                         <>
                                             <Link to="#">Profile</Link>
-                                            <Link to="#">Orders</Link>
+                                            <Link to="/orders">Orders</Link>
                                             <Link to="/logout">Logout</Link>
                                         </>
                                     ) : (
                                         <>
-                                            <Link to="#">Orders</Link>
+                                            <Link to="/orders">Orders</Link>
                                             <Link to="/login">Login</Link>
                                         </>
                                     )}

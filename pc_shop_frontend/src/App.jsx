@@ -18,6 +18,8 @@ import UserLikedProducts from './components/UserLikedProducts/UserLikedProducts.
 import CatalogList from './components/CatalogList/CatalogList.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import CheckoutPage from './components/CheckoutPage/CheckoutPage.jsx';
+import UserOrders from './components/UserOrders/UserOrders.jsx';
+
 
 
 
@@ -41,6 +43,7 @@ function App() {
                             } />
                             <Route path='/cart' element={<Cart />} />
                             <Route path='/checkout' element={<CheckoutPage />} />
+                            <Route path="/orders" element={<UserOrders />} />
                             <Route path='/catalog/:category' element={
                                 <CatalogList />
                             } />
