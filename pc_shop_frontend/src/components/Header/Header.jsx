@@ -10,6 +10,7 @@ function Header() {
     const { user } = useContext(AuthContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isPeripheryMenuOpen, setIsPeripheryMenuOpen] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsMenuOpen(prev => !prev);
@@ -20,6 +21,9 @@ function Header() {
         setIsPeripheryMenuOpen(prev => !prev);
     };
 
+    const toggleUserMenu = () => {
+        setIsUserMenuOpen(prev => !prev);
+    };
 
     return (
         <header className="sticky-top">
@@ -49,7 +53,6 @@ function Header() {
                             <div className="category-periphery-menu-content">
                                 <Link to="/catalog/keyboards" onClick={toggleMenu}>Keyboards</Link>
                                 <Link to="/catalog/mice" onClick={toggleMenu}>Mice</Link>
-
                             </div>
                         )}
                     </div>
@@ -57,28 +60,43 @@ function Header() {
                         <SearchForm />
                     </div>
                     <div className="navbar-right-side">
-                        <>
-                            <Link to="/login">
-                                <FontAwesomeIcon icon={faUser} />
-                            </Link>
+                        <div className="user-menu">
+                            <div className="user-menu-icon">
+                                <FontAwesomeIcon icon={faUser} onClick={toggleUserMenu} />
+                            </div>
+                            {isUserMenuOpen && (
+                                <div className="user-dropdown-menu">
+                                    {user.token ? (
+                                        <>
+                                            <Link to="#">Profile</Link>
+                                            <Link to="#">Orders</Link>
+                                            <Link to="/logout">Logout</Link>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Link to="#">Orders</Link>
+                                            <Link to="/login">Login</Link>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+                        </div>
 
-                            <Link to="/cart">
-                                <FontAwesomeIcon icon={faCartShopping} />
-                            </Link>
+                        <Link to="/cart">
+                            <FontAwesomeIcon icon={faCartShopping} />
+                        </Link>
 
-                            <Link to="/likes">
-                                <FontAwesomeIcon icon={faHeart} />
-                            </Link>
+                        <Link to="/likes">
+                            <FontAwesomeIcon icon={faHeart} />
+                        </Link>
 
-                            <Link to={'#'}>
-                                <FontAwesomeIcon icon={faGlobe} />
-                            </Link>
-                        </>
+                        <Link to={'#'}>
+                            <FontAwesomeIcon icon={faGlobe} />
+                        </Link>
                     </div>
-
                 </div>
             </nav>
-        </header >
+        </header>
     );
 }
 

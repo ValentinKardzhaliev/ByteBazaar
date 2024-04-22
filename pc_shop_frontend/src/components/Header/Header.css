@@ -104,10 +104,12 @@
     color: #ffffff;
     margin: 0.7em 0.1em;
 }
+
 .category-menu-content a:hover {
     background-color: #c82727;
-    
+
 }
+
 .category-periphery-menu-content {
     display: block;
     position: absolute;
@@ -128,7 +130,44 @@
     color: #ffffff;
     margin: 0.7em 0.1em;
 }
+
 .category-periphery-menu-content a:hover {
     background-color: #c82727;
-    
+
+}
+
+.user-menu {
+    display: flex;
+    color: white;
+    text-align: center;
+    padding: 10px 25px 10px 45px;
+    text-decoration: none;
+    font-size: 28px;
+    align-self: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-dropdown-menu {
+    display: block;
+    position: absolute;
+    top: 100%;
+    right: 2.5em;
+    background-color: #C00000;
+    padding: 0 8px;
+    z-index: 1000;
+}
+
+.user-dropdown-menu a {
+    display: block;
+    padding: 7px;
+    font-size: 20px;
+    text-decoration: none;
+    color: #ffffff;
+    margin: 0.7em 0.1em;
+}
+
+.user-dropdown-menu a:hover {
+    background-color: #c82727;
+
 }
