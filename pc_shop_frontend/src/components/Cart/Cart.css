@@ -127,7 +127,7 @@
 
 .calculation-all-products {
     overflow-y: auto;
-    overflow-x: hidden; 
+    overflow-x: hidden;
     max-height: 30em;
 }
 
@@ -202,14 +202,17 @@
 
 
 .purchase-button {
+    display: inline-block;
     padding: 1em;
-    width: 6.5em;
+    width: 6em;
     margin-bottom: 3em;
     background-color: #C00000;
     color: #fff;
     cursor: pointer;
     font-weight: bold;
     border: none;
+    text-decoration: none;
+    text-align: center;
 }
 
 @media (max-width: 768px) {

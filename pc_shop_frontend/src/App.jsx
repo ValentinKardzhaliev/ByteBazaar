@@ -17,6 +17,8 @@ import { LoadingProvider } from './contexts/LoadingContext.jsx';
 import UserLikedProducts from './components/UserLikedProducts/UserLikedProducts.jsx';
 import CatalogList from './components/CatalogList/CatalogList.jsx';
 import Footer from './components/Footer/Footer.jsx';
+import CheckoutPage from './components/CheckoutPage/CheckoutPage.jsx';
+
 
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
                                 </>
                             } />
                             <Route path='/cart' element={<Cart />} />
+                            <Route path='/checkout' element={<CheckoutPage />} />
                             <Route path='/catalog/:category' element={
                                 <CatalogList />
                             } />

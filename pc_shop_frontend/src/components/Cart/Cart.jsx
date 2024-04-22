@@ -146,7 +146,7 @@ function Cart() {
                             <h1 className='total-price-label'>Total price:</h1>
                             <div className='total-price'>{Number(totalPrice + 7)}$</div>
                         </div>
-                        <button className='purchase-button'>Buy</button>
+                        <Link to="/checkout" className="purchase-button">Buy</Link>
                     </div>
                 </div>
 
