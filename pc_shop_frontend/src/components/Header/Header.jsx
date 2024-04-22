@@ -57,44 +57,25 @@ function Header() {
                         <SearchForm />
                     </div>
                     <div className="navbar-right-side">
-                        {user.token ? (
-                            <>
-                                <Link to="/logout">
-                                    <FontAwesomeIcon icon={faSignOut} />
-                                </Link>
-                                <Link to="/cart">
-                                    <FontAwesomeIcon icon={faCartShopping} />
-                                </Link>
+                        <>
+                            <Link to="/login">
+                                <FontAwesomeIcon icon={faUser} />
+                            </Link>
 
+                            <Link to="/cart">
+                                <FontAwesomeIcon icon={faCartShopping} />
+                            </Link>
 
-                                <Link to="/likes">
-                                    <FontAwesomeIcon icon={faHeart} />
-                                </Link>
+                            <Link to="/likes">
+                                <FontAwesomeIcon icon={faHeart} />
+                            </Link>
 
-                                <Link to={'#'}><FontAwesomeIcon icon={faGlobe} /></Link>
-
-                            </>
-                        ) : (
-                            <>
-                                <Link to="/login">
-                                    <FontAwesomeIcon icon={faUser} />
-                                </Link>
-
-
-                                <Link to="/cart">
-                                    <FontAwesomeIcon icon={faCartShopping} />
-                                </Link>
-
-
-                                <Link to="/likes">
-                                    <FontAwesomeIcon icon={faHeart} />
-                                </Link>
-                                <Link to={'#'}><FontAwesomeIcon icon={faGlobe} /></Link>
-
-                            </>
-                        )}
-
+                            <Link to={'#'}>
+                                <FontAwesomeIcon icon={faGlobe} />
+                            </Link>
+                        </>
                     </div>
+
                 </div>
             </nav>
         </header >
