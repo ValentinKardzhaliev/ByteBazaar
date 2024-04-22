@@ -1,42 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AuthContext from '../../contexts/AuthContext';
+import './UserOrders.css'
 
 function UserOrders() {
+    const { user } = useContext(AuthContext);
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/cart/orders/')
-            .then(response => {
+        const fetchOrders = async () => {
+            try {
+                const headers = {};
+
+                if (user && user.token) {
+                    headers.Authorization = `Token ${user.token}`;
+                }
+
+                const response = await fetch('https://bytebazaar.pythonanywhere.com/api/cart/orders/', {
+                    headers: headers
+                });
+
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
-            })
-            .then(data => {
+
+                const data = await response.json();
                 setOrders(data);
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error fetching data:', error);
-            });
-    }, []);
+            }
+        };
+
+        fetchOrders();
+    }, [user]);
 
     return (
-        <div>
+        <div className="user-orders-container">
             <h1>User Orders</h1>
-            <ul>
+            <ul className="order-list">
                 {orders.map(order => (
-                    <li key={order.id}>
-                        <p>Order ID: {order.id}</p>
-                        <p>Shipping Fee: {order.shipping_fee}</p>
-                        <p>Total Price: {order.total_price}</p>
-                        <p>Shipping Address: {order.shipping_address}</p>
-                        <p>Payment Info: {order.payment_info}</p>
-                        <p>Status: {order.status}</p>
-                        <p>Created At: {order.created_at}</p>
+                    <li key={order.id} className="order-item">
+                        <p className="order-detail">Order ID: {order.id}</p>
+                        <p className="order-detail">Shipping Fee: {order.shipping_fee}</p>
+                        <p className="order-detail">Total Price: {order.total_price}</p>
+                        <p className="order-detail">Shipping Address: {order.shipping_address}</p>
+                        <p className="order-detail">Payment Info: {order.payment_info}</p>
+                        <p className="order-detail">Status: {order.status}</p>
+                        <p className="order-detail">Created At: {order.created_at}</p>
                     </li>
                 ))}
             </ul>
         </div>
     );
+
 }
 
 export default UserOrders;
