@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from rest_framework import views as api_views
 
 from PC_shop_backend.api.models import ByteBazaarUserProfile
-from PC_shop_backend.api.seralizers import UserModel, CreateUserSerializer, PasswordChangeSerializer
+from PC_shop_backend.api.seralizers import UserModel, CreateUserSerializer, PasswordChangeSerializer, \
+    EmailChangeSerializer
 
 
 class APIRegisterView(generics.CreateAPIView):
@@ -76,3 +77,21 @@ class ChangePasswordView(api_views.APIView):
             update_session_auth_hash(request, user)
             return Response({"detail": "Password updated successfully."}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChangeEmailView(api_views.APIView):
+    def post(self, request):
+        serializer = EmailChangeSerializer(data=request.data)
+        if serializer.is_valid():
+            new_email = serializer.validated_data.get("new_email")
+            user = request.user
+
+            if UserModel.objects.filter(email=new_email).exists():
+                return Response({"detail": "Email is already in use."}, status=status.HTTP_400_BAD_REQUEST)
+
+            user.email = new_email
+            user.save()
+            return Response({"detail": "Email updated successfully."}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
