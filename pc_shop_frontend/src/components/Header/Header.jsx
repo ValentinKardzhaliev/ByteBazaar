@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartShopping, faUser, faSignOut, faBars, faGlobe } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SearchForm from '../SearchForm/SearchForm'
 import AuthContext from '../../contexts/AuthContext';
 import './Header.css';
@@ -11,6 +11,7 @@ function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isPeripheryMenuOpen, setIsPeripheryMenuOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const location = useLocation();
 
     const toggleMenu = () => {
         setIsMenuOpen(prev => !prev);
@@ -24,6 +25,12 @@ function Header() {
     const toggleUserMenu = () => {
         setIsUserMenuOpen(prev => !prev);
     };
+
+    useEffect(() => {
+        setIsMenuOpen(false);
+        setIsPeripheryMenuOpen(false);
+        setIsUserMenuOpen(false);
+    }, [location.pathname]);
 
     return (
         <header className="sticky-top">
@@ -41,7 +48,6 @@ function Header() {
                         </div>
                         {isMenuOpen && (
                             <div className="category-menu-content">
-                                {/* Your dropdown menu content here */}
                                 <Link to="/catalog/computers" onClick={toggleMenu}>Computers</Link>
                                 <Link to="/catalog/monitors" onClick={toggleMenu}>Monitors</Link>
                                 <Link to="#" onClick={togglePeripheryMenu}>Periphery</Link>
