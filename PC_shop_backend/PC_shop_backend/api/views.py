@@ -1,3 +1,4 @@
+from django.contrib.auth import update_session_auth_hash
 from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken import views as auth_views
@@ -5,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import views as api_views
 
 from PC_shop_backend.api.models import ByteBazaarUserProfile
-from PC_shop_backend.api.seralizers import UserModel, CreateUserSerializer
+from PC_shop_backend.api.seralizers import UserModel, CreateUserSerializer, PasswordChangeSerializer
 
 
 class APIRegisterView(generics.CreateAPIView):
@@ -58,3 +59,20 @@ class APILogoutView(api_views.APIView):
 
     def post(self, request):
         return self.__perform_logout(request)
+
+class ChangePasswordView(api_views.APIView):
+    def post(self, request):
+        serializer = PasswordChangeSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            old_password = serializer.validated_data.get("old_password")
+            new_password = serializer.validated_data.get("new_password")
+
+            if not user.check_password(old_password):
+                return Response({"detail": "Old password is incorrect."}, status=status.HTTP_400_BAD_REQUEST)
+
+            user.set_password(new_password)
+            user.save()
+            update_session_auth_hash(request, user)
+            return Response({"detail": "Password updated successfully."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -63,3 +63,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
         result.pop('password')
         result.pop('password_confirmation', None)  # Remove password_confirmation from the response
         return result
+
+class PasswordChangeSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
