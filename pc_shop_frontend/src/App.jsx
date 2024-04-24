@@ -19,6 +19,7 @@ import CatalogList from './components/CatalogList/CatalogList.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import CheckoutPage from './components/CheckoutPage/CheckoutPage.jsx';
 import UserOrders from './components/UserOrders/UserOrders.jsx';
+import ProfilePage from './components/ProfilePage/ProfilePage.jsx';
 
 
 
@@ -62,6 +63,7 @@ function App() {
                             <Route element={<IsNotLoggedIn />}>
                                 <Route path='/likes' element={<UserLikedProducts />} />
                                 <Route path='/logout' element={<Logout />} />
+                                <Route path='/profile' element={<ProfilePage />} />
                             </Route>
                             <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
                         </Routes>

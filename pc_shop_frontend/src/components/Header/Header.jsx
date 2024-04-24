@@ -68,7 +68,7 @@ function Header() {
                                 <div className="user-dropdown-menu">
                                     {user.token ? (
                                         <>
-                                            <Link to="#">Profile</Link>
+                                            <Link to="/profile">Profile</Link>
                                             <Link to="/orders">Orders</Link>
                                             <Link to="/logout">Logout</Link>
                                         </>
