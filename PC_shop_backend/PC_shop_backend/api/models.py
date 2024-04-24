@@ -5,7 +5,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class ByteBazaarUserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField(unique=True)
     phone = PhoneNumberField(null=True, blank=True, default="")
 
     def __str__(self):

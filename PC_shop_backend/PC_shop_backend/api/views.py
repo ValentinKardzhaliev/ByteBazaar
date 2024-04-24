@@ -1,4 +1,5 @@
 from django.contrib.auth import update_session_auth_hash
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken import views as auth_views
@@ -7,7 +8,7 @@ from rest_framework import views as api_views
 
 from PC_shop_backend.api.models import ByteBazaarUserProfile
 from PC_shop_backend.api.seralizers import UserModel, CreateUserSerializer, PasswordChangeSerializer, \
-    EmailChangeSerializer
+    EmailChangeSerializer, PhoneChangeSerializer
 
 
 class APIRegisterView(generics.CreateAPIView):
@@ -92,6 +93,24 @@ class ChangeEmailView(api_views.APIView):
             user.email = new_email
             user.save()
             return Response({"detail": "Email updated successfully."}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChangePhoneView(api_views.APIView):
+    def post(self, request):
+        serializer = PhoneChangeSerializer(data=request.data)
+        if serializer.is_valid():
+            new_phone = serializer.validated_data.get("new_phone")
+            user = request.user
+            try:
+                user_profile = user.bytebazaaruserprofile
+            except ObjectDoesNotExist:
+                return Response({"detail": "User profile does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+            user_profile.phone = new_phone
+            user_profile.save()
+            return Response({"detail": "Phone number updated successfully."}, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

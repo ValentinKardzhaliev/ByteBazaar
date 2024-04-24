@@ -3,7 +3,6 @@ from django.core import exceptions
 from rest_framework import serializers
 from django.contrib.auth import password_validation as validators
 
-
 UserModel = get_user_model()
 
 
@@ -11,7 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ('username', 'email', 'password')
-
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -55,7 +53,6 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
 
-
         return user
 
     def to_representation(self, instance):
@@ -64,6 +61,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
         result.pop('password_confirmation', None)  # Remove password_confirmation from the response
         return result
 
+
 class PasswordChangeSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
@@ -71,4 +69,7 @@ class PasswordChangeSerializer(serializers.Serializer):
 
 class EmailChangeSerializer(serializers.Serializer):
     new_email = serializers.EmailField(required=True)
+
+class PhoneChangeSerializer(serializers.Serializer):
+    new_phone = serializers.CharField(required=True)
 
