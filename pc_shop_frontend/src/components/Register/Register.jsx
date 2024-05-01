@@ -22,51 +22,56 @@ function Register() {
         <div className="register-container">
             <h2>Register</h2>
             <form className="register-form" onSubmit={registerHandler}>
-                <div className="form-group">
+                <div className="register-form-group">
                     <label htmlFor="username">Username:*</label>
                     <input
+                        className='register-username'
                         type="text"
                         id="username"
                         name="username"
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="register-form-group">
                     <label htmlFor="email">Email:*</label>
                     <input
+                        className='register-email'
                         type="email"
                         id="email"
                         name="email"
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="register-form-group">
                     <label htmlFor="phone">Phone:</label>
                     <input
+                        className='register-phone'
                         type="tel"
                         id="phone"
                         name="phone"
                     />
                 </div>
-                <div className="form-group">
+                <div className="register-form-group">
                     <label htmlFor="password">Password:*</label>
                     <input
+                        className='register-password'
                         type="password"
                         id="password"
                         name="password"
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="register-form-group">
                     <label htmlFor="password_confirmation">Confirm password:*</label>
                     <input
+                    className='register-password_confirmation'
                         type="password"
                         id="password_confirmation"
                         name="password_confirmation"
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="register-form-group">
                     <button type="submit">Register</button>
                 </div>
                 <div className="form-options">
