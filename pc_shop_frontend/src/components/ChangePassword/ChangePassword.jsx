@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import './ChangePassword.css'
 import AuthContext from '../../contexts/AuthContext';
-
+import { changePasswordUser } from '../../services/authService';
 
 function ChangePassword() {
     const { user } = useContext(AuthContext);
@@ -18,28 +18,15 @@ function ChangePassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch('https://bytebazaar.pythonanywhere.com/api/auth/change-password/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${user.token}`
-                },
-                body: JSON.stringify({
-                    old_password: oldPassword,
-                    new_password: newPassword
-                })
-            });
-            if (!response.ok) {
-                throw new Error('Failed to change password');
+        changePasswordUser(user.token, oldPassword, newPassword)
+            .then(() => {
+                console.log('Password changed successfully');
+                setOldPassword('');
+                setNewPassword('');
             }
-            console.log('Password changed successfully');
-            setOldPassword('');
-            setNewPassword('');
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
-    };
+            )
+            .catch(err => console.log(err))
+    }
 
     return (
         <div className="change-password-container">

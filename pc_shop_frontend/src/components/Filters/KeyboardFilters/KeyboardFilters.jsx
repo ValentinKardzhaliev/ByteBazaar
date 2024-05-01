@@ -93,35 +93,7 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
 
     return (
         <div className="keyboard-filters">
-            <h2>Keyboard Filters</h2>
-            {Object.entries(availableCharacteristics).map(([key, value]) => (
-                value.map((currentKey, currentValue) => typeof currentKey[key] == 'boolean' ? null :
-                    <div key={currentKey}>
-                        <h3>{key.replace('_', ' ').toUpperCase()}</h3>
-
-                        {renderCheckboxes(value, key)}
-                    </div>)
-
-            ))}
-
-            <h3>Wireless:</h3>
-            <input
-                type="checkbox"
-                id="wireless"
-                checked={appliedFilters.wireless}
-                onChange={(e) => updateFilters('wireless', e.target.checked)}
-            />
-            
-            {/* Render 'backlight' checkbox outside the loop */}
-            <h3>Backlight:</h3>
-            <input
-                type="checkbox"
-                id="backlight"
-                checked={appliedFilters.backlight}
-                onChange={(e) => updateFilters('backlight', e.target.checked)}
-            />
-            <br />
-
+            <button className="apply-btn" onClick={applyFilters}>Apply filters</button>
             <label htmlFor="price_range">Price Range:</label>
             <div className="range_container">
                 <div className="sliders_control">
@@ -144,8 +116,35 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
                 </div>
                 <span>Min: {appliedFilters.min_price} - Max: {appliedFilters.max_price}</span>
             </div>
+            
+            {Object.entries(availableCharacteristics).map(([key, value]) => (
+                value.map((currentKey, currentValue) => typeof currentKey[key] == 'boolean' ? null :
+                    <div key={currentKey}>
+                        <h3>{key.replace('_', ' ').toUpperCase()}</h3>
 
-            <button className="apply-btn" onClick={applyFilters}>Apply filters</button>
+                        {renderCheckboxes(value, key)}
+                    </div>)
+
+            ))}
+
+            <h3>Wireless:</h3>
+            <input
+                type="checkbox"
+                id="wireless"
+                checked={appliedFilters.wireless}
+                onChange={(e) => updateFilters('wireless', e.target.checked)}
+            />
+
+            {/* Render 'backlight' checkbox outside the loop */}
+            <h3>Backlight:</h3>
+            <input
+                type="checkbox"
+                id="backlight"
+                checked={appliedFilters.backlight}
+                onChange={(e) => updateFilters('backlight', e.target.checked)}
+            />
+            <br />
+
         </div>
     );
 };

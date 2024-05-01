@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllCharacteristics, getAllMonitorsByQueryParams } from '../../../services/productService';
+import './MonitorFilters.css';
 
 const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({
@@ -83,15 +84,8 @@ const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
     );
 
     return (
-        <div>
-            <h2>Filters</h2>
-            {Object.entries(availableCharacteristics).map(([key, value]) => (
-                <div key={key}>
-                    <h3>{key.replace('_', ' ').toUpperCase()}</h3>
-                    {renderCheckboxes(value, key)}
-                </div>
-            ))}
-
+        <div className='monitorFilters-container'>
+            <button onClick={applyFilters}>Apply Filters</button>
             <label htmlFor="price_range">Price Range:</label>
             <div className="range_container">
                 <div className="sliders_control">
@@ -114,8 +108,13 @@ const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
                 </div>
                 <span>Min: {appliedFilters.min_price} - Max: {appliedFilters.max_price}</span>
             </div>
+            {Object.entries(availableCharacteristics).map(([key, value]) => (
+                <div key={key}>
+                    <h3>{key.replace('_', ' ').toUpperCase()}</h3>
+                    {renderCheckboxes(value, key)}
+                </div>
+            ))}
 
-            <button onClick={applyFilters}>Apply Filters</button>
         </div>
     );
 };
