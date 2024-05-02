@@ -2,4 +2,14 @@
     box-shadow: 0px 4px 4px 0px #00000040;
     padding: 20px;
     margin-left: 2em;
+    margin: 1em 2em 2em 2em;
+}
+.btn-monitor-filters {
+    background-color: #C00000;
+    color: #ffffff;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
 }

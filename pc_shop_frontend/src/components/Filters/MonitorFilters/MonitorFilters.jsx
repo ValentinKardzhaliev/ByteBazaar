@@ -82,31 +82,53 @@ const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
             ))}
         </>
     );
+    const handleMinPriceChange = (e) => {
+        const newMinPrice = parseInt(e.target.value);
+        const newMaxPrice = parseInt(appliedFilters.max_price);
+
+        if (newMinPrice > newMaxPrice) {
+            updateFilters('max_price', newMinPrice.toString());
+        }
+        updateFilters('min_price', newMinPrice.toString());
+    };
+
+    const handleMaxPriceChange = (e) => {
+        const newMaxPrice = parseInt(e.target.value);
+        const newMinPrice = parseInt(appliedFilters.min_price);
+
+        if (newMaxPrice < newMinPrice) {
+            updateFilters('min_price', newMaxPrice.toString());
+        }
+        updateFilters('max_price', newMaxPrice.toString());
+    };
+
 
     return (
         <div className='monitorFilters-container'>
-            <button onClick={applyFilters}>Apply Filters</button>
-            <label htmlFor="price_range">Price Range:</label>
+            <button className='btn-monitor-filters' onClick={applyFilters}>Apply Filters</button>
+            <p><label htmlFor="price_range">Price Range:</label></p>
             <div className="range_container">
                 <div className="sliders_control">
                     <input
                         id="fromSlider"
                         type="range"
-                        value={appliedFilters.min_price}
+                        value={appliedFilters.min_price  || '0'}
                         min="0"
                         max="3000"
-                        onChange={(e) => updateFilters('min_price', e.target.value)}
+                        step={50}
+                        onChange={handleMinPriceChange}
                     />
                     <input
                         id="toSlider"
                         type="range"
-                        value={appliedFilters.max_price}
+                        value={appliedFilters.max_price  || '3000'}
                         min="0"
                         max="3000"
-                        onChange={(e) => updateFilters('max_price', e.target.value)}
+                        step={50}
+                        onChange={handleMaxPriceChange}
                     />
                 </div>
-                <span>Min: {appliedFilters.min_price} - Max: {appliedFilters.max_price}</span>
+                <span>Min: {appliedFilters.min_price || '0'} - Max: {appliedFilters.max_price || '3000'}</span>
             </div>
             {Object.entries(availableCharacteristics).map(([key, value]) => (
                 <div key={key}>

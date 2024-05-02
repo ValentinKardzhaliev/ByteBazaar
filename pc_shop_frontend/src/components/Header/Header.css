@@ -28,7 +28,7 @@
     display: flex;
     color: white;
     text-align: center;
-    padding: 10px 25px 10px 45px;
+    padding: 10px 30px 10px 30px;
     text-decoration: none;
     font-size: 28px;
     align-self: center;
@@ -76,11 +76,12 @@
 .search-bar-section form input {
     width: 34em;
     height: 2.2em;
+    padding: 10px;
+    border-radius: 15px;
 }
 
 .search-bar-section form input::placeholder {
-    margin-left: 0.2em;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 
@@ -140,7 +141,7 @@
     display: flex;
     color: white;
     text-align: center;
-    padding: 10px 25px 10px 45px;
+    padding: 10px 30px 10px 30px;
     text-decoration: none;
     font-size: 28px;
     align-self: center;
