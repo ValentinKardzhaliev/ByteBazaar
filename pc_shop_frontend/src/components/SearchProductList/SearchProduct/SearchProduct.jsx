@@ -7,7 +7,7 @@ function SearchProduct(props) {
 
     return (
         <li className="product-item">
-            <img src={`${props.product.images[0].image}`} alt={props.product.name} className="product-image" />
+            <img src={`https://bytebazaar.pythonanywhere.com/${props.product.images[0].image}`} alt={props.product.name} className="product-image" />
             <div className="product-details">
                 <h2 className="product-name">{props.product.name}</h2>
             </div>
