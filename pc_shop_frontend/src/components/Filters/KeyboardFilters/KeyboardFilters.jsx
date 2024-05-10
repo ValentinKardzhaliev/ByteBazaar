@@ -8,7 +8,7 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
         backlight: false,
         wireless: false,
         color: [],
-        format: [],
+        keyboard_format: [],
         layout: [],
         polling_rate_hz: [],
         brand: [],
@@ -139,10 +139,10 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
             </div>
             
             {/* Render 'format' and 'layout' characteristics once */}
-            {availableCharacteristics.format && (
-                <div key="format">
+            {availableCharacteristics.keyboard_format && (
+                <div key="keyboard_format">
                     <h3>FORMAT</h3>
-                    {renderCheckboxes(availableCharacteristics.format, 'format')}
+                    {renderCheckboxes(availableCharacteristics.keyboard_format, 'keyboard_format')}
                 </div>
             )}
             {availableCharacteristics.layout && (
@@ -154,7 +154,7 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
         
             {/* Render other characteristics */}
             {Object.entries(availableCharacteristics).map(([key, value]) => (
-                key !== 'format' && key !== 'layout' && 
+                key !== 'keyboard_format' && key !== 'layout' && 
                 value.map((currentKey, currentValue) => typeof currentKey[key] == 'boolean' ? null :
                     <div key={currentKey}>
                         <h3>{key.replace('_', ' ').toUpperCase()}</h3>
