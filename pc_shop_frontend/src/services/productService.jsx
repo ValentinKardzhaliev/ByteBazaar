@@ -1,4 +1,4 @@
-const baseUrl = 'https://bytebazaar.pythonanywhere.com/';
+const baseUrl = 'http://127.0.0.1:8000/';
 
 // *service for products
 
