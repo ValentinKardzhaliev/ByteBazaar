@@ -75,7 +75,7 @@ class Keyboard(Product):
     backlight = models.BooleanField(default=False)
     color = models.CharField(max_length=20, blank=True, null=True)
     wireless = models.BooleanField(default=False)
-    format = models.CharField(
+    keyboard_format = models.CharField(
         max_length=20,
         choices=[
             ('full_size', 'Full size'),
