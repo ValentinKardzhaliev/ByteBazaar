@@ -5,8 +5,8 @@ import { Navigate, Outlet } from "react-router-dom";
 const IsNotLoggedIn = () => {
     const { user } = useContext(AuthContext);
 
-    if (!user.token) {
-        return <Navigate to='/login' replace />
+    if (user.token) {
+        return <Navigate to='/' replace />
     }
 
     return <Outlet />

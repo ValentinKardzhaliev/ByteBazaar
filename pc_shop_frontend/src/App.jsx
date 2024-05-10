@@ -20,9 +20,7 @@ import Footer from './components/Footer/Footer.jsx';
 import CheckoutPage from './components/CheckoutPage/CheckoutPage.jsx';
 import UserOrders from './components/UserOrders/UserOrders.jsx';
 import ProfilePage from './components/ProfilePage/ProfilePage.jsx';
-
-
-
+import ChangePassword from './components/ChangePassword/ChangePassword.jsx';
 
 function App() {
     return (
@@ -55,15 +53,16 @@ function App() {
                                     <SearchProductList />
                                 </>
                             } />
-                            <Route element={<IsLoggedIn />}>
+                            <Route element={<IsNotLoggedIn />}>
                                 <Route path='/login' element={<Login />} />
                                 <Route path='/register' element={<Register />} />
 
                             </Route>
-                            <Route element={<IsNotLoggedIn />}>
+                            <Route element={<IsLoggedIn />}>
                                 <Route path='/likes' element={<UserLikedProducts />} />
                                 <Route path='/logout' element={<Logout />} />
                                 <Route path='/profile' element={<ProfilePage />} />
+                                <Route path="/change-password" element={<ChangePassword />} />
                             </Route>
                             <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
                         </Routes>

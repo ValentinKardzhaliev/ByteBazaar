@@ -128,7 +128,7 @@ function ProductDetails() {
 
     return (
         <>
-            <hr />
+            <hr className="characteristics-divider" />
             <div className="product-details-page-container">
                 <div className="product-images">
                     <div className="main-image-container">

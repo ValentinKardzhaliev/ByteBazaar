@@ -1,19 +1,10 @@
-.keyboard-filters {
+.monitorFilters-container {
     box-shadow: 0px 4px 4px 0px #00000040;
     padding: 20px;
+    margin-left: 2em;
     margin: 1em 2em 2em 2em;
 }
-
-.keyboard-filters label {
-    margin-bottom: 8px;
-}
-
-.keyboard-filters .price-indicator {
-    margin-left: 8px;
-    color: #000000;
-}
-
-.keyboard-filters .btn-keyboard-filters {
+.btn-monitor-filters {
     background-color: #C00000;
     color: #ffffff;
     padding: 8px;

@@ -107,7 +107,7 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
 
     return (
         <div className='filters-container'>
-            <button onClick={applyFilters}>Apply Filters</button>
+            <button className='btn-computer-filters' onClick={applyFilters}>Apply Filters</button>
             <p><label htmlFor="price_range">Price Range:</label></p>
             <div className="range_container">
                 <div className="sliders_control">
@@ -130,7 +130,7 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
                         onChange={handleMaxPriceChange}
                     />
                 </div>
-                <span>Min: {appliedFilters.min_price} - Max: {appliedFilters.max_price}</span>
+                <span>Min: {appliedFilters.min_price || '0'} - Max: {appliedFilters.max_price || '3000'}</span>
             </div>
             {Object.entries(availableCharacteristics).map(([key, value]) => (
                 <div key={key}>

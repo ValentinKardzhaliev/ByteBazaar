@@ -4,8 +4,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     padding: 30px;
     width: 400px;
-    margin: auto;
-    margin-top: 50px;
+    margin: 50px auto;
     text-align: center;
 }
 
@@ -20,11 +19,11 @@
     font-size: 22px;
 }
 
-.register-group {
+.register-form-group {
     margin-bottom: 20px;
 }
 
-.register-group label {
+.register-form-group label {
     font-weight: bold;
     margin-bottom: 10px;
     display: block;
@@ -32,7 +31,7 @@
     float: left;
 }
 
-.form-group input {
+.register-form-group input {
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -40,7 +39,7 @@
     font-size: 16px;
 }
 
-.form-group button {
+.register-form-group button {
     background-color: #C00000;
     color: #fff;
     padding: 15px;
@@ -52,7 +51,7 @@
     transition: background-color 0.3s;
 }
 
-.form-group button:hover {
+.register-form-group button:hover {
     background-color: #cf3333;
 }
 

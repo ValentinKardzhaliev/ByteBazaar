@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import './ProfilePage.css'
 
 
@@ -16,7 +17,7 @@ const ProfilePage = () => {
                     <div className='personal-details-container'>
                         <h2 className='personal-details-header'>Profile Details</h2>
                         <ul className='profile-options'>
-                            <li className='profile-option'>Change Password</li>
+                            <li className='profile-option'><Link to="/change-password">Change Password</Link></li>
                             <li className='profile-option'>Edit Address</li>
                             <li className='profile-option'>Edit Phone Number</li>
                             <li className='profile-option'>Change Email</li>

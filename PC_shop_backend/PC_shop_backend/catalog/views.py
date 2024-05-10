@@ -17,35 +17,13 @@ class ComputerViewSet(viewsets.ModelViewSet):
     filter_backends = [ProductFilterBackend]
 
     def list(self, request, *args, **kwargs):
-        graphics_values = request.query_params.getlist('graphics', [])
-        graphics_values = [value.lower() for value in graphics_values]
-
-        # Split graphics values using both comma and space
-        graphics_values = [item for sublist in [value.split(',') for value in graphics_values] for item in sublist]
-
-        processor = request.query_params.get('processor', '').lower()
-        memory = request.query_params.get('memory', '').lower()
-        storage = request.query_params.get('storage', '').lower()
-
-        # Create a Q object for graphics values with icontains lookup
-        graphics_condition = Q()
-        for graphics_value in graphics_values:
-            graphics_condition |= Q(graphics__icontains=graphics_value)
-
-        # Combine all conditions using AND
         conditions = Q()
-        if graphics_condition:
-            conditions &= graphics_condition
-        if processor:
-            conditions &= Q(processor__icontains=processor)
-        if memory:
-            conditions &= Q(memory__icontains=memory)
-        if storage:
-            conditions &= Q(storage__icontains=storage)
+        for field in Computer._meta.fields:
+            param_value = request.query_params.get(field.name, '').lower()
+            if param_value:
+                conditions &= Q(**{f"{field.name}__icontains": param_value})
 
-        # Filter the queryset using the combined conditions
         self.queryset = self.queryset.filter(conditions)
-
         return super().list(request, *args, **kwargs)
 
 
@@ -55,28 +33,13 @@ class MonitorViewSet(viewsets.ModelViewSet):
     filter_backends = [ProductFilterBackend]
 
     def list(self, request, *args, **kwargs):
-        resolution = request.query_params.get('resolution', '').lower()
-        refresh_rate = request.query_params.get('refresh_rate', '').lower()
-        panel_type = request.query_params.get('panel_type', '').lower()
-        size = request.query_params.get('size', '').lower()
-
-        resolution_condition = Q(resolution__icontains=resolution)
-        refresh_rate_condition = Q(refresh_rate__icontains=refresh_rate)
-        panel_type_condition = Q(panel_type__icontains=panel_type)
-        size_condition = Q(size__icontains=size)
-
         conditions = Q()
-        if resolution:
-            conditions &= resolution_condition
-        if refresh_rate:
-            conditions &= refresh_rate_condition
-        if panel_type:
-            conditions &= panel_type_condition
-        if size:
-            conditions &= size_condition
+        for field in Monitor._meta.fields:
+            param_value = request.query_params.get(field.name, '').lower()
+            if param_value:
+                conditions &= Q(**{f"{field.name}__icontains": param_value})
 
         self.queryset = self.queryset.filter(conditions)
-
         return super().list(request, *args, **kwargs)
 
 
@@ -86,30 +49,14 @@ class KeyboardViewSet(viewsets.ModelViewSet):
     filter_backends = [ProductFilterBackend]
 
     def list(self, request, *args, **kwargs):
-        key_switch_type = request.query_params.get('key_switch_type', '').lower()
-        backlight = request.query_params.get('backlight', '').lower()
-        color = request.query_params.get('color', '').lower()
-        wireless = request.query_params.get('wireless', '').lower()
-
-        key_switch_type_condition = Q(key_switch_type__icontains=key_switch_type)
-        backlight_condition = Q(backlight=backlight == 'true')
-        color_condition = Q(color__icontains=color)
-        wireless_condition = Q(wireless=wireless == 'true')
-
         conditions = Q()
-        if key_switch_type:
-            conditions &= key_switch_type_condition
-        if backlight:
-            conditions &= backlight_condition
-        if color:
-            conditions &= color_condition
-        if wireless:
-            conditions &= wireless_condition
+        for field in Keyboard._meta.fields:
+            param_value = request.query_params.get(field.name, '').lower()
+            if param_value:
+                conditions &= Q(**{f"{field.name}__icontains": param_value})
 
         self.queryset = self.queryset.filter(conditions)
-
         return super().list(request, *args, **kwargs)
-
 
 class ProductDetailsView(APIView):
     def get_object(self, product_type, pk):

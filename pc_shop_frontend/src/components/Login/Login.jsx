@@ -19,31 +19,33 @@ function Login() {
         <div className="login-container">
             <h2>Login</h2>
             <form className="login-form" onSubmit={loginHandler}>
-                <div className="form-group">
+                <div className="login-form-group">
                     <label htmlFor="username">Username:</label>
                     <input
+                        className='login-username'
                         type="text"
                         id="username"
                         name="username"
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="login-form-group">
                     <label htmlFor="password">Password:</label>
                     <input
+                        className='login-password'
                         type="password"
                         id="password"
                         name="password"
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <p className='forgot-password'>
+                <div className="login-form-group">
+                    <p className='login-forgot-password'>
                         <Link to="/forgot-password">Forgot your password?</Link>
                     </p>
                     <button type="submit">Login</button>
                 </div>
-                <div className="form-options">
+                <div className="login-form-options">
                     <p>
                         Don't have an account? <Link to="/register">Create one</Link>
                     </p>

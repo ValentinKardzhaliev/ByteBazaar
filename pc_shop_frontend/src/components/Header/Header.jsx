@@ -95,10 +95,6 @@ function Header() {
                         <Link to="/likes">
                             <FontAwesomeIcon icon={faHeart} />
                         </Link>
-
-                        <Link to={'#'}>
-                            <FontAwesomeIcon icon={faGlobe} />
-                        </Link>
                     </div>
                 </div>
             </nav>
