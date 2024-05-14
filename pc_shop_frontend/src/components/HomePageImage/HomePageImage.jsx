@@ -1,4 +1,4 @@
-import backgroundImage from '../../assets/images/home-page-first-image.jpg'
+import backgroundImage from '../../assets/images/asustufpromo-ecoms.webp'
 import './HomePageImage.css'
 
 function HomePageImage() {
