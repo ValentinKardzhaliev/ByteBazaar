@@ -7,7 +7,7 @@ const Footer = () => {
     const [message, setMessage] = useState('');
     const [csrfToken, setCsrfToken] = useState('');
 
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,20 +41,24 @@ const Footer = () => {
         <footer className="footer">
             <div className="footer-content">
                 <h2>Contact Us</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                <form onSubmit={handleSubmit} className='contact-form'>
+                    <div className="name-email-group">
+                        <div className="form-group">
+                            <label htmlFor="name">Name:</label>
+                            <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email:</label>
+                            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-                    <div className="form-group">
+                    <div className="form-group message-container">
                         <label htmlFor="message">Message:</label>
                         <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} />
                     </div>
-                    <button type="submit">Send</button>
+                    <div className="submit-contact-container">
+                        <button type="submit-contact">Send</button>
+                    </div>
                 </form>
             </div>
         </footer>
