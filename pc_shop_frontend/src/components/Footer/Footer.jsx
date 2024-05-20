@@ -94,7 +94,6 @@ const Footer = () => {
                         <h3>For Clients</h3>
                         <ul className='about-list'>
                             <li>Advice</li>
-                            <li>Brands</li>
                             <li>Transport</li>
                             <li>Delivery of orders</li>
                             <li>Services</li>
