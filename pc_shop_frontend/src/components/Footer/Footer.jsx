@@ -41,7 +41,7 @@ const Footer = () => {
 
     return (
         <footer className="footer">
-            <div className="footer-content">
+            <div className="footer-contact-content">
                 <div className="contact-ways">
                     <h2>Contact Us</h2>
                     <div className="contact-social-icons">
@@ -70,6 +70,47 @@ const Footer = () => {
                         <button type="submit-contact">Send</button>
                     </div>
                 </form>
+            </div>
+            <div className="footer-info-content">
+                <div className="footer-lists-container">
+                    <div className="footer-about">
+                        <h3>ByteBazaar</h3>
+                        <ul className='about-list'>
+                            <li>About us</li>
+                            <li>Work with us</li>
+                            <li>News</li>
+                            <li>Terms and Conditions</li>
+                        </ul>
+                    </div>
+                    <div className="footer-about">
+                        <h3>Contacts</h3>
+                        <ul className='about-list'>
+                            <li>Contacts</li>
+                            <li>Shops</li>
+                            <li>Repairs</li>
+                        </ul>
+                    </div>
+                    <div className="footer-about">
+                        <h3>For Clients</h3>
+                        <ul className='about-list'>
+                            <li>Advice</li>
+                            <li>Brands</li>
+                            <li>Transport</li>
+                            <li>Delivery of orders</li>
+                            <li>Services</li>
+                            <li>Returning a product</li>
+                            <li>Refunds</li>
+                        </ul>
+                    </div>
+                    <div className="footer-about">
+                        <h3>General Information</h3>
+                        <ul className='about-list'>
+                            <li>Help</li>
+                            <li>How to order</li>
+                            <li>Recycling</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </footer>
     );
