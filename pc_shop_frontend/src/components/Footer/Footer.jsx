@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './Footer.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram, faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons"
+
 
 const Footer = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
-    const [csrfToken, setCsrfToken] = useState('');
 
 
 
@@ -40,7 +42,15 @@ const Footer = () => {
     return (
         <footer className="footer">
             <div className="footer-content">
-                <h2>Contact Us</h2>
+                <div className="contact-ways">
+                    <h2>Contact Us</h2>
+                    <div className="contact-social-icons">
+                        <FontAwesomeIcon icon={faFacebook} className='contact-icon' />
+                        <FontAwesomeIcon icon={faInstagram} className='contact-icon' />
+                        <FontAwesomeIcon icon={faLinkedin} className='contact-icon' />
+                        <FontAwesomeIcon icon={faGithub} className='contact-icon' />
+                    </div>
+                </div>
                 <form onSubmit={handleSubmit} className='contact-form'>
                     <div className="name-email-group">
                         <div className="form-group">
