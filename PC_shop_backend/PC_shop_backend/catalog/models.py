@@ -38,6 +38,29 @@ class Computer(Product):
         return f"{self.name} - {self.processor} - {self.memory} - {self.storage}"
 
 
+class Laptop(Product):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type = 'laptop'
+
+    processor = models.CharField(max_length=50)
+    graphics = models.CharField(max_length=50)
+    memory = models.CharField(max_length=50)
+    storage = models.CharField(max_length=50)
+
+    screen_size = models.CharField(max_length=20)
+    battery_life = models.CharField(max_length=20)
+    weight = models.CharField(max_length=20)
+
+    operating_system = models.CharField(max_length=200, blank=True, null=True)
+    touchscreen = models.BooleanField(default=False)
+    webcam = models.BooleanField(default=True)
+    fingerprint_reader = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name} - {self.processor} - {self.memory} - {self.storage}"
+
+
 class Monitor(Product):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -8,7 +8,7 @@ from ..common.filters import ProductFilterBackend
 from ..common.models import Product
 from ..common.serializers import ProductSerializer, FilteredProductSerializer
 from rest_framework import viewsets
-from .models import Computer, Monitor, Keyboard
+from .models import Computer, Monitor, Keyboard, Laptop
 
 
 class BaseProductViewSet(viewsets.ModelViewSet):
@@ -40,6 +40,10 @@ class MonitorViewSet(BaseProductViewSet):
 
 class KeyboardViewSet(BaseProductViewSet):
     model = Keyboard
+
+
+class LaptopViewSet(BaseProductViewSet):
+    model = Laptop
 
 
 class ProductDetailsView(APIView):
