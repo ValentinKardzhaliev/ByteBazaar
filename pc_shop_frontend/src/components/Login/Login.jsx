@@ -20,7 +20,7 @@ function Login() {
             <h2>Login</h2>
             <form className="login-form" onSubmit={loginHandler}>
                 <div className="login-form-group">
-                    <label htmlFor="username">Username:</label>
+                    <label htmlFor="username">Username</label>
                     <input
                         className='login-username'
                         type="text"
@@ -30,7 +30,7 @@ function Login() {
                     />
                 </div>
                 <div className="login-form-group">
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password">Password</label>
                     <input
                         className='login-password'
                         type="password"

@@ -23,7 +23,7 @@ function Register() {
             <h2>Register</h2>
             <form className="register-form" onSubmit={registerHandler}>
                 <div className="register-form-group">
-                    <label htmlFor="username">Username:*</label>
+                    <label htmlFor="username">Username*</label>
                     <input
                         className='register-username'
                         type="text"
@@ -33,7 +33,7 @@ function Register() {
                     />
                 </div>
                 <div className="register-form-group">
-                    <label htmlFor="email">Email:*</label>
+                    <label htmlFor="email">Email*</label>
                     <input
                         className='register-email'
                         type="email"
@@ -43,7 +43,7 @@ function Register() {
                     />
                 </div>
                 <div className="register-form-group">
-                    <label htmlFor="phone">Phone:</label>
+                    <label htmlFor="phone">Phone</label>
                     <input
                         className='register-phone'
                         type="tel"
@@ -52,7 +52,7 @@ function Register() {
                     />
                 </div>
                 <div className="register-form-group">
-                    <label htmlFor="password">Password:*</label>
+                    <label htmlFor="password">Password*</label>
                     <input
                         className='register-password'
                         type="password"
@@ -62,7 +62,7 @@ function Register() {
                     />
                 </div>
                 <div className="register-form-group">
-                    <label htmlFor="password_confirmation">Confirm password:*</label>
+                    <label htmlFor="password_confirmation">Confirm password*</label>
                     <input
                     className='register-password_confirmation'
                         type="password"
