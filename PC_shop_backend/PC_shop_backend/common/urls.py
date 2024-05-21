@@ -8,5 +8,4 @@ urlpatterns = [
     path('liked_products/', LikedProductsView.as_view(), name='liked products'),
     path('send_email/', send_email, name='send_email'),
     path('csrf/', get_csrf_token, name='get_csrf_token'),
-
 ]

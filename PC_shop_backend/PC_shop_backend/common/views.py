@@ -118,6 +118,9 @@ def send_email(request):
         message = data.get('message')
         recipients = ['valentinkardzhaliev@gmail.com', 'simitchievbogomil@gmail.com', 'iordan.paunov@abv.bg']
 
+        if not name or not email or not message:
+            return JsonResponse({'success': False, 'message': 'Name, email, and message are required fields'})
+
         subject = f"Message from {name}"
         email_message = f"Sender's Name: {name}\nSender's Email: {email}\n\nMessage:\n{message}"
 
