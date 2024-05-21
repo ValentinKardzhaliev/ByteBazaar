@@ -11,52 +11,36 @@ from rest_framework import viewsets
 from .models import Computer, Monitor, Keyboard
 
 
-class ComputerViewSet(viewsets.ModelViewSet):
-    queryset = Computer.objects.all()
+class BaseProductViewSet(viewsets.ModelViewSet):
     serializer_class = FilteredProductSerializer
     filter_backends = [ProductFilterBackend]
+    model = None
+
+    def get_queryset(self):
+        return self.model.objects.all()
 
     def list(self, request, *args, **kwargs):
         conditions = Q()
-        for field in Computer._meta.fields:
+        for field in self.model._meta.fields:
             param_value = request.query_params.get(field.name, '').lower()
             if param_value:
                 conditions &= Q(**{f"{field.name}__icontains": param_value})
 
-        self.queryset = self.queryset.filter(conditions)
+        self.queryset = self.get_queryset().filter(conditions)
         return super().list(request, *args, **kwargs)
 
 
-class MonitorViewSet(viewsets.ModelViewSet):
-    queryset = Monitor.objects.all()
-    serializer_class = FilteredProductSerializer
-    filter_backends = [ProductFilterBackend]
-
-    def list(self, request, *args, **kwargs):
-        conditions = Q()
-        for field in Monitor._meta.fields:
-            param_value = request.query_params.get(field.name, '').lower()
-            if param_value:
-                conditions &= Q(**{f"{field.name}__icontains": param_value})
-
-        self.queryset = self.queryset.filter(conditions)
-        return super().list(request, *args, **kwargs)
+class ComputerViewSet(BaseProductViewSet):
+    model = Computer
 
 
-class KeyboardViewSet(viewsets.ModelViewSet):
-    queryset = Keyboard.objects.all()
-    serializer_class = FilteredProductSerializer
-    filter_backends = [ProductFilterBackend]
+class MonitorViewSet(BaseProductViewSet):
+    model = Monitor
 
-    def list(self, request, *args, **kwargs):
-        conditions = Q()
-        for field in Keyboard._meta.fields:
-            param_value = request.query_params.get(field.name, '').lower()
-            if param_value:
-                conditions &= Q(**{f"{field.name}__icontains": param_value})
 
-        self.queryset = self.queryset.filter(conditions)
-        return super().list(request, *args, **kwargs)
+class KeyboardViewSet(BaseProductViewSet):
+    model = Keyboard
+
 
 class ProductDetailsView(APIView):
     def get_object(self, product_type, pk):
