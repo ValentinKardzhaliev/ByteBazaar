@@ -1,6 +1,7 @@
 import json
 import smtplib
 from email.mime.text import MIMEText
+from django_countries import countries
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
@@ -144,3 +145,9 @@ def send_email(request):
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrfToken': csrf_token})
+
+
+
+def get_countries(request):
+    country_list = [{'code': code, 'name': name} for code, name in list(countries)]
+    return JsonResponse({'countries': country_list})

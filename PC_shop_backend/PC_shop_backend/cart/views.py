@@ -153,7 +153,13 @@ class OrderCreateView(APIView):
     def post(self, request):
         cart_id = request.data.get('cart')
         shipping_address = request.data.get('shipping_address')
-        payment_info = request.data.get('payment_info')
+        payment_method = request.data.get('payment_method')
+        name = request.data.get('name')
+        surname = request.data.get('surname')
+        phone = request.data.get('phone')
+        country = request.data.get('country')
+        city = request.data.get('city')
+        post_code = request.data.get('post_code')
 
         try:
             cart = Cart.objects.get(pk=cart_id)
@@ -167,7 +173,13 @@ class OrderCreateView(APIView):
                 'cart': cart_id,
                 'shipping_fee': 7.00,
                 'shipping_address': shipping_address,
-                'payment_info': payment_info
+                'payment_method': payment_method,
+                'name': name,
+                'surname': surname,
+                'phone': phone,
+                'country': country,
+                'city': city,
+                'post_code': post_code
             }
         else:
             token = cart.token
@@ -176,12 +188,21 @@ class OrderCreateView(APIView):
                 'token': token,
                 'shipping_fee': 7.00,
                 'shipping_address': shipping_address,
-                'payment_info': payment_info
+                'payment_method': payment_method,
+                'name': name,
+                'surname': surname,
+                'phone': phone,
+                'country': country,
+                'city': city,
+                'post_code': post_code
             }
 
         serializer = OrderSerializer(data=order_data)
         if serializer.is_valid():
             serializer.save()
+
+            cart.delete()
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -1,6 +1,9 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from phonenumber_field.modelfields import PhoneNumberField
+from django_countries.fields import CountryField
 
 from PC_shop_backend.api.seralizers import UserModel
 from PC_shop_backend.common.models import Product
@@ -32,15 +35,15 @@ class Cart(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=True, blank=True)
-    token = models.UUIDField(editable=False, null=True, blank=True)
-    cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
-    shipping_fee = models.DecimalField(max_digits=6, decimal_places=2, default=7.00)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    shipping_address = models.TextField()
-    payment_info = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    post_code_validator = RegexValidator(regex=r'^[A-Za-z0-9 ]+$', message='Enter a valid postal code.')
+
+    PAYMENT_CHOICES = [
+        ('CREDIT', 'Credit Card'),
+        ('PAYPAL', 'PayPal'),
+        ('BANK_TRANSFER', 'Bank Transfer'),
+        ('CASH', 'Cash'),
+        ('DEBIT', 'Debit Card'),
+    ]
     STATUS_CHOICES = (
         ('Pending', 'Pending'),
         ('Processing', 'Processing'),
@@ -48,6 +51,27 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
         ('Canceled', 'Canceled'),
     )
+
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=True, blank=True)
+    token = models.UUIDField(editable=False, null=True, blank=True)
+    cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
+    shipping_fee = models.DecimalField(max_digits=6, decimal_places=2, default=7.00)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    name = models.CharField(max_length=30)
+    surname = models.CharField(max_length=30)
+    phone = PhoneNumberField(null=True, blank=True, default="")
+    country = CountryField(blank_label='(select country)')
+    city = models.CharField(max_length=100)
+    shipping_address = models.TextField()
+    payment_method = models.CharField(
+        max_length=14,
+        choices=PAYMENT_CHOICES,
+        default='CREDIT',
+    )
+    email = models.EmailField(null=True, blank=True)
+    post_code = models.CharField(max_length=20, validators=[post_code_validator])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
 
     def save(self, *args, **kwargs):

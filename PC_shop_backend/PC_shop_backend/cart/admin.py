@@ -10,8 +10,7 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['id', 'user__username', 'token', 'shipping_address', 'payment_info']
     readonly_fields = ['created_at', 'updated_at']
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+    def payment_info(self, obj):
+        return obj.payment_method
 
-    def has_add_permission(self, request):
-        return False
+    payment_info.short_description = 'Payment Method'
