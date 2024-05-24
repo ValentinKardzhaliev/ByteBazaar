@@ -54,7 +54,6 @@ class Order(models.Model):
 
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, null=True, blank=True)
     token = models.UUIDField(editable=False, null=True, blank=True)
-    cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
     shipping_fee = models.DecimalField(max_digits=6, decimal_places=2, default=7.00)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     name = models.CharField(max_length=30)
@@ -74,21 +73,23 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
 
-    def save(self, *args, **kwargs):
+    def save(self, cart_items=None, *args, **kwargs):
         total_price = 0
-        for cart_item in self.cart.items.all():
-            product = None
-            for model_class in Product.__subclasses__():
-                try:
-                    product = model_class.objects.get(pk=cart_item.product_id)
-                    break
-                except model_class.DoesNotExist:
-                    continue
+        if not self.pk and cart_items:
+            for cart_item in cart_items:
+                product = None
+                for model_class in Product.__subclasses__():
+                    try:
+                        product = model_class.objects.get(pk=cart_item.product_id)
+                        break
+                    except model_class.DoesNotExist:
+                        continue
 
-            if product:
-                total_price += product.price * cart_item.quantity
+                if product:
+                    total_price += product.price * cart_item.quantity
 
-        total_price += self.shipping_fee
+            total_price += self.shipping_fee
+
         self.total_price = total_price
 
         if not self.pk:

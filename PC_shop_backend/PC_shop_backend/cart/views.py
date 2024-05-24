@@ -150,6 +150,8 @@ def decrease_quantity(request, product_id):
 
 
 class OrderCreateView(APIView):
+    SHIPPING_FEE = 7.00
+
     def post(self, request):
         cart_id = request.data.get('cart')
         shipping_address = request.data.get('shipping_address')
@@ -161,16 +163,14 @@ class OrderCreateView(APIView):
         city = request.data.get('city')
         post_code = request.data.get('post_code')
 
-        try:
-            cart = Cart.objects.get(pk=cart_id)
-        except Cart.DoesNotExist:
-            return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
+        cart = get_object_or_404(Cart, pk=cart_id)
+
+        user = getattr(cart, 'user_id', None)
+        token = getattr(cart, 'token', None)
 
         if cart.user_id:
-            user = cart.user_id
             order_data = {
                 'user': user,
-                'cart': cart_id,
                 'shipping_fee': 7.00,
                 'shipping_address': shipping_address,
                 'payment_method': payment_method,
@@ -182,9 +182,7 @@ class OrderCreateView(APIView):
                 'post_code': post_code
             }
         else:
-            token = cart.token
             order_data = {
-                'cart': cart_id,
                 'token': token,
                 'shipping_fee': 7.00,
                 'shipping_address': shipping_address,
@@ -199,10 +197,8 @@ class OrderCreateView(APIView):
 
         serializer = OrderSerializer(data=order_data)
         if serializer.is_valid():
-            serializer.save()
-
+            serializer.save(cart_items=cart.items.all())
             cart.delete()
-
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

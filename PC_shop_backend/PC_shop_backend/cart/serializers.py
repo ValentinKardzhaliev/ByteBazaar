@@ -40,3 +40,10 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
+
+    def create(self, validated_data):
+        cart_items = validated_data.pop('cart_items')
+        order = Order.objects.create(**validated_data)
+
+
+        return order
