@@ -219,8 +219,7 @@ class OrderListView(ListAPIView):
             if remote_addr:
                 token = uuid.uuid5(uuid.NAMESPACE_DNS, remote_addr)
                 try:
-                    cart = Cart.objects.get(token=token)
-                    return Order.objects.filter(cart=cart)
+                    return Order.objects.filter(token=token)
                 except Cart.DoesNotExist:
                     return Order.objects.none()
             else:
