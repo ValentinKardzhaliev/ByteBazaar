@@ -3,8 +3,6 @@
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    width: 400px;
-    margin: auto;
     margin-top: 50px;
     text-align: center;
 }
@@ -16,6 +14,8 @@
 
 .checkout-form-group {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .checkout-form-group label {
@@ -23,14 +23,13 @@
     margin-bottom: 10px;
     display: block;
     color: #555;
-    float: left;
+    text-align: start;
 }
 
 .checkout-form-group input {
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    width: 90%;
     font-size: 16px;
 }
 
@@ -45,3 +44,33 @@
     width: 80%;
     transition: background-color 0.3s;
 }
+
+.form-groups-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.first-checkout-group,
+.second-checkout-group {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    max-width: 300px; 
+}
+
+
+.phone-input-container {
+    position: relative;
+    display: flex;
+    flex-direction: column
+}
+
+.PhoneInputCountrySelect {
+    margin-bottom: 1em;
+}
+
+.PhoneInputCountryIconImg {
+   display: none;
+}
+
+

@@ -120,88 +120,94 @@ function CheckoutPage() {
         <div className="checkout-container">
             <h2>Checkout</h2>
             <form onSubmit={handleSubmit}>
-                <div className="checkout-form-group">
-                    <label htmlFor="name">Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="checkout-form-group">
-                    <label htmlFor="surname">Surname:</label>
-                    <input
-                        type="text"
-                        id="surname"
-                        value={surname}
-                        onChange={(e) => setSurname(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="checkout-form-group">
-                    <label htmlFor="phone">Phone:</label>
-                    <PhoneInput
-                        placeholder="Enter phone number"
-                        value={phoneNumber}
-                        onChange={setPhoneNumber}
-                        defaultCountry="US" // Specify default country
-                        autoComplete="tel" // Enable browser autocomplete for phone numbers
-                    />
-                </div>
-                <div className="checkout-form-group">
-                    <label htmlFor="shippingAddress">Shipping Address:</label>
-                    <input
-                        type="text"
-                        id="shippingAddress"
-                        value={shippingAddress}
-                        onChange={(e) => setShippingAddress(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="checkout-form-group">
-                    <label htmlFor="paymentMethod">Payment Method:</label>
-                    <select
-                        id="paymentMethod"
-                        value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        required
-                    >
-                        <option value="">Select Payment Method</option>
-                        {PAYMENT_METHODS.map(method => (
-                            <option key={method.value} value={method.value}>{method.label}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="checkout-form-group">
-                    <label htmlFor="country">Country:</label>
-                    <select id="country" value={selectedCountry} onChange={handleCountryChange} required>
-                        <option value="">(select country)</option>
-                        {countries.map(country => (
-                            <option key={country.code} value={country.code}>{country.name}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="checkout-form-group">
-                    <label htmlFor="city">City:</label>
-                    <input
-                        type="text"
-                        id="city"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="checkout-form-group">
-                    <label htmlFor="postCode">Post Code:</label>
-                    <input
-                        type="text"
-                        id="postCode"
-                        value={postCode}
-                        onChange={(e) => setPostCode(e.target.value)}
-                        required
-                    />
+                <div className="form-groups-container">
+                    <div className="first-checkout-group">
+                        <div className="checkout-form-group">
+                            <label htmlFor="name">Name:</label>
+                            <input
+                                type="text"
+                                id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="checkout-form-group">
+                            <label htmlFor="surname">Surname:</label>
+                            <input
+                                type="text"
+                                id="surname"
+                                value={surname}
+                                onChange={(e) => setSurname(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="checkout-form-group phone-input-container">
+                            <label htmlFor="phone" className="phone-label">Phone:</label>
+                            <PhoneInput
+                                placeholder="Enter phone number"
+                                value={phoneNumber}
+                                onChange={setPhoneNumber}
+                                defaultCountry="US"
+                                autoComplete="tel"
+                            />
+                        </div>
+                        <div className="checkout-form-group">
+                            <label htmlFor="shippingAddress">Shipping Address:</label>
+                            <input
+                                type="text"
+                                id="shippingAddress"
+                                value={shippingAddress}
+                                onChange={(e) => setShippingAddress(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="second-checkout-group">
+                        <div className="checkout-form-group">
+                            <label htmlFor="paymentMethod">Payment Method:</label>
+                            <select
+                                id="paymentMethod"
+                                value={paymentMethod}
+                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                required
+                            >
+                                <option value="">Select Payment Method</option>
+                                {PAYMENT_METHODS.map(method => (
+                                    <option key={method.value} value={method.value}>{method.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="checkout-form-group">
+                            <label htmlFor="country">Country:</label>
+                            <select id="country" value={selectedCountry} onChange={handleCountryChange} required>
+                                <option value="">(select country)</option>
+                                {countries.map(country => (
+                                    <option key={country.code} value={country.code}>{country.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="checkout-form-group">
+                            <label htmlFor="city">City:</label>
+                            <input
+                                type="text"
+                                id="city"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="checkout-form-group">
+                            <label htmlFor="postCode">Post Code:</label>
+                            <input
+                                type="text"
+                                id="postCode"
+                                value={postCode}
+                                onChange={(e) => setPostCode(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
                 </div>
                 <button type="submit">Submit Order</button>
             </form>
