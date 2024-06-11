@@ -77,7 +77,7 @@
     width: 34em;
     height: 2.2em;
     padding: 10px;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .search-bar-section form input::placeholder {
