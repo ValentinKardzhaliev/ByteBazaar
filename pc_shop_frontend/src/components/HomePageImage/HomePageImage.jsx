@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import './HomePageImage.css';
 
-import image1 from '../../assets/images/asustufpromo-ecoms.webp';
-import image2 from '../../assets/images/msi-promo-ecom-main.webp';
+import image1 from '../../assets/images/image1.webp';
+import image2 from '../../assets/images/image2.webp';
+import image3 from '../../assets/images/image3.webp';
+import image4 from '../../assets/images/image4.webp';
 
-const images = [image1, image2];  // Add all images to this array
+const images = [image1, image2, image3, image4];  // Add all images to this array
 
 function HomePageImage() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
