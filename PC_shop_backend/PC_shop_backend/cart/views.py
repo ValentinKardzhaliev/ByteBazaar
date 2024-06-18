@@ -27,11 +27,23 @@ def get_or_create_user_cart(request):
     if request.user.is_authenticated:
         user_cart, created = Cart.objects.get_or_create(user=request.user)
     else:
-        token = uuid.uuid5(uuid.NAMESPACE_DNS, request.META.get('REMOTE_ADDR'))
-        user_cart, created = Cart.objects.get_or_create(token=token)
-        if created:
-            user_cart.token = token
-            user_cart.save()
+        cart_token = request.headers.get('Cart-Token')
+        print(cart_token)
+        print(request.COOKIES)
+        print(request.headers)
+        print(request.META.get('HTTP_CART_TOKEN'))
+        if cart_token:
+            try:
+                user_cart = Cart.objects.get(token=cart_token)
+            except Cart.DoesNotExist:
+                user_cart = Cart.objects.create(token=cart_token)
+        else:
+            cart_token = str(uuid.uuid4())
+
+            user_cart = Cart.objects.create(token=cart_token)
+
+            return user_cart
+
     return user_cart
 
 
