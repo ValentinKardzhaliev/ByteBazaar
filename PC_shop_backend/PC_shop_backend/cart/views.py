@@ -35,9 +35,7 @@ def get_or_create_user_cart(request):
                 user_cart = Cart.objects.create(token=cart_token)
         else:
             cart_token = str(uuid.uuid4())
-
             user_cart = Cart.objects.create(token=cart_token)
-
             return user_cart
 
     return user_cart
@@ -45,11 +43,9 @@ def get_or_create_user_cart(request):
 
 def handle_cart_item(request, product):
     product_type = product.__class__.__name__.lower()
-
     user_cart = get_or_create_user_cart(request)
-
     cart_item, created = CartItem.objects.get_or_create(
-        user=request.user if request.user.is_authenticated else None,
+        cart=user_cart,
         product_type=product_type,
         product_id=product.pk,
         defaults={'quantity': 1}
@@ -59,7 +55,6 @@ def handle_cart_item(request, product):
         cart_item.quantity += 1
         cart_item.save()
 
-    user_cart.items.add(cart_item)
     return cart_item, user_cart.token
 
 
@@ -67,12 +62,10 @@ def handle_cart_item(request, product):
 def add_to_cart(request, product_id):
     try:
         product = get_product_by_id(product_id)
-
         if not product:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
         cart_item, token = handle_cart_item(request, product)
-
         response_data = {
             'message': 'You have added a product to the cart successfully',
             'token': token
@@ -83,17 +76,16 @@ def add_to_cart(request, product_id):
     except ValueError:
         return Response({'error': 'Invalid UUID format for product_id'}, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 def remove_from_cart(request, product_id):
     try:
         product = get_product_by_id(product_id)
-
         if not product:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        cart_item, _ = handle_cart_item(request, product)
-
         user_cart = get_or_create_user_cart(request)
+        cart_item = get_object_or_404(CartItem, cart=user_cart, product_id=product_id)
         user_cart.items.remove(cart_item)
         cart_item.delete()
 
@@ -112,19 +104,12 @@ def get_user_cart(request):
     user_cart = get_or_create_user_cart(request)
     cart_serializer = CartSerializer(user_cart)
     cart_data = cart_serializer.data
-    product = None
     for item_data in cart_data.get('items', []):
         product_id = item_data.get('product_id')
-        if product_id:
-            for model_class in Product.__subclasses__():
-                try:
-                    product = model_class.objects.get(pk=product_id)
-                    break
-                except model_class.DoesNotExist:
-                    continue
-            if product:
-                product_serializer = ProductSerializer(product)
-                item_data['product'] = product_serializer.data
+        product = get_product_by_id(product_id)
+        if product:
+            product_serializer = ProductSerializer(product)
+            item_data['product'] = product_serializer.data
 
     return Response(cart_data, status=status.HTTP_200_OK)
 
@@ -132,10 +117,7 @@ def get_user_cart(request):
 @api_view(['POST'])
 def increase_quantity(request, product_id):
     user_cart = get_or_create_user_cart(request)
-    cart_item = get_object_or_404(CartItem,
-                                  user=request.user if request.user.is_authenticated else None,
-                                  product_id=product_id
-                                  )
+    cart_item = get_object_or_404(CartItem, cart=user_cart, product_id=product_id)
     cart_item.quantity += 1
     cart_item.save()
     return Response({'message': 'Quantity increased successfully'}, status=status.HTTP_200_OK)
@@ -144,11 +126,7 @@ def increase_quantity(request, product_id):
 @api_view(['POST'])
 def decrease_quantity(request, product_id):
     user_cart = get_or_create_user_cart(request)
-    cart_item = get_object_or_404(CartItem,
-                                  user=request.user if request.user.is_authenticated else None,
-                                  product_id=product_id
-                                  )
-
+    cart_item = get_object_or_404(CartItem, cart=user_cart, product_id=product_id)
     if cart_item.quantity > 1:
         cart_item.quantity -= 1
         cart_item.save()
@@ -170,46 +148,34 @@ class OrderCreateView(APIView):
         country = request.data.get('country')
         city = request.data.get('city')
         post_code = request.data.get('post_code')
+        email = request.data.get('email')
 
         cart = get_object_or_404(Cart, pk=cart_id)
+        cart_items = cart.items.all()
 
-        user = getattr(cart, 'user_id', None)
-        token = getattr(cart, 'token', None)
+        order_data = {
+            'user': cart.user.id if cart.user else None,
+            'token': cart.token,
+            'shipping_fee': self.SHIPPING_FEE,
+            'shipping_address': shipping_address,
+            'payment_method': payment_method,
+            'name': name,
+            'surname': surname,
+            'phone': phone,
+            'country': country,
+            'city': city,
+            'post_code': post_code,
+            'email': email,
+            'status': 'Pending',
+            'cart_items': [ci.pk for ci in cart_items],
+        }
 
-        if cart.user_id:
-            order_data = {
-                'user': user,
-                'shipping_fee': 7.00,
-                'shipping_address': shipping_address,
-                'payment_method': payment_method,
-                'name': name,
-                'surname': surname,
-                'phone': phone,
-                'country': country,
-                'city': city,
-                'post_code': post_code
-            }
-        else:
-            order_data = {
-                'token': token,
-                'shipping_fee': 7.00,
-                'shipping_address': shipping_address,
-                'payment_method': payment_method,
-                'name': name,
-                'surname': surname,
-                'phone': phone,
-                'country': country,
-                'city': city,
-                'post_code': post_code
-            }
-
-        serializer = OrderSerializer(data=order_data)
+        serializer = OrderSerializer(data=order_data, context={'view': self})
         if serializer.is_valid():
-            serializer.save(cart_items=cart.items.all())
+            order = serializer.save()
             cart.delete()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class OrderListView(ListAPIView):
     serializer_class = OrderSerializer
@@ -221,9 +187,6 @@ class OrderListView(ListAPIView):
         else:
             cart_token = self.request.headers.get('Cart-Token')
             if cart_token:
-                try:
-                    return Order.objects.filter(token=cart_token)
-                except Cart.DoesNotExist:
-                    return Order.objects.none()
+                return Order.objects.filter(token=cart_token)
             else:
                 return Order.objects.none()

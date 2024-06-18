@@ -1,7 +1,19 @@
 from django.contrib import admin
 
-from PC_shop_backend.cart.models import Order
+from PC_shop_backend.cart.models import Order, Cart, CartItem
 
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ['user', 'token']
+    list_filter = ['user']
+    search_fields = ['user__username']
+
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ['cart', 'product_type', 'product_id', 'quantity']
+    list_filter = ['cart', 'product_type']
+    search_fields = ['cart__user__username', 'product_type']
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):

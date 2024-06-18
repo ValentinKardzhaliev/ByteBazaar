@@ -1,11 +1,13 @@
+from decimal import Decimal
 from rest_framework import serializers
 from .models import Cart, CartItem, Order
+from ..common.models import Product
 
 
 class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
-        fields = ['id', 'product_type', 'product_id', 'quantity']
+        fields = ['id', 'cart', 'product_type', 'product_id', 'quantity']
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -35,6 +37,7 @@ class CartSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    cart_items = serializers.PrimaryKeyRelatedField(queryset=CartItem.objects.all(), many=True)
     token = serializers.UUIDField(allow_null=True, required=False)
 
     class Meta:
@@ -42,8 +45,25 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        cart_items = validated_data.pop('cart_items')
-        order = Order.objects.create(**validated_data)
+        cart_items_data = validated_data.pop('cart_items', [])
 
+        total_price = Decimal(0)
+        for cart_item in cart_items_data:
+            product = None
+            for model_class in Product.__subclasses__():
+                try:
+                    product = model_class.objects.get(pk=cart_item.product_id)
+                    break
+                except model_class.DoesNotExist:
+                    continue
+
+            if product:
+                total_price += product.price * cart_item.quantity
+
+        total_price += Decimal(self.context['view'].SHIPPING_FEE)
+
+        order = Order.objects.create(total_price=total_price, **validated_data)
+
+        order.cart_items.set(cart_items_data)
 
         return order
