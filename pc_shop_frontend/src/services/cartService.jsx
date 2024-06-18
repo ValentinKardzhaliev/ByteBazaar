@@ -171,6 +171,36 @@ export const removeProductFromCartForGuest = (productId) => {
         });
 };
 
+export const getUserOrders = (user) => {
+    const cartToken = readCookie('cart-token');
+
+    let headers = {
+        'Content-Type': 'application/json',
+    };
+    if (cartToken) {
+        headers['Cart-Token'] = cartToken;
+    }
+    if (user && user.token) {
+        headers.Authorization = `Token ${user.token}`;
+    }
+
+    return fetch(`${baseUrl}/api/cart/orders/`, {
+        method: 'GET',
+        headers: headers,
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (!cartToken && data['token']) {
+                setCookie('cart-token', data['token']);
+            }
+            return data;
+        })
+        .catch(error => {
+            console.error('Error removing product from guest cart:', error);
+            throw error;
+        });
+};
+
 export const getUserCart = (token) => {
     return fetch(`${baseUrl}/api/cart/user_cart/`, {
         method: 'GET',
