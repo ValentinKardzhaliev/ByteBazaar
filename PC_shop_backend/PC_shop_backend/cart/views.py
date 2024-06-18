@@ -219,11 +219,10 @@ class OrderListView(ListAPIView):
         if user.is_authenticated:
             return Order.objects.filter(user=user)
         else:
-            remote_addr = self.request.META.get('REMOTE_ADDR')
-            if remote_addr:
-                token = uuid.uuid5(uuid.NAMESPACE_DNS, remote_addr)
+            cart_token = self.request.headers.get('Cart-Token')
+            if cart_token:
                 try:
-                    return Order.objects.filter(token=token)
+                    return Order.objects.filter(token=cart_token)
                 except Cart.DoesNotExist:
                     return Order.objects.none()
             else:
