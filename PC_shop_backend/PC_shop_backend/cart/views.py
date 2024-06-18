@@ -28,10 +28,6 @@ def get_or_create_user_cart(request):
         user_cart, created = Cart.objects.get_or_create(user=request.user)
     else:
         cart_token = request.headers.get('Cart-Token')
-        print(cart_token)
-        print(request.COOKIES)
-        print(request.headers)
-        print(request.META.get('HTTP_CART_TOKEN'))
         if cart_token:
             try:
                 user_cart = Cart.objects.get(token=cart_token)
