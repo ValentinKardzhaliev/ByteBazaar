@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { getUserOrders } from '../../services/cartService';
 import AuthContext from '../../contexts/AuthContext';
 import './UserOrders.css'
 
@@ -7,30 +8,12 @@ function UserOrders() {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const headers = {};
-
-                if (user && user.token) {
-                    headers.Authorization = `Token ${user.token}`;
-                }
-
-                const response = await fetch('https://bytebazaar.pythonanywhere.com/api/cart/orders/', {
-                    headers: headers
-                });
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const data = await response.json();
-                setOrders(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchOrders();
+        getUserOrders(user)
+            .then(data => {
+                console.log(data);
+                setOrders(data)
+            })
+            .catch(err => console.log(err))
     }, [user]);
 
     return (
