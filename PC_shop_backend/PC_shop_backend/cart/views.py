@@ -60,7 +60,7 @@ def handle_cart_item(request, product):
         cart_item.save()
 
     user_cart.items.add(cart_item)
-    return cart_item
+    return cart_item, user_cart.token
 
 
 @api_view(['POST'])
@@ -71,17 +71,17 @@ def add_to_cart(request, product_id):
         if not product:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        cart_item = handle_cart_item(request, product)
+        cart_item, token = handle_cart_item(request, product)
 
         response_data = {
             'message': 'You have added a product to the cart successfully',
+            'token': token
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
 
     except ValueError:
         return Response({'error': 'Invalid UUID format for product_id'}, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['POST'])
 def remove_from_cart(request, product_id):
@@ -91,7 +91,7 @@ def remove_from_cart(request, product_id):
         if not product:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        cart_item = handle_cart_item(request, product)
+        cart_item, _ = handle_cart_item(request, product)
 
         user_cart = get_or_create_user_cart(request)
         user_cart.items.remove(cart_item)
