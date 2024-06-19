@@ -17,18 +17,17 @@ const ProfilePage = () => {
                     <div className='personal-details-container'>
                         <h2 className='personal-details-header'>Profile Details</h2>
                         <ul className='profile-options'>
-                            <li className='profile-option'><Link to="/change-password">Change Password</Link></li>
                             <li className='profile-option'>Edit Address</li>
                             <li className='profile-option'>Edit Phone Number</li>
-                            <li className='profile-option'>Change Email</li>
+                            <li className='profile-option'><Link to="/change-email">Change Email</Link></li>
                         </ul>
                     </div>
                 );
-            case 'myOrders':
+            case 'changePassword':
                 return (
                     <div>
-                        <h2>My Orders</h2>
-                        {/* Display user's orders here */}
+                        <h2>Change Password</h2>
+                        <div className='profile-option'><Link to="/change-password">Change Password</Link></div>
                     </div>
                 );
             default:
@@ -46,10 +45,10 @@ const ProfilePage = () => {
                     Profile Details
                 </div>
                 <div
-                    className={`option ${selectedOption === 'myOrders' ? 'active' : ''}`}
-                    onClick={() => handleOptionClick('myOrders')}
+                    className={`option ${selectedOption === 'changePassword' ? 'active' : ''}`}
+                    onClick={() => handleOptionClick('changePassword')}
                 >
-                    My Orders
+                    Change Password
                 </div>
                 {/* Add more options here as needed */}
             </div>

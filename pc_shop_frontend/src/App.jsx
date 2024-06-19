@@ -21,6 +21,7 @@ import CheckoutPage from './components/CheckoutPage/CheckoutPage.jsx';
 import UserOrders from './components/UserOrders/UserOrders.jsx';
 import ProfilePage from './components/ProfilePage/ProfilePage.jsx';
 import ChangePassword from './components/ChangePassword/ChangePassword.jsx';
+import ChangeEmail from './components/ChangeEmail/ChangeEmail.jsx';
 
 function App() {
     return (
@@ -63,6 +64,7 @@ function App() {
                                 <Route path='/logout' element={<Logout />} />
                                 <Route path='/profile' element={<ProfilePage />} />
                                 <Route path="/change-password" element={<ChangePassword />} />
+                                <Route path="/change-email" element={<ChangeEmail/>} />
                             </Route>
                             <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
                         </Routes>

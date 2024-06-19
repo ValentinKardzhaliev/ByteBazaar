@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
 
     const login = (username, password) => {
-        loginUser(username, password).then(result => {
+        loginUser(username, password)
+        .then(result => {
             if (result.token) {
                 setUser(result);
                 navigate('/');
@@ -27,11 +28,18 @@ export const AuthProvider = ({ children }) => {
             navigate('/');
         }).catch(err => console.log(err))
     }
-    const register = (username, email, password, password_confirmation, phone) => {
-        registerUser(username, email, password, password_confirmation, phone).then(result => {
+    const register = async (username, email, password, password_confirmation, phone) => {
+        try {
+            const result = await registerUser(username, email, password, password_confirmation, phone);
+            console.log('successful')
             navigate('/login');
-        }).catch(err => console.log(err))
-    }
+            return result; 
+        } catch (error) {
+            console.log('error')
+            throw error;
+        }
+    };
+
 
 
     return (

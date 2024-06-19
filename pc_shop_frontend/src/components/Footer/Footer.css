@@ -1,56 +1,56 @@
-.footer {
+.custom-footer {
     color: white;
+    margin-top: 1em;
 }
 
-.footer-contact-content {
+.custom-footer-contact-content {
     padding: 25px 10px;
     background-color: #C00000;
     display: flex;
     justify-content: center;
 }
 
-.contact-form {
+.custom-contact-form {
     width: 50%;
     display: flex;
     justify-content: space-evenly;
     margin-left: 2em;
 }
 
-.name-email-group {
+.custom-name-email-group {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin-right: 2.5em;
 }
 
-.message-container {
+.custom-message-container {
     margin-bottom: 0 !important;
     margin-right: 2em;
     width: 100%;
 }
 
-.footer h2 {
+.custom-footer h2 {
     margin-bottom: 10px;
 }
 
-.form-group {
+.custom-form-group {
     margin-bottom: 15px;
 }
 
-.form-group label {
+.custom-form-group label {
     display: block;
     margin-bottom: 5px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"] {
+.custom-input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.form-group textarea {
+.custom-textarea {
     width: 100%;
     height: 75%;
     padding: 8px;
@@ -58,12 +58,12 @@
     border-radius: 5px;
 }
 
-.submit-contact-container {
+.custom-submit-contact-container {
     align-self: flex-end;
     margin-bottom: 15px;
 }
 
-.footer button {
+.custom-submit-button {
     font-size: 18px;
     font-weight: 700;
     padding: 6px 20px;
@@ -75,7 +75,7 @@
     text-align: center;
 }
 
-.contact-ways {
+.custom-contact-ways {
     text-align: center;
     width: 15%;
     display: flex;
@@ -84,40 +84,40 @@
     margin-bottom: 15px;
 }
 
-.contact-social-icons {
+.custom-contact-social-icons {
     display: flex;
     justify-content: space-around;
 }
 
-.contact-icon {
+.custom-contact-icon {
     font-size: 28px;
     margin-bottom: 10px;
 }
 
-.footer-info-content {
+.custom-footer-info-content {
     padding: 10px 16px;
     background-color: #000000;
 }
 
-.footer-lists-container {
+.custom-footer-lists-container {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
-.footer-about {
+.custom-footer-about {
     margin: 10px;
 }
 
-.footer-about h3 {
+.custom-footer-about h3 {
     margin-bottom: 10px;
 }
 
-.about-list {
+.custom-about-list {
     list-style-type: disc;
     padding-left: 2.5em;
 }
 
-.about-list li {
+.custom-about-list li {
     margin-bottom: 5px; 
 }

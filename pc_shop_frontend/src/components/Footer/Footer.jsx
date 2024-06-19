@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Footer.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons"
-
 
 const Footer = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,59 +37,59 @@ const Footer = () => {
     };
 
     return (
-        <footer className="footer">
-            <div className="footer-contact-content">
-                <div className="contact-ways">
+        <footer className="custom-footer">
+            <div className="custom-footer-contact-content">
+                <div className="custom-contact-ways">
                     <h2>Contact Us</h2>
-                    <div className="contact-social-icons">
-                        <FontAwesomeIcon icon={faFacebook} className='contact-icon' />
-                        <FontAwesomeIcon icon={faInstagram} className='contact-icon' />
-                        <FontAwesomeIcon icon={faLinkedin} className='contact-icon' />
-                        <FontAwesomeIcon icon={faGithub} className='contact-icon' />
+                    <div className="custom-contact-social-icons">
+                        <FontAwesomeIcon icon={faFacebook} className='custom-contact-icon' />
+                        <FontAwesomeIcon icon={faInstagram} className='custom-contact-icon' />
+                        <FontAwesomeIcon icon={faLinkedin} className='custom-contact-icon' />
+                        <FontAwesomeIcon icon={faGithub} className='custom-contact-icon' />
                     </div>
                 </div>
-                <form onSubmit={handleSubmit} className='contact-form'>
-                    <div className="name-email-group">
-                        <div className="form-group">
+                <form onSubmit={handleSubmit} className='custom-contact-form'>
+                    <div className="custom-name-email-group">
+                        <div className="custom-form-group">
                             <label htmlFor="name">Name:</label>
-                            <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                            <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="custom-input"/>
                         </div>
-                        <div className="form-group">
+                        <div className="custom-form-group">
                             <label htmlFor="email">Email:</label>
-                            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="custom-input"/>
                         </div>
                     </div>
-                    <div className="form-group message-container">
+                    <div className="custom-form-group custom-message-container">
                         <label htmlFor="message">Message:</label>
-                        <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} />
+                        <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} className="custom-textarea"/>
                     </div>
-                    <div className="submit-contact-container">
-                        <button type="submit-contact">Send</button>
+                    <div className="custom-submit-contact-container">
+                        <button type="submit" className="custom-submit-button">Send</button>
                     </div>
                 </form>
             </div>
-            <div className="footer-info-content">
-                <div className="footer-lists-container">
-                    <div className="footer-about">
+            <div className="custom-footer-info-content">
+                <div className="custom-footer-lists-container">
+                    <div className="custom-footer-about">
                         <h3>ByteBazaar</h3>
-                        <ul className='about-list'>
+                        <ul className='custom-about-list'>
                             <li>About us</li>
                             <li>Work with us</li>
                             <li>News</li>
                             <li>Terms and Conditions</li>
                         </ul>
                     </div>
-                    <div className="footer-about">
+                    <div className="custom-footer-about">
                         <h3>Contacts</h3>
-                        <ul className='about-list'>
+                        <ul className='custom-about-list'>
                             <li>Contacts</li>
                             <li>Shops</li>
                             <li>Repairs</li>
                         </ul>
                     </div>
-                    <div className="footer-about">
+                    <div className="custom-footer-about">
                         <h3>For Clients</h3>
-                        <ul className='about-list'>
+                        <ul className='custom-about-list'>
                             <li>Advice</li>
                             <li>Transport</li>
                             <li>Delivery of orders</li>
@@ -101,9 +98,9 @@ const Footer = () => {
                             <li>Refunds</li>
                         </ul>
                     </div>
-                    <div className="footer-about">
+                    <div className="custom-footer-about">
                         <h3>General Information</h3>
-                        <ul className='about-list'>
+                        <ul className='custom-about-list'>
                             <li>Help</li>
                             <li>How to order</li>
                             <li>Recycling</li>
