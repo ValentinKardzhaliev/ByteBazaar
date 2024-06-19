@@ -23,7 +23,7 @@ class APIRegisterView(generics.CreateAPIView):
         phone = self.request.data.get('phone', None)
 
         ByteBazaarUserProfile.objects.create(
-            user=user, email=user.email, phone=phone)
+            user=user, phone=phone)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
