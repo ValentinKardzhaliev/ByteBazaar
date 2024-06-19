@@ -48,9 +48,6 @@
     transition: background-color 0.3s;
 }
 
-.email-change-button:hover {
-    background-color: #C00000
-}
 
 .email-change-success {
     color: green;
