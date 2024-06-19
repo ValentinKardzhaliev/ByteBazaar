@@ -3,6 +3,7 @@ import './CheckoutPage.css';
 import AuthContext from '../../contexts/AuthContext';
 import { getUserCart, getGuestCart } from '../../services/cartService';
 import PhoneInput from 'react-phone-number-input';
+import { useNavigate } from 'react-router-dom';
 
 
 const PAYMENT_METHODS = [
@@ -15,6 +16,7 @@ const PAYMENT_METHODS = [
 
 function CheckoutPage() {
     const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [shippingAddress, setShippingAddress] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
     const [name, setName] = useState('');
@@ -27,7 +29,6 @@ function CheckoutPage() {
     const [postCode, setPostCode] = useState('');
 
     useEffect(() => {
-        // Fetch list of countries from your backend
         fetch('https://bytebazaar.pythonanywhere.com/get_countries/')
             .then(response => {
                 if (!response.ok) {
@@ -86,30 +87,20 @@ function CheckoutPage() {
         };
 
         fetch('https://bytebazaar.pythonanywhere.com/api/cart/order/', options)
-            .then(response => {
-                if (response.ok) {
-                    setShippingAddress('');
-                    setPaymentMethod('');
-                    setName('');
-                    setSurname('');
-                    setPhoneNumber('');
-                    setSelectedCountry('');
-                    setCity('');
-                    setPostCode('');
-
-                    alert('Order successful');
-
-                    return response.json();
-                } else {
-                    throw new Error('Failed to submit order');
-                }
-            })
-            .then(data => {
-                console.log('Order submitted successfully:', data);
-            })
-            .catch(error => {
-                console.error('Error submitting order:', error);
-            });
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to submit order');
+            }
+        })
+        .then(data => {
+            console.log('Order submitted successfully:', data);
+            navigate('/');
+        })
+        .catch(error => {
+            console.error('Error submitting order:', error);
+        });
     };
 
     const handleCountryChange = (event) => {
