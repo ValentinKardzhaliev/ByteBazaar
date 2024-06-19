@@ -13,27 +13,34 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
 
     const login = (username, password) => {
-        loginUser(username, password)
-        .then(result => {
-            if (result.token) {
-                setUser(result);
-                navigate('/');
-            }
+        return loginUser(username, password)
+            .then(result => {
+                if (result.token) {
+                    setUser(result);
+                    navigate('/');
+                } else {
+                    throw new Error('Invalid response from server'); 
+                }
+            })
+            .catch(err => {
+                console.error('Login failed:', err);
+                throw err; 
+            });
+    };
 
-        }).catch(err => console.log(err))
-    }
     const logout = (token) => {
         logoutUser(token).then(result => {
             setUser({});
             navigate('/');
         }).catch(err => console.log(err))
-    }
+    };
+
     const register = async (username, email, password, password_confirmation, phone) => {
         try {
             const result = await registerUser(username, email, password, password_confirmation, phone);
             console.log('successful')
             navigate('/login');
-            return result; 
+            return result;
         } catch (error) {
             console.log('error')
             throw error;

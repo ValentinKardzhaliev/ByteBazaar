@@ -1,19 +1,26 @@
-import { useContext } from 'react';
-import './Login.css'
+import { useContext, useState } from 'react';
+import './Login.css';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../contexts/AuthContext';
 
 function Login() {
     const { login } = useContext(AuthContext);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const loginHandler = (e) => {
+    const loginHandler = async (e) => {
         e.preventDefault();
         const { username, password } = Object.fromEntries(new FormData(e.target));
-        login(username, password);
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
 
-    }
+        try {
+            await login(username, password);
+            setErrorMessage('');
+        } catch (error) {
+            console.error('Login failed:', error);
+            setErrorMessage('Login failed. Please try again.');
+        }
+
+        e.target.reset();
+    };
 
     return (
         <div className="login-container">
@@ -39,6 +46,7 @@ function Login() {
                         required
                     />
                 </div>
+                {errorMessage && <p className="login-error-message">{errorMessage}</p>}
                 <div className="login-form-group">
                     <p className='login-forgot-password'>
                         <Link to="/forgot-password">Forgot your password?</Link>
@@ -49,12 +57,10 @@ function Login() {
                     <p>
                         Don't have an account? <Link to="/register">Create one</Link>
                     </p>
-
                 </div>
             </form>
         </div>
     )
 }
-
 
 export default Login;
