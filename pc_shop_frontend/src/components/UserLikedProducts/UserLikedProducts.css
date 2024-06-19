@@ -1,3 +1,7 @@
+.user-liked-products-container {
+    min-height: 40vh;
+}
+
 .user-liked-products-content-wrapper {
     width: 90%;
     margin: 0 auto;
