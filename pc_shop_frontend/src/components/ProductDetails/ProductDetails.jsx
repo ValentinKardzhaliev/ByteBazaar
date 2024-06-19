@@ -10,13 +10,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 
 function ProductDetails() {
-    window.scrollTo(0, 0);
+
     const { user } = useContext(AuthContext);
 
     const { typeOfProduct, productId } = useParams();
     const [product, setProduct] = useState({});
     const [imagePath, setImagePath] = useState("");
     const [isLiked, setIsLiked] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     let addProductToCart;
 
@@ -51,7 +53,6 @@ function ProductDetails() {
                     setProductImages(result.images);
                     setCurrentImages(result.images.slice(0, 5));
 
-                    // Set imagePath to the first image in the product.images array
                     if (result.images && result.images.length > 0) {
                         setImagePath(`https://bytebazaar.pythonanywhere.com/${result.images[0].image}`);
                     }
@@ -68,7 +69,6 @@ function ProductDetails() {
     }
 
     const handleLike = () => {
-        //TODO: Make not logged in user cannot like
         setIsLiked(prevIsLiked => !prevIsLiked)
         likeProduct(product._id, user.token).then(result => {
             console.log(result);
@@ -80,11 +80,12 @@ function ProductDetails() {
     const [placeOfImage, setPlaceOfImage] = useState(0);
 
     function handleNext() {
-        if (productImages.length >= currentImages.length) {
+        if (productImages.length > currentImages.length) {
             setCurrentImages(productImages.slice(placeOfImage + 1, placeOfImage + 6));
             setPlaceOfImage(prev => prev + 1);
         }
     }
+
     function changeImageWhenClick(e) {
         e.preventDefault();
         setImagePath(e.target.src);
@@ -94,8 +95,25 @@ function ProductDetails() {
         let index = placeOfImage - 1;
         setCurrentImages(productImages.slice(index, index + 5));
         setPlaceOfImage(prev => prev - 1);
-
     }
+
+    function openModal(index) {
+        setCurrentImageIndex(index);
+        setIsModalOpen(true);
+    }
+
+    function closeModal() {
+        setIsModalOpen(false);
+    }
+
+    function handleModalNext() {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % productImages.length);
+    }
+
+    function handleModalPrev() {
+        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + productImages.length) % productImages.length);
+    }
+
     let characteristics = characteristicsLogic({ product });
     const { images, name, _id, type, price, description, is_available, created_at, modified_at,
         ...productWithoutSpecificProperties } = product;
@@ -103,7 +121,6 @@ function ProductDetails() {
     const productKeys = Object.keys(productWithoutSpecificProperties);
 
     useEffect(() => {
-        // Event listener for the 'View Full Characteristics' link
         const handleViewFullCharacteristics = (e) => {
             e.preventDefault();
             const fullCharacteristicsSection = document.querySelector("#fullCharacteristics");
@@ -116,22 +133,20 @@ function ProductDetails() {
             });
         };
 
-        // Adding the event listener when the component mounts
         const fullCharacteristicsLink = document.querySelector(".full-characteristics-link");
         fullCharacteristicsLink.addEventListener("click", handleViewFullCharacteristics);
 
-        // Cleaning up the event listener when the component unmounts
         return () => {
             fullCharacteristicsLink.removeEventListener("click", handleViewFullCharacteristics);
         };
-    }, []); // Empty dependency array means this effect runs once after the initial render
+    }, []);
 
     return (
         <>
             <hr className="characteristics-divider" />
             <div className="product-details-page-container">
                 <div className="product-images">
-                    <div className="main-image-container">
+                    <div className="main-image-container" onClick={() => openModal(0)}>
                         <img src={imagePath} alt="Product Image" id="main-image" />
                     </div>
                     <div className="image-slider">
@@ -162,12 +177,11 @@ function ProductDetails() {
                     <div className="product-details-characteristics">
                         <h2>Basic Characteristics</h2>
                         {characteristics[typeOfProduct].map((c, index) => <p key={index}>{c}</p>)}
-
                     </div>
                     <a href="#fullCharacteristics" className="full-characteristics-link">
                         View Full Characteristics
                     </a>
-                    <hr className="characteristics-price-divider"/>
+                    <hr className="characteristics-price-divider" />
 
                     <p className="price-container">
                         <span className="price">Price: {product.price}$</span>
@@ -175,14 +189,11 @@ function ProductDetails() {
                             ?
                             <>
                                 <button className="buy-button" onClick={addProductToCart}>Add to Cart</button>
-
-
                                 <FontAwesomeIcon
                                     icon={faHeart}
                                     className={`like-button ${isLiked ? "liked" : ""}`}
                                     onClick={handleLike}
                                 />
-
                             </>
                             :
                             <button className="buy-button" onClick={addProductToCart}>Add to Cart</button>
@@ -194,15 +205,10 @@ function ProductDetails() {
             <hr className="characteristics-divider" />
 
             <div className="full-characteristics" id="fullCharacteristics">
-
                 <h1>Full Characteristics</h1>
-
-                {/* <p><strong>Description: </strong>{product.description}</p> */}
-
                 <div className="characteristics-table">
                     <table className="product-table">
                         <tbody>
-                            {/* Iterating over all keys and displaying key-value pairs */}
                             {productKeys.map((key, index) => (
                                 <tr key={key} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                                     <td>{key}</td>
@@ -222,8 +228,18 @@ function ProductDetails() {
                         </tbody>
                     </table>
                 </div>
-
             </div>
+
+            {isModalOpen && (
+                <div className="modal">
+                    <span className="close" onClick={closeModal}>&times;</span>
+                    <img className="modal-content" src={`https://bytebazaar.pythonanywhere.com/${productImages[currentImageIndex].image}`} alt={`Product Image ${currentImageIndex}`} />
+                    <div className="modal-navigation">
+                        <span className="prev" onClick={handleModalPrev}>&#10094;</span>
+                        <span className="next" onClick={handleModalNext}>&#10095;</span>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

@@ -39,10 +39,8 @@
 }
 
 .main-image-container {
-    width: 40em;
-    height: 40em;
     overflow: hidden;
-    border: #CCCCCC solid 1px;
+    cursor: pointer;
 }
 
 #main-image {
@@ -57,9 +55,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    /* Ensure that only the visible images are shown */
     transition: transform 0.5s ease;
-    /* Add a transition effect to the transform property */
 }
 
 .image-slider img {
@@ -218,4 +214,69 @@
 .product-details-check-icon {
     color: rgb(12, 191, 12);
     font-size: 24px;
+}
+
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    max-width: 80%;
+    max-height: 80%;
+    margin: auto;
+    display: block;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-navigation {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(-50%);
+}
+
+.prev,
+.next {
+    cursor: pointer;
+    color: #fff;
+    font-size: 60px;
+    padding: 16px;
+    user-select: none;
+    transition: 0.3s;
+}
+
+.prev:hover,
+.next:hover {
+    color: #bbb;
 }
