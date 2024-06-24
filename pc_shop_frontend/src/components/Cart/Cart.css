@@ -216,16 +216,161 @@
     text-align: center;
 }
 
+
+@media (max-width: 1024px) {
+    .item-container-buy-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .item-container {
+        width: 100%;
+        margin-top: 1em;
+    }
+
+    .buy-section {
+        width: 100%;
+        margin-top: 1em;
+        margin-left: 0;
+    }
+
+    .cart-buttons-container {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 1em;
+    }
+
+    .cart-delete-button {
+        align-self: normal
+    }
+
+}
+
+
 @media (max-width: 768px) {
-    .product-card {
-        width: 45%;
-        /* Adjust this value for smaller screens */
+    .cart-container {
+        max-width: 100%;
+        padding: 0 1em;
+    }
+
+    .cart-title {
+        font-size: 22px;
+    }
+
+    .cart-product-name {
+        font-size: 22px;
+    }
+
+    .cart-product-image {
+        width: 10em;
+        height: 10em;
+    }
+
+    .cart-item-details {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .cart-productDetails-link {
+        font-size: 16px;
+    }
+
+    .quantity-manipulation-container {
+        padding: 0.5em 0.5em;
+        font-size: 18px;
+    }
+
+    .cart-product-quantity {
+        padding: 5px;
+    }
+
+    .buy-section {
+        width: 100%;
+    }
+
+    .price-calculation-section {
+        width: 100%;
+        padding: 1em;
+    }
+
+    .calculation-item-image {
+        width: 8em;
+        height: 8em;
+    }
+
+    .calculation-item-price {
+        font-size: 16px;
+    }
+
+    .shipping-fee {
+        font-size: 16px;
+    }
+
+    .total-price {
+        font-size: 20px;
+    }
+
+    .purchase-button {
+        width: 100%;
     }
 }
 
-@media (max-width: 576px) {
-    .product-card {
+@media (max-width: 480px) {
+    .cart-title {
+        font-size: 20px;
+    }
+
+    .cart-product-name {
+        font-size: 20px;
+    }
+
+    .cart-product-image {
+        width: 8em;
+        height: 8em;
+    }
+
+    .cart-productDetails-link {
+        font-size: 14px;
+    }
+
+    .quantity-manipulation-container {
+        padding: 0.5em 0.3em;
+        font-size: 16px;
+    }
+
+    .cart-product-quantity {
+        padding: 5px;
+    }
+
+    .buy-section {
         width: 100%;
-        /* Display one product per row on smaller screens */
+    }
+
+    .price-calculation-section {
+        width: 100%;
+        padding: 0.5em;
+    }
+
+    .calculation-item-image {
+        width: 6em;
+        height: 6em;
+    }
+
+    .calculation-item-price {
+        font-size: 14px;
+    }
+
+    .shipping-fee {
+        font-size: 14px;
+    }
+
+    .total-price {
+        font-size: 18px;
+    }
+
+    .purchase-button {
+        width: 100%;
+        padding: 0.5em;
     }
 }
