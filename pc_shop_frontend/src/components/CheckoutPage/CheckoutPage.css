@@ -74,3 +74,47 @@
 }
 
 
+@media (max-width: 768px) {
+    .checkout-container {
+        padding: 20px;
+    }
+
+    .checkout-container h2 {
+        font-size: 30px;
+    }
+
+    .checkout-form-group input,
+    .checkout-form-group select {
+        font-size: 14px;
+    }
+
+    .form-groups-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .first-checkout-group,
+    .second-checkout-group {
+        width: 100%;
+        max-width: none;
+    }
+
+    .checkout-form-group button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .checkout-container {
+        margin-top: 30px;
+    }
+
+    .checkout-container h2 {
+        font-size: 25px;
+    }
+
+    .checkout-form-group input,
+    .checkout-form-group select {
+        padding: 12px; 
+    }
+}
