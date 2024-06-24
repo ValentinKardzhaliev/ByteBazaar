@@ -3,7 +3,39 @@
     list-style: none;
     padding: 0;
     display: flex;
-    /* flex-wrap: wrap; */
     justify-content: space-around;
     margin: 4%;
+}
+
+
+@media (max-width: 768px) {
+    .product-list {
+        flex-direction: column;
+        align-items: center;
+        margin: 2%;
+    }
+    
+    .product-list .fa-less-than, .product-list .fa-greater-than {
+        font-size: 1.5rem;
+        margin: 10px;
+    }
+    
+    .product-list li {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-list {
+        margin: 1%;
+    }
+    
+    .product-list .fa-less-than, .product-list .fa-greater-than {
+        font-size: 1.2rem;
+        margin: 5px;
+    }
+    
+    .product-list li {
+        margin-bottom: 15px;
+    }
 }

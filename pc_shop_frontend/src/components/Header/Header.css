@@ -175,3 +175,70 @@
     background-color: #c82727;
 
 }
+
+
+@media (max-width: 768px) {
+    .navbar-element-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 5px;
+    }
+
+    .home {
+        margin-left: 0;
+        margin-bottom: 5px; 
+        font-size: 24px; 
+        text-align: center;
+    }
+
+    .category-menu {
+        margin-left: 0;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .category-menu-dropdown {
+        font-size: 24px;
+    }
+
+    .search-bar-section {
+        width: 100%;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-bar-section form input {
+        width: 90%;
+        max-width: 300px;
+        padding: 5px;
+    }
+
+    .navbar-right-side {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        padding: 0;
+        margin-top: 5px;
+    }
+
+    .navbar-right-side a {
+        padding: 5px;
+        font-size: 24px;
+    }
+
+    .user-menu {
+        padding: 5px;
+        font-size: 24px;
+    }
+
+    .user-dropdown-menu {
+        right: 1em;
+    }
+
+    .category-menu-content, .category-periphery-menu-content {
+        position: relative;
+        width: 100%;
+        margin: 0;
+    }
+}    
