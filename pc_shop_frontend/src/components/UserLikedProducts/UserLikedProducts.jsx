@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { getAllLikedProductsForUser, likeProduct } from "../../services/likeService";
 import { addToCart } from "../../services/cartService";
 import { Link } from "react-router-dom";
-import "./UserLikedProducts.css"; // Define your CSS styles for responsiveness here
+import "./UserLikedProducts.css";
 import AuthContext from "../../contexts/AuthContext";
 import { faShoppingCart, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +13,6 @@ const UserLikedProducts = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch liked products for the user
         getAllLikedProductsForUser(user.token)
             .then((result) => {
                 setLikedProducts(result.liked_products);
