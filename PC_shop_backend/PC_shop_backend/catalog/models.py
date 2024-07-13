@@ -141,7 +141,7 @@ class Mouse(Product):
     ergonomic = models.BooleanField(default=False)
     wireless = models.BooleanField(default=False)
     color = models.CharField(max_length=20, blank=True, null=True)
-    polling_rate_hz = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,
+    polling_rate_hz = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True,
                                           help_text="Polling rate in Hz")
     brand = models.CharField(max_length=100, blank=True, null=True, help_text="Brand of the mouse")
 
@@ -172,7 +172,7 @@ class Headphones(Product):
     wireless = models.BooleanField(default=False)
     brand = models.CharField(max_length=100, blank=True, null=True, help_text="Brand of the headphones")
     impedance_ohms = models.IntegerField(blank=True, null=True, help_text="Impedance in Ohms")
-    sensitivity_db = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True,
+    sensitivity_db = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True,
                                          help_text="Sensitivity in dB")
     frequency_response = models.CharField(max_length=50, blank=True, null=True, help_text="Frequency response range")
     color = models.CharField(max_length=20, blank=True, null=True, help_text="Color of the headphones")

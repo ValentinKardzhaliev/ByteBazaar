@@ -2,14 +2,16 @@ from django.db.models import Q
 from rest_framework import serializers
 
 from .models import Product, ProductImage, Like
-from ..catalog.models import Computer, Monitor, Keyboard
-from ..catalog.serializers import ComputerSerializer, MonitorSerializer, KeyboardSerializer
+from ..catalog.models import Computer, Monitor, Keyboard, Laptop, Headphones, Mouse
+from ..catalog.serializers import ComputerSerializer, MonitorSerializer, KeyboardSerializer, LaptopSerializer, \
+    MouseSerializer, HeadphonesSerializer
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
         fields = ('image',)
+
 
 class ProductSerializer(serializers.Serializer):
     def __init__(self, *args, **kwargs):
@@ -32,28 +34,40 @@ class ProductSerializer(serializers.Serializer):
                 self.fields[field_name] = serializers.CharField(required=False)
 
     def to_representation(self, instance):
-        # Use specific serializers for concrete models
-        if isinstance(instance, Computer):
-            serializer = ComputerSerializer(instance)
-        elif isinstance(instance, Monitor):
-            serializer = MonitorSerializer(instance)
-        elif isinstance(instance, Keyboard):
-            serializer = KeyboardSerializer(instance)
+        # Mapping of models to their respective serializers
+        model_serializer_map = {
+            Computer: ComputerSerializer,
+            Laptop: LaptopSerializer,
+            Monitor: MonitorSerializer,
+            Keyboard: KeyboardSerializer,
+            Mouse: MouseSerializer,
+            Headphones: HeadphonesSerializer,
+        }
+
+        # Get the serializer class for the instance type
+        serializer_class = model_serializer_map.get(type(instance), None)
+
+        if serializer_class:
+            # Instantiate the serializer with the instance
+            serializer = serializer_class(instance)
+            representation = serializer.data
         else:
-            serializer = super(ProductSerializer, self)
+            # Use the default representation if no specific serializer is found
+            representation = super().to_representation(instance)
 
         # Convert the images to their representations
         images_representation = ProductImageSerializer(instance.images.all(), many=True).data
 
         # Add images to the representation
-        representation = serializer.data
         representation['images'] = images_representation
 
         return representation
 
+
 class FilteredProductSerializer(ProductSerializer):
     min_price = serializers.DecimalField(required=False, allow_null=True, max_digits=10, decimal_places=2)
     max_price = serializers.DecimalField(required=False, allow_null=True, max_digits=10, decimal_places=2)
+
 
 class ProductSearchSerializer(serializers.Serializer):
     search_query = serializers.CharField(
@@ -73,6 +87,7 @@ class ProductSearchSerializer(serializers.Serializer):
         # Serialize the queryset using ProductSerializer
         serializer = ProductSerializer(queryset, many=True)
         return serializer.data
+
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:

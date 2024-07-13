@@ -10,9 +10,11 @@ UserModel = get_user_model()
 class Product(models.Model):
     PRODUCT_TYPES = [
         ('computer', 'Computer'),
+        ('laptop', 'Laptop'),
         ('monitor', 'Monitor'),
         ('keyboard', 'Keyboard'),
-        # Add more types as needed
+        ('mouse', 'Mouse'),
+        ('headphones', 'Headphones'),
     ]
 
     NAME_MAX_LEN = 50
