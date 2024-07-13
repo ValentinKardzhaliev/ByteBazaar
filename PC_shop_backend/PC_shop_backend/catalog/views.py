@@ -8,7 +8,7 @@ from ..common.filters import ProductFilterBackend
 from ..common.models import Product
 from ..common.serializers import ProductSerializer, FilteredProductSerializer
 from rest_framework import viewsets
-from .models import Computer, Monitor, Keyboard, Laptop
+from .models import Computer, Monitor, Keyboard, Laptop, Mouse, Headphones
 
 
 class BaseProductViewSet(viewsets.ModelViewSet):
@@ -46,6 +46,14 @@ class LaptopViewSet(BaseProductViewSet):
     model = Laptop
 
 
+class MouseViewSet(BaseProductViewSet):
+    model = Mouse
+
+
+class HeadphonesViewSet(BaseProductViewSet):
+    model = Headphones
+
+
 class ProductDetailsView(APIView):
     def get_object(self, product_type, pk):
         model_class = None
@@ -55,6 +63,9 @@ class ProductDetailsView(APIView):
                 'computer': Computer,
                 'monitor': Monitor,
                 'keyboard': Keyboard,
+                'laptop': Laptop,
+                'mouse': Mouse,
+                'headphones': Headphones,
             }[product_type]
 
             obj = model_class.objects.get(pk=pk)

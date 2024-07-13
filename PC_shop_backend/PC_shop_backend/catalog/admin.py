@@ -61,7 +61,7 @@ class KeyboardAdmin(admin.ModelAdmin):
 @admin.register(Mouse)
 class MouseAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'dpi', 'tracking_type', 'buttons', 'ergonomic', 'wireless', 'color']
-    inlines = [ProductImageInline]  # Add the inline for images
+    inlines = [ProductImageInline]
 
     def formfield_for_choice_field(self, db_field, request, **kwargs):
         if db_field.name == 'type':
