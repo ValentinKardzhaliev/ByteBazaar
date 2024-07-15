@@ -22,7 +22,6 @@ function SearchForm() {
             <label htmlFor="search_form" className="sr-only">
                 Search
             </label>
-            <br />
             <input
                 type="text"
                 id="search_form"
