@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { characteristicsLogic } from '../../../utils/characteristicsLogic';
+import { useEffect, useState } from 'react';
 
 function SearchProduct(props) {
-    const characteristics = characteristicsLogic(props);
+    const [characteristics, setCharacteristics] = useState({});
     let typeOfProduct = props.product.type;
 
+    useEffect(() => { setCharacteristics(characteristicsLogic(props.product)) }, [])
     return (
         <li className="product-item">
             <img src={`https://bytebazaar.pythonanywhere.com/${props.product.images[0].image}`} alt={props.product.name} className="product-image" />
@@ -13,7 +15,9 @@ function SearchProduct(props) {
             </div>
 
             <ul className='characteristics'>
-                {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
+                {Array.isArray(characteristics[typeOfProduct]) && characteristics[typeOfProduct].map((c, index) => (
+                    <li key={index}>{c}</li>
+                ))}
             </ul>
             <span className="product-price"><p>$ {props.product.price}</p></span>
             <Link to={`/products/${props.product.type}/${props.product._id}`} className="details-link">Details</Link>

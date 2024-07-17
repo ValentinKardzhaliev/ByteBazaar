@@ -35,4 +35,4 @@ function SearchForm() {
     );
 }
 
-export default SearchForm; // Make sure to export the component like this
+export default SearchForm;

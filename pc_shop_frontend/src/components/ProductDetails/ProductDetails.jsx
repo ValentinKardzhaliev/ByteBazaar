@@ -19,6 +19,8 @@ function ProductDetails() {
     const [isLiked, setIsLiked] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [characteristics, setCharacteristics] = useState({});
+
 
     let addProductToCart;
 
@@ -29,6 +31,7 @@ function ProductDetails() {
                 getAllLikedProductsForUser(user.token)
             ]).then(([productResult, likedResult]) => {
                 setProduct(productResult);
+                setCharacteristics(characteristicsLogic(productResult));
                 setProductImages(productResult.images);
                 setCurrentImages(productResult.images.slice(0, 5));
 
@@ -50,6 +53,7 @@ function ProductDetails() {
             getProductByTypeAndId(typeOfProduct, productId)
                 .then((result) => {
                     setProduct(result);
+                    setCharacteristics(characteristicsLogic(result));
                     setProductImages(result.images);
                     setCurrentImages(result.images.slice(0, 5));
 
@@ -114,7 +118,7 @@ function ProductDetails() {
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + productImages.length) % productImages.length);
     }
 
-    let characteristics = characteristicsLogic({ product });
+    // let characteristics = characteristicsLogic({ product });
     const { images, name, _id, type, price, description, is_available, created_at, modified_at,
         ...productWithoutSpecificProperties } = product;
 
@@ -140,6 +144,7 @@ function ProductDetails() {
             fullCharacteristicsLink.removeEventListener("click", handleViewFullCharacteristics);
         };
     }, []);
+
 
     return (
         <>
@@ -176,7 +181,9 @@ function ProductDetails() {
 
                     <div className="product-details-characteristics">
                         <h2>Basic Characteristics</h2>
-                        {characteristics[typeOfProduct].map((c, index) => <p key={index}>{c}</p>)}
+                        {Array.isArray(characteristics[typeOfProduct]) && characteristics[typeOfProduct].map((c, index) => (
+                            <p key={index}>{c}</p>
+                        ))}
                     </div>
                     <a href="#fullCharacteristics" className="full-characteristics-link">
                         View Full Characteristics
