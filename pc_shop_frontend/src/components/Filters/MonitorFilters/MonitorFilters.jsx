@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getAllCharacteristics, getAllMonitorsByQueryParams } from '../../../services/productService';
 import './MonitorFilters.css';
+import { getAllCharacteristics, getAllMonitorsByQueryParams } from '../../../services/productService';
 
 const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({

@@ -12,13 +12,13 @@ function HomePageImage() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const handlePreviousClick = () => {
-        setCurrentImageIndex((prevIndex) => 
+        setCurrentImageIndex((prevIndex) =>
             prevIndex === 0 ? images.length - 1 : prevIndex - 1
         );
     };
 
     const handleNextClick = () => {
-        setCurrentImageIndex((prevIndex) => 
+        setCurrentImageIndex((prevIndex) =>
             prevIndex === images.length - 1 ? 0 : prevIndex + 1
         );
     };
@@ -26,9 +26,9 @@ function HomePageImage() {
     return (
         <div className="first-image-container">
             <button onClick={handlePreviousClick} className="arrow left-arrow">&lt;</button>
-            <img 
-                src={images[currentImageIndex]} 
-                alt="home-page" 
+            <img
+                src={images[currentImageIndex]}
+                alt="home-page"
                 className='home-page-first-image'
             />
             <button onClick={handleNextClick} className="arrow right-arrow">&gt;</button>

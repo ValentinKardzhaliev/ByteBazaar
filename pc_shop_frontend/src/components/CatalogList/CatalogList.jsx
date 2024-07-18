@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './CatalogList.css'
+import { getItems } from '../../services/productService';
 import Item from './Item/Item';
 import LoadingContext from '../../contexts/LoadingContext';
-import { getItems } from '../../services/productService';
-import { useParams } from 'react-router-dom';
 import CatalogFilters from '../common/CatalogFilters';
 
 function CatalogList() {

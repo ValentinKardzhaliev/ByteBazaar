@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import AuthContext from '../../contexts/AuthContext';
-import { changeEmailUser } from "../../services/authService";
 import "./ChangeEmail.css";
+import { changeEmailUser } from "../../services/authService";
+import AuthContext from '../../contexts/AuthContext';
 
 const ChangeEmail = () => {
     const { user } = useContext(AuthContext);

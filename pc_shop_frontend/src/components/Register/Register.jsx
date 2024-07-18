@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
-import './Register.css';
 import { Link } from 'react-router-dom';
+import './Register.css';
 import AuthContext from '../../contexts/AuthContext';
 
 function Register() {
@@ -22,9 +22,8 @@ function Register() {
             setSuccessMessage('');
         }
 
-        e.target.reset(); 
+        e.target.reset();
     }
-
 
     return (
         <div className="register-container">

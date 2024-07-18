@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart, faX } from "@fortawesome/free-solid-svg-icons";
+import "./UserLikedProducts.css";
 import { getAllLikedProductsForUser, likeProduct } from "../../services/likeService";
 import { addToCart } from "../../services/cartService";
-import { Link } from "react-router-dom";
-import "./UserLikedProducts.css";
 import AuthContext from "../../contexts/AuthContext";
-import { faShoppingCart, faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UserLikedProducts = () => {
     const { user } = useContext(AuthContext);

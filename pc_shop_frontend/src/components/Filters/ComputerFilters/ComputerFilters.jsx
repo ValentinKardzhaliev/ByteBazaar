@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getAllComputersByQueryParams, getAllCharacteristics } from '../../../services/productService';
 import './ComputerFilters.css'
+import { getAllComputersByQueryParams, getAllCharacteristics } from '../../../services/productService';
 
 const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({

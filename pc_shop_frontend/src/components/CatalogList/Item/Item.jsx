@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react';
 import { characteristicsLogic } from '../../../utils/characteristicsLogic';
 import './Item.css';
 import { Link } from 'react-router-dom';
 
 function Item(props) {
-    let characteristics = characteristicsLogic(props);
+    const [characteristics, setCharacteristics] = useState({});
     let typeOfProduct = props.product.type;
-    // Render only the first image
+    useEffect(() => { setCharacteristics(characteristicsLogic(props.product)) }, []);
+
     const firstImage = props.product.images.length > 0 ? (
         <img src={`https://bytebazaar.pythonanywhere.com/${props.product.images[0].image}`} alt="Product Image" className="item-image" />
     ) : null;
@@ -16,7 +18,9 @@ function Item(props) {
             <div className="item-details">
                 <h2 className="item-name">{props.product.name}</h2>
                 <ul className='item-characteristics'>
-                    {characteristics[typeOfProduct].map((c, index) => <li key={index}>{c}</li>)}
+                    {Array.isArray(characteristics[typeOfProduct]) && characteristics[typeOfProduct].map((c, index) => (
+                        <li key={index}>{c}</li>
+                    ))}
                 </ul>
             </div>
 

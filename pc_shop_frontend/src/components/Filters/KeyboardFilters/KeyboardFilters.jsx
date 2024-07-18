@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getAllKeyboardsByQueryParams, getAllCharacteristics } from '../../../services/productService';
 import './KeyboardFilters.css';
+import { getAllKeyboardsByQueryParams, getAllCharacteristics } from '../../../services/productService';
 
 const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
     const [appliedFilters, setAppliedFilters] = useState({

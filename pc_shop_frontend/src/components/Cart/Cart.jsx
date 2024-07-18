@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
-import './Cart.css';
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import './Cart.css';
 import {
     getUserCart, increaseProductQuantity, decreaseProductQuantity, removeProductFromCart,
     getGuestCart, increaseProductQuantityForGuest, decreaseProductQuantityForGuest, removeProductFromCartForGuest
 } from '../../services/cartService';
 import AuthContext from '../../contexts/AuthContext';
-import { Link } from "react-router-dom";
 
 function Cart() {
     const { user } = useContext(AuthContext);

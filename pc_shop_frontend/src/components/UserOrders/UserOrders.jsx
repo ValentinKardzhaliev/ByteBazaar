@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
+import './UserOrders.css'
 import { getUserOrders } from '../../services/cartService';
 import AuthContext from '../../contexts/AuthContext';
-import './UserOrders.css'
 
 function UserOrders() {
     const { user } = useContext(AuthContext);

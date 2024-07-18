@@ -8,17 +8,17 @@ export const loginUser = (username, password) => {
         },
         body: JSON.stringify({ username, password })
     })
-    .then(res => {
-        if (!res.ok) {
-            return res.json().then(data => { 
-                throw new Error(data.detail || 'Login failed'); 
-            });
-        }
-        return res.json();
-    })
-    .catch(error => {
-        throw new Error('Network error');
-    });
+        .then(res => {
+            if (!res.ok) {
+                return res.json().then(data => {
+                    throw new Error(data.detail || 'Login failed');
+                });
+            }
+            return res.json();
+        })
+        .catch(error => {
+            throw new Error('Network error');
+        });
 };
 export const registerUser = (username, email, password, password_confirmation, phone) => {
     return fetch(`${baseUrl}register/`, {
@@ -28,17 +28,17 @@ export const registerUser = (username, email, password, password_confirmation, p
         },
         body: JSON.stringify({ username, email, password, password_confirmation, phone })
     })
-    .then(res => {
-        if (!res.ok) {
-            return res.json().then(data => {
-                throw new Error(data.detail || 'Registration failed');
-            });
-        }
-        return res.json();
-    })
-    .catch(error => {
-        throw new Error('Network error'); 
-    });
+        .then(res => {
+            if (!res.ok) {
+                return res.json().then(data => {
+                    throw new Error(data.detail || 'Registration failed');
+                });
+            }
+            return res.json();
+        })
+        .catch(error => {
+            throw new Error('Network error');
+        });
 };
 
 export const logoutUser = (token) => {
@@ -77,5 +77,5 @@ export const changeEmailUser = (token, newEmail) => {
             new_email: newEmail
         })
     })
-    .then(res => res.json())
+        .then(res => res.json())
 }

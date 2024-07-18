@@ -1,30 +1,26 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faCartShopping, faUser, faSignOut, faBars, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faCartShopping, faUser, faBars } from '@fortawesome/free-solid-svg-icons';
+import './Header.css';
 import SearchForm from '../SearchForm/SearchForm'
 import AuthContext from '../../contexts/AuthContext';
-import './Header.css';
+import HeaderMenuContext from '../../contexts/HeaderMenuContext';
 
 function Header() {
-    const { user } = useContext(AuthContext);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isPeripheryMenuOpen, setIsPeripheryMenuOpen] = useState(false);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const location = useLocation();
-
-    const toggleMenu = () => {
-        setIsMenuOpen(prev => !prev);
-        setIsPeripheryMenuOpen(false);
-    };
-
-    const togglePeripheryMenu = () => {
-        setIsPeripheryMenuOpen(prev => !prev);
-    };
-
-    const toggleUserMenu = () => {
-        setIsUserMenuOpen(prev => !prev);
-    };
+    const { user } = useContext(AuthContext);
+    const {
+        isMenuOpen,
+        isPeripheryMenuOpen,
+        isUserMenuOpen,
+        toggleMenu,
+        togglePeripheryMenu,
+        toggleUserMenu,
+        setIsMenuOpen,
+        setIsPeripheryMenuOpen,
+        setIsUserMenuOpen
+    } = useContext(HeaderMenuContext);
 
     useEffect(() => {
         setIsMenuOpen(false);
@@ -68,7 +64,7 @@ function Header() {
                     <div className="navbar-right-side">
                         <div className="user-menu">
                             <div className="user-menu-icon" onClick={toggleUserMenu}>
-                                <FontAwesomeIcon icon={faUser}/>
+                                <FontAwesomeIcon icon={faUser} />
                             </div>
                             {isUserMenuOpen && (
                                 <div className="user-dropdown-menu">

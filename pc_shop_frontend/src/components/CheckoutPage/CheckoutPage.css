@@ -55,7 +55,7 @@
     display: flex;
     flex-direction: column;
     width: 45%;
-    max-width: 300px; 
+    max-width: 300px;
 }
 
 
@@ -70,7 +70,7 @@
 }
 
 .PhoneInputCountryIconImg {
-   display: none;
+    display: none;
 }
 
 
@@ -115,6 +115,6 @@
 
     .checkout-form-group input,
     .checkout-form-group select {
-        padding: 12px; 
+        padding: 12px;
     }
 }

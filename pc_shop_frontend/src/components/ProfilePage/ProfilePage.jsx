@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import './ProfilePage.css'
 
-
 const ProfilePage = () => {
     const [selectedOption, setSelectedOption] = useState('personalDetails');
 

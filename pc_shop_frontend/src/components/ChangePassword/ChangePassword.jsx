@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import './ChangePassword.css'
-import AuthContext from '../../contexts/AuthContext';
 import { changePasswordUser } from '../../services/authService';
+import AuthContext from '../../contexts/AuthContext';
 
 function ChangePassword() {
     const { user } = useContext(AuthContext);

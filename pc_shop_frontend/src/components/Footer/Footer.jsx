@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './Footer.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons"
+import './Footer.css';
 
 const Footer = () => {
     const [name, setName] = useState('');
@@ -52,16 +52,16 @@ const Footer = () => {
                     <div className="custom-name-email-group">
                         <div className="custom-form-group">
                             <label htmlFor="name">Name:</label>
-                            <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="custom-input"/>
+                            <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="custom-input" />
                         </div>
                         <div className="custom-form-group">
                             <label htmlFor="email">Email:</label>
-                            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="custom-input"/>
+                            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="custom-input" />
                         </div>
                     </div>
                     <div className="custom-form-group custom-message-container">
                         <label htmlFor="message">Message:</label>
-                        <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} className="custom-textarea"/>
+                        <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} className="custom-textarea" />
                     </div>
                     <div className="custom-submit-contact-container">
                         <button type="submit" className="custom-submit-button">Send</button>
