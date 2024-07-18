@@ -17,16 +17,17 @@ class BaseProductViewSet(viewsets.ModelViewSet):
     model = None
 
     def get_queryset(self):
-        return self.model.objects.all()
-
-    def list(self, request, *args, **kwargs):
         conditions = Q()
         for field in self.model._meta.fields:
-            param_value = request.query_params.get(field.name, '').lower()
+            param_value = self.request.query_params.get(field.name, '').lower()
             if param_value:
                 conditions &= Q(**{f"{field.name}__icontains": param_value})
 
-        self.queryset = self.get_queryset().filter(conditions)
+        queryset = self.model.objects.filter(conditions)
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        self.queryset = self.filter_queryset(self.get_queryset())
         return super().list(request, *args, **kwargs)
 
 
