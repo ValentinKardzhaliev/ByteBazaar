@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 function Product(props) {
     const [characteristics, setCharacteristics] = useState({});
     let typeOfProduct = props.product.type;
+    useEffect(() => { setCharacteristics(characteristicsLogic(props.product)) }, [])
     // Render only the first image
     const firstImage = props.product.images.length > 0 ? (
         <img src={`https://bytebazaar.pythonanywhere.com/${props.product.images[0].image}`} alt="Product Image" className="product-image" />
     ) : null;
     const roundedProductPrice = Math.round(props.product.price)
-    useEffect(() => { setCharacteristics(characteristicsLogic(props.product)) }, [])
     return (
         <li className="product-item">
             {firstImage}

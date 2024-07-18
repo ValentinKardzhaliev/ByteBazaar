@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 function SearchForm() {
     const navigate = useNavigate();
-
     const searchHandler = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -28,9 +27,6 @@ function SearchForm() {
                 name="search_form"
                 placeholder="Search..."
             />
-            {/* <button type="submit">
-                <span>Search</span>
-            </button> */}
         </form>
     );
 }

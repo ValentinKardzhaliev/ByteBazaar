@@ -41,5 +41,3 @@ export const getAllCharacteristics = (characteristic) => {
     return fetch(`${baseUrl}/api/products/characteristic-count/${characteristic}/`)
         .then(res => res.json())
 }
-
-// *service for products

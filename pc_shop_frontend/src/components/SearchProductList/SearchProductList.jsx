@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import SearchProduct from "./SearchProduct/SearchProduct";
-import { getProductsByCriteria } from "../../services/productService";
 import { useParams } from "react-router-dom";
+import { getProductsByCriteria } from "../../services/productService";
+import SearchProduct from "./SearchProduct/SearchProduct";
 import LoadingContext from "../../contexts/LoadingContext";
 
 function SearchProductList() {

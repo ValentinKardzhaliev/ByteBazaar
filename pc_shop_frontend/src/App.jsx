@@ -22,58 +22,65 @@ import UserOrders from './components/UserOrders/UserOrders.jsx';
 import ProfilePage from './components/ProfilePage/ProfilePage.jsx';
 import ChangePassword from './components/ChangePassword/ChangePassword.jsx';
 import ChangeEmail from './components/ChangeEmail/ChangeEmail.jsx';
+import { HeaderMenuProvider } from './contexts/HeaderMenuContext.jsx';
+import Container from './components/Container/Container.jsx';
 
 function App() {
     return (
         <>
-            <LoadingProvider>
-                <AuthProvider>
-                    <Header />
-                    <ProductProvider>
+            <HeaderMenuProvider>
+                <LoadingProvider>
+                    <AuthProvider>
 
-                        <Routes>
-                            <Route path='/' element={
-                                <>
-                                    <HomePageImage />
-                                    <div className="trending-offers-container">
-                                        <p className='trending-offers'>Trending Offers</p>
-                                    </div>
-                                    <ProductList />
-                                </>
-                            } />
-                            <Route path='/cart' element={<Cart />} />
-                            <Route path='/checkout' element={<CheckoutPage />} />
-                            <Route path="/orders" element={<UserOrders />} />
-                            <Route path='/catalog/:category' element={
-                                <CatalogList />
-                            } />
-                            <Route path='/search/:searchParams' element={
-                                <>
-                                    <HomePageImage />
+                        <Header />
+                        <Container>
+                            <ProductProvider>
 
-                                    <SearchProductList />
-                                </>
-                            } />
-                            <Route element={<IsNotLoggedIn />}>
-                                <Route path='/login' element={<Login />} />
-                                <Route path='/register' element={<Register />} />
+                                <Routes>
+                                    <Route path='/' element={
+                                        <>
+                                            <HomePageImage />
+                                            <div className="trending-offers-container">
+                                                <p className='trending-offers'>Trending Offers</p>
+                                            </div>
+                                            <ProductList />
+                                        </>
+                                    } />
+                                    <Route path='/cart' element={<Cart />} />
+                                    <Route path='/checkout' element={<CheckoutPage />} />
+                                    <Route path="/orders" element={<UserOrders />} />
+                                    <Route path='/catalog/:category' element={
+                                        <CatalogList />
+                                    } />
+                                    <Route path='/search/:searchParams' element={
+                                        <>
+                                            <HomePageImage />
 
-                            </Route>
-                            <Route element={<IsLoggedIn />}>
-                                <Route path='/likes' element={<UserLikedProducts />} />
-                                <Route path='/logout' element={<Logout />} />
-                                <Route path='/profile' element={<ProfilePage />} />
-                                <Route path="/change-password" element={<ChangePassword />} />
-                                <Route path="/change-email" element={<ChangeEmail/>} />
-                            </Route>
-                            <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
-                        </Routes>
+                                            <SearchProductList />
+                                        </>
+                                    } />
+                                    <Route element={<IsNotLoggedIn />}>
+                                        <Route path='/login' element={<Login />} />
+                                        <Route path='/register' element={<Register />} />
 
-                        <Footer />
+                                    </Route>
+                                    <Route element={<IsLoggedIn />}>
+                                        <Route path='/likes' element={<UserLikedProducts />} />
+                                        <Route path='/logout' element={<Logout />} />
+                                        <Route path='/profile' element={<ProfilePage />} />
+                                        <Route path="/change-password" element={<ChangePassword />} />
+                                        <Route path="/change-email" element={<ChangeEmail />} />
+                                    </Route>
+                                    <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
+                                </Routes>
 
-                    </ProductProvider>
-                </AuthProvider>
-            </LoadingProvider>
+                                <Footer />
+
+                            </ProductProvider>
+                        </Container>
+                    </AuthProvider>
+                </LoadingProvider>
+            </HeaderMenuProvider>
         </>
 
     );

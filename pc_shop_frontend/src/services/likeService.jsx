@@ -23,5 +23,3 @@ export const getAllLikedProductsForUser = (token) => {
     })
         .then(res => res.json())
 }
-
-// *service for likes

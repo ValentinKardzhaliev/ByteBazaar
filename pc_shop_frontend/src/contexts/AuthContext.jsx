@@ -1,30 +1,29 @@
 import { createContext } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage.jsx";
 import { useNavigate } from "react-router-dom";
 import { loginUser, logoutUser, registerUser } from "../services/authService.jsx";
+import { useLocalStorage } from "../hooks/useLocalStorage.jsx";
 
 const AuthContext = createContext();
 
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-
-    const [user, setUser] = useLocalStorage('user', {});
     const navigate = useNavigate();
+    const [user, setUser] = useLocalStorage('user', {});
 
     const login = (username, password) => {
         return loginUser(username, password)
-            .then(result => {
-                if (result.token) {
-                    setUser(result);
+            .then(user => {
+                if (user.token) {
+                    setUser(user);
                     navigate('/');
                 } else {
-                    throw new Error('Invalid response from server'); 
+                    throw new Error('Invalid response from server');
                 }
             })
             .catch(err => {
                 console.error('Login failed:', err);
-                throw err; 
+                throw err;
             });
     };
 
@@ -46,8 +45,6 @@ export const AuthProvider = ({ children }) => {
             throw error;
         }
     };
-
-
 
     return (
         <AuthContext.Provider value={{ user, login, logout, register }}>

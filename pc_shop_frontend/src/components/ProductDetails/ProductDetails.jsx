@@ -1,18 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faCheck, faX } from "@fortawesome/free-solid-svg-icons";
+import { characteristicsLogic } from "../../utils/characteristicsLogic";
 import { addToCart, addToCartForGuest } from "../../services/cartService";
 import { getAllLikedProductsForUser, likeProduct } from "../../services/likeService";
 import { getProductByTypeAndId } from "../../services/productService";
-import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
-import { characteristicsLogic } from "../../utils/characteristicsLogic";
 import AuthContext from "../../contexts/AuthContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 
 function ProductDetails() {
-
     const { user } = useContext(AuthContext);
-
     const { typeOfProduct, productId } = useParams();
     const [product, setProduct] = useState({});
     const [imagePath, setImagePath] = useState("");
@@ -21,7 +19,6 @@ function ProductDetails() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [characteristics, setCharacteristics] = useState({});
 
-
     let addProductToCart;
 
     if (user.token) {
@@ -29,16 +26,16 @@ function ProductDetails() {
             Promise.all([
                 getProductByTypeAndId(typeOfProduct, productId),
                 getAllLikedProductsForUser(user.token)
-            ]).then(([productResult, likedResult]) => {
-                setProduct(productResult);
-                setCharacteristics(characteristicsLogic(productResult));
-                setProductImages(productResult.images);
-                setCurrentImages(productResult.images.slice(0, 5));
+            ]).then(([product, likedResult]) => {
+                setProduct(product);
+                setCharacteristics(characteristicsLogic(product));
+                setProductImages(product.images);
+                setCurrentImages(product.images.slice(0, 5));
 
-                if (productResult.images && productResult.images.length > 0) {
-                    setImagePath(`https://bytebazaar.pythonanywhere.com/${productResult.images[0].image}`);
+                if (product.images && product.images.length > 0) {
+                    setImagePath(`https://bytebazaar.pythonanywhere.com/${product.images[0].image}`);
                 }
-                setIsLiked(likedResult.liked_products.some((likedProduct) => likedProduct._id === productResult._id));
+                setIsLiked(likedResult.liked_products.some((likedProduct) => likedProduct._id === product._id));
             }).catch((err) => console.log(err));
         }, [typeOfProduct, productId, user.token]);
 
@@ -51,14 +48,14 @@ function ProductDetails() {
     } else {
         useEffect(() => {
             getProductByTypeAndId(typeOfProduct, productId)
-                .then((result) => {
-                    setProduct(result);
-                    setCharacteristics(characteristicsLogic(result));
-                    setProductImages(result.images);
-                    setCurrentImages(result.images.slice(0, 5));
+                .then((product) => {
+                    setProduct(product);
+                    setCharacteristics(characteristicsLogic(product));
+                    setProductImages(product.images);
+                    setCurrentImages(product.images.slice(0, 5));
 
-                    if (result.images && result.images.length > 0) {
-                        setImagePath(`https://bytebazaar.pythonanywhere.com/${result.images[0].image}`);
+                    if (product.images && product.images.length > 0) {
+                        setImagePath(`https://bytebazaar.pythonanywhere.com/${product.images[0].image}`);
                     }
                 })
                 .catch((err) => console.log(err));
@@ -118,7 +115,6 @@ function ProductDetails() {
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + productImages.length) % productImages.length);
     }
 
-    // let characteristics = characteristicsLogic({ product });
     const { images, name, _id, type, price, description, is_available, created_at, modified_at,
         ...productWithoutSpecificProperties } = product;
 

@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 function SearchProduct(props) {
     const [characteristics, setCharacteristics] = useState({});
     let typeOfProduct = props.product.type;
+    useEffect(() => { setCharacteristics(characteristicsLogic(props.product)) }, []);
 
-    useEffect(() => { setCharacteristics(characteristicsLogic(props.product)) }, [])
     return (
         <li className="product-item">
             <img src={`https://bytebazaar.pythonanywhere.com/${props.product.images[0].image}`} alt={props.product.name} className="product-image" />

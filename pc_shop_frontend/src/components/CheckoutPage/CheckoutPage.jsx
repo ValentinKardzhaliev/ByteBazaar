@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
-import './CheckoutPage.css';
-import AuthContext from '../../contexts/AuthContext';
-import { getUserCart, getGuestCart } from '../../services/cartService';
-import PhoneInput from 'react-phone-number-input';
 import { useNavigate } from 'react-router-dom';
-
+import PhoneInput from 'react-phone-number-input';
+import './CheckoutPage.css';
+import { getUserCart, getGuestCart } from '../../services/cartService';
+import AuthContext from '../../contexts/AuthContext';
 
 const PAYMENT_METHODS = [
     { value: 'CREDIT', label: 'Credit Card' },
@@ -15,8 +14,8 @@ const PAYMENT_METHODS = [
 ];
 
 function CheckoutPage() {
-    const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
     const [shippingAddress, setShippingAddress] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
     const [name, setName] = useState('');
@@ -87,20 +86,20 @@ function CheckoutPage() {
         };
 
         fetch('https://bytebazaar.pythonanywhere.com/api/cart/order/', options)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to submit order');
-            }
-        })
-        .then(data => {
-            console.log('Order submitted successfully:', data);
-            navigate('/');
-        })
-        .catch(error => {
-            console.error('Error submitting order:', error);
-        });
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to submit order');
+                }
+            })
+            .then(data => {
+                console.log('Order submitted successfully:', data);
+                navigate('/');
+            })
+            .catch(error => {
+                console.error('Error submitting order:', error);
+            });
     };
 
     const handleCountryChange = (event) => {

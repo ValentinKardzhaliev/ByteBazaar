@@ -1,7 +1,7 @@
-import { useContext, useState } from 'react';
-import ProductContext from '../../contexts/ProductContext.jsx';
-import Product from './Product/Product.jsx';
+import { useContext } from 'react';
 import './ProductList.css'
+import Product from './Product/Product.jsx';
+import ProductContext from '../../contexts/ProductContext.jsx';
 
 function ProductList() {
     const { products, currentProducts, setCurrentProducts, isLoading, placeOfProduct, setPlaceOfProduct } = useContext(ProductContext);
