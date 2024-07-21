@@ -16,8 +16,11 @@ function ProductDetails() {
     const [imagePath, setImagePath] = useState("");
     const [isLiked, setIsLiked] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [modalImagePath, setModalImagePath] = useState('');
     const [characteristics, setCharacteristics] = useState({});
+    const [productImages, setProductImages] = useState([]);
+    const [currentImages, setCurrentImages] = useState([]);
+    const [placeOfImage, setPlaceOfImage] = useState(0);
 
     let addProductToCart;
 
@@ -76,10 +79,6 @@ function ProductDetails() {
         }).catch(err => console.log(err));
     };
 
-    const [productImages, setProductImages] = useState([]);
-    const [currentImages, setCurrentImages] = useState([]);
-    const [placeOfImage, setPlaceOfImage] = useState(0);
-
     function handleNext() {
         if (productImages.length > currentImages.length) {
             setCurrentImages(productImages.slice(placeOfImage + 1, placeOfImage + 6));
@@ -98,8 +97,8 @@ function ProductDetails() {
         setPlaceOfImage(prev => prev - 1);
     }
 
-    function openModal(index) {
-        setCurrentImageIndex(index);
+    function openModal(modalImagePath) {
+        setModalImagePath(modalImagePath);
         setIsModalOpen(true);
     }
 
@@ -107,12 +106,40 @@ function ProductDetails() {
         setIsModalOpen(false);
     }
 
-    function handleModalNext() {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % productImages.length);
+    function handleModalNext(e) {
+        let indexOfModalImage;
+        const imgElement = e.target.parentNode.parentNode.getElementsByTagName('img')[0];
+        const splitedPath = imgElement.src.split('https://bytebazaar.pythonanywhere.com/');
+        const currentModalImage = productImages.find((currentImage) => currentImage.image == splitedPath[1])
+        productImages.forEach((image, i) => {
+            if (image.image == currentModalImage.image) {
+                indexOfModalImage = i;
+            }
+        })
+        if (indexOfModalImage + 1 >= productImages.length) {
+            indexOfModalImage = 0;
+        } else {
+            indexOfModalImage += 1;
+        }
+        setModalImagePath('https://bytebazaar.pythonanywhere.com/' + productImages[indexOfModalImage].image);
     }
 
-    function handleModalPrev() {
-        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + productImages.length) % productImages.length);
+    function handleModalPrev(e) {
+        let indexOfModalImage;
+        const imgElement = e.target.parentNode.parentNode.getElementsByTagName('img')[0];
+        const splitedPath = imgElement.src.split('https://bytebazaar.pythonanywhere.com/');
+        const currentModalImage = productImages.find((currentImage) => currentImage.image == splitedPath[1])
+        productImages.forEach((image, i) => {
+            if (image.image == currentModalImage.image) {
+                indexOfModalImage = i;
+            }
+        })
+        if (indexOfModalImage - 1 < 0) {
+            indexOfModalImage = productImages.length - 1;
+        } else {
+            indexOfModalImage -= 1;
+        }
+        setModalImagePath('https://bytebazaar.pythonanywhere.com/' + productImages[indexOfModalImage].image);
     }
 
     const { images, name, _id, type, price, description, is_available, created_at, modified_at,
@@ -147,7 +174,7 @@ function ProductDetails() {
             <hr className="characteristics-divider" />
             <div className="product-details-page-container">
                 <div className="product-images">
-                    <div className="main-image-container" onClick={() => openModal(0)}>
+                    <div className="main-image-container" onClick={() => openModal(imagePath)}>
                         <img src={imagePath} alt="Product Image" id="main-image" />
                     </div>
                     <div className="image-slider">
@@ -160,7 +187,7 @@ function ProductDetails() {
                                 <img
                                     key={index}
                                     src={`https://bytebazaar.pythonanywhere.com/${image.image}`}
-                                    alt={`Product Image ${index}`}
+                                    alt={`Product Image`}
                                     onClick={(e) => changeImageWhenClick(e)}
                                 />
                             ))}
@@ -236,10 +263,10 @@ function ProductDetails() {
             {isModalOpen && (
                 <div className="modal">
                     <span className="close" onClick={closeModal}>&times;</span>
-                    <img className="modal-content" src={`https://bytebazaar.pythonanywhere.com/${productImages[currentImageIndex].image}`} alt={`Product Image ${currentImageIndex}`} />
+                    <img className="modal-content" src={modalImagePath} alt={`Product Image`} />
                     <div className="modal-navigation">
-                        <span className="prev" onClick={handleModalPrev}>&#10094;</span>
-                        <span className="next" onClick={handleModalNext}>&#10095;</span>
+                        <span className="prev" onClick={(e) => handleModalPrev(e)}>&#10094;</span>
+                        <span className="next" onClick={(e) => handleModalNext(e)}>&#10095;</span>
                     </div>
                 </div>
             )}
