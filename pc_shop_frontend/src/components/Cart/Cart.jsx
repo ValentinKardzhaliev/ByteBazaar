@@ -13,6 +13,7 @@ function Cart() {
     const { user } = useContext(AuthContext);
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     let increaseQuantity;
     let decreaseQuantity;
@@ -23,6 +24,7 @@ function Cart() {
             getUserCart(user.token)
                 .then(result => {
                     setCartItems(result.items);
+                    setLoading(false);
                     result.items.forEach(item => {
                         setTotalPrice(prevPrice => prevPrice + item.product.price * item.quantity)
                     });
@@ -55,6 +57,7 @@ function Cart() {
             getGuestCart()
                 .then(result => {
                     setCartItems(result.items);
+                    setLoading(false);
                     result.items.forEach(item => {
                         setTotalPrice(prevPrice => prevPrice + item.product.price * item.quantity)
                     });
@@ -88,7 +91,9 @@ function Cart() {
             <h2 className="cart-title">Your Cart</h2>
             <div className="item-container-buy-wrapper">
                 <div className="item-container">
-                    {cartItems.length === 0 ? (
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : (cartItems.length === 0 ? (
                         <p className="empty-cart-message">Your cart is empty.</p>
                     ) : (
                         <div className="cart-items-list">
@@ -117,7 +122,7 @@ function Cart() {
                                 </div>
                             ))}
                         </div>
-                    )}
+                    ))}
                 </div>
                 <div className="buy-section">
                     <div className='price-calculation-section'>

@@ -2,9 +2,15 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
 import AuthContext from '../../contexts/AuthContext';
+import { RouterContext } from '../../contexts/RouterContext';
 
 function Login() {
     const { login } = useContext(AuthContext);
+    let route = useContext(RouterContext);
+    if (route.from == '/likes') {
+        route.from = '/';   
+    }
+
     const [errorMessage, setErrorMessage] = useState('');
 
     const loginHandler = async (e) => {
@@ -24,6 +30,9 @@ function Login() {
 
     return (
         <div className="login-container">
+            <Link to={route.from}>
+                Go Back
+            </Link>
             <h2>Login</h2>
             <form className="login-form" onSubmit={loginHandler}>
                 <div className="login-form-group">
