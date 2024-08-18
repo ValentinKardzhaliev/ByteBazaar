@@ -18,6 +18,7 @@ import UserLikedProducts from './components/UserLikedProducts/UserLikedProducts.
 import CatalogList from './components/CatalogList/CatalogList.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import CheckoutPage from './components/CheckoutPage/CheckoutPage.jsx';
+import NotFoundPage from './components/NotFoundPage/NotFoundPage.jsx';
 import UserOrders from './components/UserOrders/UserOrders.jsx';
 import ProfilePage from './components/ProfilePage/ProfilePage.jsx';
 import ChangePassword from './components/ChangePassword/ChangePassword.jsx';
@@ -73,6 +74,8 @@ function App() {
                                             <Route path="/change-email" element={<ChangeEmail />} />
                                         </Route>
                                         <Route path='/products/:typeOfProduct/:productId' element={< ProductDetails />} />
+                                        <Route path='*' element={ <NotFoundPage />} />
+
                                     </Routes>
 
                                     <Footer />
