@@ -8,7 +8,7 @@
 }
 
 #pathProfile {
-  font-size: 12px;
+  font-size: 15px;
   color: #9e9999;
   margin-left: 5%;
 }
@@ -108,16 +108,18 @@
   text-decoration: none;
   color: #000000;
 }
+
 .leftLink:hover {
   text-decoration: none;
-  color: #646262;
+  color: #848282;
 }
 
 .mainPage {
   text-decoration: none;
   color: #9e9999;
 }
+
 .mainPage:hover {
   text-decoration: none;
-  color: #737070;
+  color: #5e5c5c;
 }
