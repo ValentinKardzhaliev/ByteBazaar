@@ -1,58 +1,49 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
-import './ProfilePage.css'
+import './ProfilePage.css';
 
 const ProfilePage = () => {
-    const [selectedOption, setSelectedOption] = useState('personalDetails');
-
-    const handleOptionClick = (option) => {
-        setSelectedOption(option);
-    };
-
-    const renderContent = () => {
-        switch (selectedOption) {
-            case 'personalDetails':
-                return (
-                    <div className='personal-details-container'>
-                        <h2 className='personal-details-header'>Profile Details</h2>
-                        <ul className='profile-options'>
-                            <li className='profile-option'>Edit Address</li>
-                            <li className='profile-option'>Edit Phone Number</li>
-                            <li className='profile-option'><Link to="/change-email">Change Email</Link></li>
-                        </ul>
-                    </div>
-                );
-            case 'changePassword':
-                return (
-                    <div>
-                        <h2>Change Password</h2>
-                        <div className='profile-option'><Link to="/change-password">Change Password</Link></div>
-                    </div>
-                );
-            default:
-                return null;
-        }
-    };
-
     return (
         <div className="profile-page">
-            <div className="options">
-                <div
-                    className={`option ${selectedOption === 'personalDetails' ? 'active' : ''}`}
-                    onClick={() => handleOptionClick('personalDetails')}
-                >
-                    Profile Details
-                </div>
-                <div
-                    className={`option ${selectedOption === 'changePassword' ? 'active' : ''}`}
-                    onClick={() => handleOptionClick('changePassword')}
-                >
-                    Change Password
-                </div>
-                {/* Add more options here as needed */}
+            <div className="profile-heading-container">
+                <span id="pathProfile"><Link className='mainPage' to={'/'}>Main page</Link> {'>'} Profile {'>'}</span>
+                <h1 id="profile-heading">My Profile</h1>
             </div>
-            <div className="content">
-                {renderContent()}
+            <div className="profile-container">
+                <div className="profile-left">
+                    <p className='section-information'>Account Information</p>
+                    <p className='section-information'>My Orders</p>
+                    <p className='section-information'>Returning Products</p>
+                    <p className='section-information'><Link className='leftLink' to={'/change-password'}>Change Password</Link></p>
+                </div>
+                <div className="profile-right">
+                    <form id="forma">
+                        <div className="form-group-row">
+                            <div className="form-group">
+                                <label>Name:</label>
+                                <input type="text" />
+                            </div>
+                            <div className="form-group">
+                                <label>Phone:</label>
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <div className="form-group-row">
+                            <div className="form-group">
+                                <label>Surname:</label>
+                                <input type="text" />
+                            </div>
+                            <div className="form-group">
+                                <label>Email:</label>
+                                <input type="email" />
+                            </div>
+                        </div>
+                        <div className="form-buttons">
+                            <button type="submit" className="save-button">Save</button>
+                            <button type="button" className="cancel-button">Cancel</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );

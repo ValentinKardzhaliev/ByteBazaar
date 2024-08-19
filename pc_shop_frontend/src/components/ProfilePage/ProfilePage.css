@@ -1,52 +1,123 @@
 .profile-page {
-  display: flex;
-  align-items: center;
-  width: 90%;
-  margin: 0 auto;
-  min-height: 40vh;
-}
-
-.options {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-right: 1em;
-}
-
-.option {
-  width: 100%;
-  cursor: pointer;
   padding: 10px;
-  margin-bottom: 5px;
-  border-radius: 5px;
 }
 
-.option:hover {
-  background-color: #f0f0f0;
+.profile-heading-container {
+  margin-bottom: 20px;
+  margin-left: 20px;
 }
 
-.active {
-  background-color: #e0e0e0;
+#pathProfile {
+  font-size: 12px;
+  color: #9e9999;
+  margin-left: 5%;
 }
 
-.content {
-  width: 100%;
+#profile-heading {
+  font-size: 28px;
+  color: #333;
+  margin-left: 5%;
+}
+
+.profile-container {
   display: flex;
+  justify-content: flex-start;
+  padding: 20px;
 }
 
-.content>div {
+.profile-left {
+  width: 20%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-right: 5%;
+  margin-left: 5%;
+  height: 400px;
+}
+
+.profile-right {
+  width: 50%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #ffffff;
+  height: 310px;
+}
+
+.section-information {
+  padding-bottom: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.form-group-row {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
-h2 {
-  margin-bottom: 10px;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
+.form-group label {
   margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  padding: 6px;
+  border: 2px solid #ddd;
+  border-radius: 2px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10%;
+}
+
+.save-button,
+.cancel-button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  margin-right: 10px;
+}
+
+.save-button {
+  background-color: #C00000;
+  font-size: 14px;
+}
+
+.cancel-button {
+  background-color: #000000;
+  font-size: 14px;
+}
+
+.leftLink {
+  text-decoration: none;
+  color: #000000;
+}
+.leftLink:hover {
+  text-decoration: none;
+  color: #646262;
+}
+
+.mainPage {
+  text-decoration: none;
+  color: #9e9999;
+}
+.mainPage:hover {
+  text-decoration: none;
+  color: #737070;
 }
