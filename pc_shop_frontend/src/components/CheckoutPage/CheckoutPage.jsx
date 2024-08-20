@@ -13,7 +13,7 @@ const PAYMENT_METHODS = [
     { value: 'DEBIT', label: 'Debit Card' }
 ];
 
-function CheckoutPage() {
+const CheckoutPage = () => {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
     const [shippingAddress, setShippingAddress] = useState('');
@@ -28,110 +28,90 @@ function CheckoutPage() {
     const [postCode, setPostCode] = useState('');
 
     useEffect(() => {
-        fetch('https://bytebazaar.pythonanywhere.com/get_countries/')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch countries');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setCountries(data.countries);
-            })
-            .catch(error => {
-                console.error('Error fetching countries:', error);
-            });
-
-        if (user && user.token) {
-            getUserCart(user.token)
-                .then(data => {
-                    setCartId(data.id);
-                })
-                .catch(error => console.error('Error fetching user cart:', error));
-        } else {
-            getGuestCart()
-                .then(data => {
-                    setCartId(data.id);
-                })
-                .catch(error => console.error('Error fetching guest cart:', error));
-        }
+        fetchCountries();
+        fetchCart();
     }, [user]);
 
-    const handleSubmit = (event) => {
+    const fetchCountries = async () => {
+        try {
+            const response = await fetch('https://bytebazaar.pythonanywhere.com/get_countries/');
+            if (!response.ok) throw new Error('Failed to fetch countries');
+            const data = await response.json();
+            setCountries(data.countries);
+        } catch (error) {
+            console.error('Error fetching countries:', error);
+        }
+    };
+
+    const fetchCart = async () => {
+        try {
+            const cartData = user && user.token ? await getUserCart(user.token) : await getGuestCart();
+            setCartId(cartData.id);
+        } catch (error) {
+            console.error('Error fetching cart:', error);
+        }
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Validate all required fields
-        if (!shippingAddress || !paymentMethod || !cartId || !selectedCountry || !name || !surname || !city || !postCode) {
+        if (!isValidForm()) {
             alert('Please fill in all required fields');
             return;
         }
 
+        try {
+            const response = await submitOrder();
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Order submitted successfully:', data);
+                navigate('/');
+            } else {
+                throw new Error('Failed to submit order');
+            }
+        } catch (error) {
+            console.error('Error submitting order:', error);
+        }
+    };
+
+    const isValidForm = () => (
+        shippingAddress && paymentMethod && cartId && selectedCountry && name && surname && city && postCode
+    );
+
+    const submitOrder = () => {
         const data = {
             cart: cartId,
             shipping_address: shippingAddress,
             payment_method: paymentMethod,
-            name: name,
-            surname: surname,
+            name,
+            surname,
             phone: phoneNumber,
             country: selectedCountry,
-            city: city,
+            city,
             post_code: postCode
         };
-
         const options = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         };
-
-        fetch('https://bytebazaar.pythonanywhere.com/api/cart/order/', options)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Failed to submit order');
-                }
-            })
-            .then(data => {
-                console.log('Order submitted successfully:', data);
-                navigate('/');
-            })
-            .catch(error => {
-                console.error('Error submitting order:', error);
-            });
+        return fetch('https://bytebazaar.pythonanywhere.com/api/cart/order/', options);
     };
 
-    const handleCountryChange = (event) => {
-        setSelectedCountry(event.target.value);
-    };
+    const handleCountryChange = (event) => setSelectedCountry(event.target.value);
 
     return (
-        <div className="checkout-container">
-            <h2>Checkout</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-groups-container">
-                    <div className="first-checkout-group">
-                        <div className="checkout-form-group">
-                            <label htmlFor="name">Name:</label>
-                            <input
-                                type="text"
-                                id="name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="checkout-form-group">
-                            <label htmlFor="surname">Surname:</label>
-                            <input
-                                type="text"
-                                id="surname"
-                                value={surname}
-                                onChange={(e) => setSurname(e.target.value)}
-                                required
-                            />
-                        </div>
+        <div className="checkout-page">
+            <div className="checkout-heading-container">
+                <h1 id="checkout-heading">Checkout form</h1>
+            </div>
+            <div className="checkout-container">
+
+                <form onSubmit={handleSubmit} className="checkout-form">
+                    <div className="form-group-row">
+                        <FormGroup label="Name:" value={name} onChange={setName} required />
+                        <FormGroup label="Surname:" value={surname} onChange={setSurname} required />
+                    </div>
+                    <div className="form-group-row">
                         <div className="checkout-form-group phone-input-container">
                             <label htmlFor="phone" className="phone-label">Phone:</label>
                             <PhoneInput
@@ -142,26 +122,12 @@ function CheckoutPage() {
                                 autoComplete="tel"
                             />
                         </div>
-                        <div className="checkout-form-group">
-                            <label htmlFor="shippingAddress">Shipping Address:</label>
-                            <input
-                                type="text"
-                                id="shippingAddress"
-                                value={shippingAddress}
-                                onChange={(e) => setShippingAddress(e.target.value)}
-                                required
-                            />
-                        </div>
+                        <FormGroup label="Shipping Address:" value={shippingAddress} onChange={setShippingAddress} required />
                     </div>
-                    <div className="second-checkout-group">
+                    <div className="form-group-row">
                         <div className="checkout-form-group">
                             <label htmlFor="paymentMethod">Payment Method:</label>
-                            <select
-                                id="paymentMethod"
-                                value={paymentMethod}
-                                onChange={(e) => setPaymentMethod(e.target.value)}
-                                required
-                            >
+                            <select id="paymentMethod" value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} required>
                                 <option value="">Select Payment Method</option>
                                 {PAYMENT_METHODS.map(method => (
                                     <option key={method.value} value={method.value}>{method.label}</option>
@@ -177,32 +143,25 @@ function CheckoutPage() {
                                 ))}
                             </select>
                         </div>
-                        <div className="checkout-form-group">
-                            <label htmlFor="city">City:</label>
-                            <input
-                                type="text"
-                                id="city"
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="checkout-form-group">
-                            <label htmlFor="postCode">Post Code:</label>
-                            <input
-                                type="text"
-                                id="postCode"
-                                value={postCode}
-                                onChange={(e) => setPostCode(e.target.value)}
-                                required
-                            />
-                        </div>
                     </div>
-                </div>
-                <button type="submit">Submit Order</button>
-            </form>
+                    <div className="form-group-row">
+                        <FormGroup label="City:" value={city} onChange={setCity} required />
+                        <FormGroup label="Post Code:" value={postCode} onChange={setPostCode} required />
+                    </div>
+                    <div className="form-buttons">
+                        <button type="submit" className="submit-button">Order</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
-}
+};
+
+const FormGroup = ({ label, value, onChange, required = false }) => (
+    <div className="checkout-form-group">
+        <label>{label}</label>
+        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} required={required} />
+    </div>
+);
 
 export default CheckoutPage;

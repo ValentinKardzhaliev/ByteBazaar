@@ -10,7 +10,7 @@ function Product(props) {
     const [characteristics, setCharacteristics] = useState({});
     let typeOfProduct = props.product.type;
     if (props.user.token) {
-        props.likedProducts.some((likedProduct) => likedProduct._id === props.product._id
+        props.likedProducts?.some((likedProduct) => likedProduct._id === props.product._id
             ? props.product.isLiked = true : props.product.isLiked = false);
     } else {
         props.product.isLiked = false;

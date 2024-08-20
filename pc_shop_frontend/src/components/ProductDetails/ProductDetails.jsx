@@ -29,7 +29,7 @@ function ProductDetails() {
 
     let addProductToCart;
 
-    if (likedProducts.length === 0) {
+    if (likedProducts?.length === 0) {
         products.map((likedProduct) => likedProduct.isLiked = false);
     }
 

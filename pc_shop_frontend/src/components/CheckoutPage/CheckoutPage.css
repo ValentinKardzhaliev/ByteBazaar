@@ -1,120 +1,115 @@
-.checkout-container {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin-top: 50px;
-    text-align: center;
+/* Checkout Page Styles */
+.checkout-page {
+    padding: 10px;
 }
 
-.checkout-container h2 {
+.checkout-heading-container {
+    margin-bottom: 20px;
+    margin-left: 20%;
+}
+
+#checkout-heading {
+    font-size: 28px;
     color: #333;
-    font-size: 35px;
+    margin-left: 5%;
+}
+
+.checkout-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
 .checkout-form-group {
-    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+    width: 48%;
 }
 
 .checkout-form-group label {
+    margin-bottom: 5px;
     font-weight: bold;
-    margin-bottom: 10px;
-    display: block;
     color: #555;
-    text-align: start;
 }
 
-.checkout-form-group input {
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
+.checkout-form-group input,
+.checkout-form-group select,
+.PhoneInputInput {
+    padding: 6px;
+    border: 2px solid #ddd;
+    border-radius: 2px;
+    width: 100%;
+    box-sizing: border-box;
 }
-
-.checkout-form-group button {
-    background-color: #C00000;
-    color: #fff;
-    padding: 15px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 26px;
-    width: 80%;
-    transition: background-color 0.3s;
-}
-
-.form-groups-container {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.first-checkout-group,
-.second-checkout-group {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
-    max-width: 300px;
-}
-
 
 .phone-input-container {
     position: relative;
+}
+
+.phone-label {
+    margin-bottom: 5px;
+}
+
+.phone-input-container .PhoneInputInput {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.phone-input-container .PhoneInputInput:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.form-buttons {
     display: flex;
-    flex-direction: column
+    justify-content: flex-start;
+    margin-top: 10%;
 }
 
-.PhoneInputCountrySelect {
-    margin-bottom: 1em;
+.submit-button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    background-color: #C00000;
+    margin-right: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
-.PhoneInputCountryIconImg {
-    display: none;
+.submit-button:hover {
+    background-color: #e82c2c;
 }
 
-
+/* Responsive Design */
 @media (max-width: 768px) {
-    .checkout-container {
-        padding: 20px;
-    }
-
-    .checkout-container h2 {
-        font-size: 30px;
-    }
-
-    .checkout-form-group input,
-    .checkout-form-group select {
-        font-size: 14px;
-    }
-
-    .form-groups-container {
+    .form-group-row {
         flex-direction: column;
-        align-items: center;
     }
 
-    .first-checkout-group,
-    .second-checkout-group {
+    .checkout-form-group {
         width: 100%;
-        max-width: none;
-    }
-
-    .checkout-form-group button {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .checkout-container {
-        margin-top: 30px;
-    }
-
-    .checkout-container h2 {
-        font-size: 25px;
-    }
-
-    .checkout-form-group input,
-    .checkout-form-group select {
-        padding: 12px;
     }
 }
