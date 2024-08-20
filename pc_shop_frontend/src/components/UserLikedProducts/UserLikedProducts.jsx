@@ -1,32 +1,25 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faX } from "@fortawesome/free-solid-svg-icons";
 import "./UserLikedProducts.css";
-import { getAllLikedProductsForUser, likeProduct } from "../../services/likeService";
+import { likeProduct } from "../../services/likeService";
 import { addToCart } from "../../services/cartService";
 import AuthContext from "../../contexts/AuthContext";
+import LikedProductsContext from "../../contexts/LikedProductsContext";
+import ProductContext from "../../contexts/ProductContext";
 
 const UserLikedProducts = () => {
     const { user } = useContext(AuthContext);
-    const [likedProducts, setLikedProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { likedProducts, loading, setLikedProducts } = useContext(LikedProductsContext);
+    const { products } = useContext(ProductContext);
 
-    useEffect(() => {
-        getAllLikedProductsForUser(user.token)
-            .then((result) => {
-                setLikedProducts(result.liked_products);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error("Error fetching liked products:", error);
-                setLoading(false);
-            });
-    }, []);
-
+    if (likedProducts.length === 0) {
+        products.map((likedProduct) => likedProduct.isLiked = false);
+    }
     const unLikeProduct = (productId) => {
         likeProduct(productId, user.token).then(result => {
-            setLikedProducts(prevCartItems => likedProducts.filter(i => i._id !== productId))
+            setLikedProducts(() => likedProducts.filter(i => i._id !== productId))
         }).catch(err => console.log(err));
     }
 

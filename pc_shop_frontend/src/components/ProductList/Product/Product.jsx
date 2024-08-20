@@ -1,45 +1,34 @@
-import { useEffect, useState, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { characteristicsLogic } from '../../../utils/characteristicsLogic';
-import { getAllLikedProductsForUser, likeProduct } from '../../../services/likeService';
+import { likeProduct } from '../../../services/likeService';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import AuthContext from '../../../contexts/AuthContext';
 import './Product.css';
 import { Link } from 'react-router-dom';
 
 function Product(props) {
-    const { user } = useContext(AuthContext);
     const [characteristics, setCharacteristics] = useState({});
-    const [isLiked, setIsLiked] = useState(false);
-
     let typeOfProduct = props.product.type;
-    //TODO: Make solution to request 1 time liked products in the ProductList component!
-    if (user.token) {
-        // useEffect(() => {
-        //     getAllLikedProductsForUser(user.token).then(likedProduct => {
-        //         setIsLiked(likedProduct.liked_products.some((likedProduct) => likedProduct._id === props.product._id));
-        //     })
-        // }, [])
-        console.log("Liked");
+    if (props.user.token) {
+        props.likedProducts.some((likedProduct) => likedProduct._id === props.product._id
+            ? props.product.isLiked = true : props.product.isLiked = false);
+    } else {
+        props.product.isLiked = false;
+    }
 
+    if (props.likedProducts) {
+        props.likedProducts.map((likedProduct) => likedProduct.isLiked = false);
     }
     useEffect(() => {
         setCharacteristics(characteristicsLogic(props.product))
-    }, [])
 
+    }, [])
 
     const firstImage = props.product.images.length > 0 ? (
         <img src={`https://bytebazaar.pythonanywhere.com/${props.product.images[0].image}`} alt="Product Image" className="product-image" />
     ) : null;
     const roundedProductPrice = Math.round(props.product.price);
 
-    const handleLike = (e) => {
-        e.preventDefault();
-        setIsLiked(prevIsLiked => !prevIsLiked)
-        likeProduct(props.product._id, user.token).then(result => {
-            console.log(result);
-        }).catch(err => console.log(err));
-    };
     return (
         <li className="product-item">
             {firstImage}
@@ -57,10 +46,10 @@ function Product(props) {
                     <Link to={`/products/${props.product.type}/${props.product._id}`} className="details-link">Details</Link>
                 </div>
                 <div className="details-link-container-like">
-                    <Link onClick={(e) => handleLike(e)}>
+                    <Link onClick={(e) => props.handleLike(e, props.product)}>
                         <FontAwesomeIcon
                             icon={faHeart}
-                            className={`like-button ${isLiked ? "liked" : ""}`}
+                            className={`like-button ${props.product.isLiked ? "liked" : ""}`}
                         />
                     </Link>
                 </div>

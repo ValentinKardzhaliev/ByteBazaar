@@ -4,13 +4,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 import { characteristicsLogic } from "../../utils/characteristicsLogic";
 import { addToCart, addToCartForGuest } from "../../services/cartService";
-import { getAllLikedProductsForUser, likeProduct } from "../../services/likeService";
+import { getAllLikedProductsForUser } from "../../services/likeService";
 import { getProductByTypeAndId } from "../../services/productService";
 import "./ProductDetails.css";
 import AuthContext from "../../contexts/AuthContext";
+import LikedProductsContext from "../../contexts/LikedProductsContext";
+import ProductContext from "../../contexts/ProductContext";
+
 
 function ProductDetails() {
     const { user } = useContext(AuthContext);
+    const { products } = useContext(ProductContext);
+    const { handleLike, likedProducts } = useContext(LikedProductsContext);
     const { typeOfProduct, productId } = useParams();
     const [product, setProduct] = useState({});
     const [imagePath, setImagePath] = useState("");
@@ -23,6 +28,10 @@ function ProductDetails() {
     const [placeOfImage, setPlaceOfImage] = useState(0);
 
     let addProductToCart;
+
+    if (likedProducts.length === 0) {
+        products.map((likedProduct) => likedProduct.isLiked = false);
+    }
 
     if (user.token) {
         useEffect(() => {
@@ -72,11 +81,9 @@ function ProductDetails() {
 
     }
 
-    const handleLike = () => {
-        setIsLiked(prevIsLiked => !prevIsLiked)
-        likeProduct(product._id, user.token).then(result => {
-            console.log(result);
-        }).catch(err => console.log(err));
+    const handleLikeDetails = (e) => {
+        handleLike(e, product);
+        setIsLiked(prev => !prev);
     };
 
     function handleNext() {
@@ -222,7 +229,7 @@ function ProductDetails() {
                                 <FontAwesomeIcon
                                     icon={faHeart}
                                     className={`like-button ${isLiked ? "liked" : ""}`}
-                                    onClick={handleLike}
+                                    onClick={(e) => handleLikeDetails(e)}
                                 />
                             </>
                             :
