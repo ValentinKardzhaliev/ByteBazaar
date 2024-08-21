@@ -27,6 +27,7 @@ import { HeaderMenuProvider } from './contexts/HeaderMenuContext.jsx';
 import Container from './components/Container/Container.jsx';
 import { RouterProvider } from './contexts/RouterContext.jsx';
 import { LikedProductsProvider } from './contexts/LikedProductsContext.jsx';
+import HomePageUnderImage from './components/HomePageUnderImage/HomePageUnderImage.jsx';
 
 function App() {
     return (
@@ -48,6 +49,8 @@ function App() {
                                                         <p className='trending-offers'>Trending Offers</p>
                                                     </div>
                                                     <ProductList />
+                                                    <HomePageUnderImage />
+
                                                 </>
                                             } />
                                             <Route path='/cart' element={<Cart />} />

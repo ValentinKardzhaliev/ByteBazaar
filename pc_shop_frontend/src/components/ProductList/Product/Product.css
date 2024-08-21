@@ -42,7 +42,9 @@
     align-items: flex-start;
     padding-left: 30px;
 }
-
+.heart-margin-productlist {
+    margin-left: 16px;
+}
 .product-price {
     margin-top: auto;
     color: black;

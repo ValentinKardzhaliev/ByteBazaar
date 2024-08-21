@@ -12,16 +12,30 @@
     background-color: #ffffff;
 }
 
+.AddToFav {
+    display: flex;
+    align-items: center;
+}
 
 .like-button {
     font-size: 2em;
-    color: #aeaeae;
+    border: 3 solid #aeaeae;
     cursor: pointer;
     margin-left: 10px;
     transition: color 0.3s ease;
 }
 
 .like-button.liked {
+    color: #C00000;
+}
+
+.heartMargin {
+    margin-right: 20px;
+    margin-left: 16px;
+
+}
+
+.colorRedPrice {
     color: #C00000;
 }
 
@@ -96,16 +110,20 @@
     color: #C00000;
 }
 
+.product-basic-detailsPage {
+    font-size: 24px;
+}
+
 .price-container {
     display: flex;
     align-items: center;
     margin-top: 10%;
 }
 
-.price {
-    color: #C00000;
-    font-size: 28px;
-    margin-right: 5%;
+.items-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10%;
 }
 
 .buy-button {
@@ -148,6 +166,7 @@
 .full-characteristics-link:visited {
     color: #C00000;
     text-decoration: none;
+    margin-right: 30%;
 }
 
 .product-details-characteristics p::before {
@@ -203,7 +222,7 @@
 
 .characteristics-price-divider {
     border: 3px solid #ddd;
-    margin-top: 1.5em;
+    margin-top: 1.2em;
 }
 
 .product-details-x-icon {
@@ -331,8 +350,7 @@
 
     .price {
         font-size: 24px;
-        margin-right: 0;
-        margin-bottom: 10px;
+        margin: 0;
     }
 
     .buy-button {

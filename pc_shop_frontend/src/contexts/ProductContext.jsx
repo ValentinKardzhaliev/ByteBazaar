@@ -19,7 +19,7 @@ export const ProductProvider = ({ children }) => {
             .then(data => {
 
                 setProducts(data.products);
-                setCurrentProducts(data.products.slice(0, 4));
+                setCurrentProducts(data.products.slice(0, 5));
 
                 stopLoading();
             })

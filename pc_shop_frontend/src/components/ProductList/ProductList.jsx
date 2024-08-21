@@ -12,13 +12,13 @@ function ProductList() {
 
     function handleNext() {
         if (products.length >= currentProducts.length) {
-            setCurrentProducts(products.slice(placeOfProduct + 1, placeOfProduct + 5));
+            setCurrentProducts(products.slice(placeOfProduct + 1, placeOfProduct + 6));
             setPlaceOfProduct(prev => prev + 1);
         }
     }
     function handlePrev() {
         let index = placeOfProduct - 1;
-        setCurrentProducts(products.slice(index, index + 4));
+        setCurrentProducts(products.slice(index, index + 5));
         setPlaceOfProduct(prev => prev - 1);
 
     }
@@ -26,10 +26,7 @@ function ProductList() {
     return (
         <ul className="product-list">
             {isLoading ? <h1>Loading...</h1> : products.length === 0 && <h1>No products found!</h1>}
-            {placeOfProduct !== 0 ?
-                <i className="fa-solid fa-less-than" onClick={handlePrev}></i>
-                : <></>
-            }
+            
             {
                 currentProducts.map(product => <Product key={product._id}
                     user={user}
@@ -37,9 +34,7 @@ function ProductList() {
                     product={product}
                     likedProducts={likedProducts} />)}
             {
-                currentProducts[currentProducts.length - 1] !== products[products.length - 1] ?
-                    <i className="fa-solid fa-greater-than" onClick={handleNext} />
-                    : <></>
+             
             }
         </ul>
     )
