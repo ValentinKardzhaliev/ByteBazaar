@@ -1,8 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackward } from '@fortawesome/free-solid-svg-icons';
 import './ChangePassword.css'
-import { Link } from 'react-router-dom';
 import { changePasswordUser } from '../../services/authService';
 import AuthContext from '../../contexts/AuthContext';
 
@@ -31,11 +28,7 @@ function ChangePassword() {
             .catch(err => console.log(err))
     }
 
-    return (
-        <>
-            <Link id='backBtn' to={'/profile'} className='back-btn'>
-                <span><FontAwesomeIcon icon={faBackward} /> Back</span>
-            </Link>
+    return (    
             <div className="change-password-container">
                 <h2 className="change-password-title">Change Password</h2>
                 <form onSubmit={handleSubmit} className="change-password-form">
@@ -64,7 +57,7 @@ function ChangePassword() {
                     <button type="submit" className="password-submit-button">Change</button>
                 </form>
             </div>
-        </>
+      
     );
 }
 

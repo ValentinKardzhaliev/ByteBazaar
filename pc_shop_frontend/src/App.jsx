@@ -76,7 +76,7 @@ function App() {
                                                 <Route path='/likes' element={<UserLikedProducts />} />
 
                                                 <Route path='/logout' element={<Logout />} />
-                                                <Route path='/profile' element={<ProfilePage />} />
+                                                <Route path='/profile/*' element={<ProfilePage />} />
                                                 <Route path="/change-password" element={<ChangePassword />} />
                                                 <Route path="/change-email" element={<ChangeEmail />} />
                                             </Route>
