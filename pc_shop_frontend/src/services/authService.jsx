@@ -63,7 +63,13 @@ export const changePasswordUser = (token, oldPassword, newPassword) => {
             new_password: newPassword
         })
     })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status == 400) {
+                throw Error('Incorrect original password!')
+            }
+            return res.json()
+
+        })
 }
 
 export const changeEmailUser = (token, newEmail) => {
