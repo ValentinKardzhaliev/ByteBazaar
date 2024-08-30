@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import './HomePageImage.css';
-
 import image1 from '../../assets/images/image1.webp';
 import image2 from '../../assets/images/image2.webp';
 import image3 from '../../assets/images/image3.webp';

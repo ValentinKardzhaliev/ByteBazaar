@@ -1,3 +1,39 @@
+.under-image-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 173px;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.home-page-under-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.image-inline-container {
+    display: flex;
+    justify-content: center; /* Center images horizontally */
+    margin-top: 20px; /* Space above the container */
+}
+
+.image-inline {
+    width: 674px;
+    height: auto; /* Maintain aspect ratio */
+    margin: 0 10px; /* Space between images */
+    height: 357px;
+}
+
+/* Additional styles to enhance the look */
+.image-inline-container img {
+    margin-bottom: 40px;
+}
+
 .first-image-container {
     position: relative;
     display: flex;
@@ -42,8 +78,17 @@
     right: 10px;
 }
 
-
 @media (max-width: 768px) {
+    .under-image-container {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .home-page-under-image {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+    }
     .first-image-container {
         width: 100%;
         padding: 0 10px;
