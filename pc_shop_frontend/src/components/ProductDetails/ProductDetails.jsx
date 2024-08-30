@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faCheck, faX } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faX, faBackward } from "@fortawesome/free-solid-svg-icons";
 import { characteristicsLogic } from "../../utils/characteristicsLogic";
 import { addToCart, addToCartForGuest } from "../../services/cartService";
 import { getAllLikedProductsForUser } from "../../services/likeService";
@@ -10,6 +10,7 @@ import "./ProductDetails.css";
 import AuthContext from "../../contexts/AuthContext";
 import LikedProductsContext from "../../contexts/LikedProductsContext";
 import ProductContext from "../../contexts/ProductContext";
+import { RouterContext } from "../../contexts/RouterContext";
 
 
 function ProductDetails() {
@@ -26,6 +27,7 @@ function ProductDetails() {
     const [productImages, setProductImages] = useState([]);
     const [currentImages, setCurrentImages] = useState([]);
     const [placeOfImage, setPlaceOfImage] = useState(0);
+    let route = useContext(RouterContext);
 
     let addProductToCart;
 
@@ -178,7 +180,9 @@ function ProductDetails() {
 
     return (
         <>
-            <hr className="characteristics-divider" />
+            <span id="pathProfile">
+                <Link className='mainPage' to={'/'}>Main page</Link> {'>'} Details {'>'} {product.name}
+            </span>
             <div className="product-details-page-container">
                 <div className="product-images">
                     <div className="main-image-container" onClick={() => openModal(imagePath)}>
@@ -200,7 +204,7 @@ function ProductDetails() {
                             ))}
                         {
                             currentImages[currentImages.length - 1] !== productImages[productImages.length - 1] ?
-                                <i className="fa-solid fa-greater-than" onClick={handleNext} />
+                                <i id='rightArrow' className="fa-solid fa-greater-than" onClick={handleNext} />
                                 : <></>
                         }
                     </div>
@@ -223,9 +227,8 @@ function ProductDetails() {
                     <hr className="characteristics-price-divider" />
 
                     <p className="items-container">
+                        {user.token ? <div className="AddToFav">Add to favourites</div> : <div className="AddToFav">Add to cart</div>}
 
-
-                        <div className="AddToFav">Add to favourites</div>
                         {user.token
                             ?
                             <>

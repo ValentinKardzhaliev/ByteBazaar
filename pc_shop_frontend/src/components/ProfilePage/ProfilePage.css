@@ -8,9 +8,12 @@
 }
 
 #pathProfile {
-  font-size: 15px;
-  color: #9e9999;
+  font-size: 17px;
+  color: #787474;
   margin-left: 5%;
+}
+#rightArrow{
+  margin-left: 10px;
 }
 
 #profile-heading {
@@ -116,10 +119,10 @@
 
 .mainPage {
   text-decoration: none;
-  color: #9e9999;
+  color: #787474;
 }
 
 .mainPage:hover {
   text-decoration: none;
-  color: #5e5c5c;
+  color: #2d2c2c;
 }
