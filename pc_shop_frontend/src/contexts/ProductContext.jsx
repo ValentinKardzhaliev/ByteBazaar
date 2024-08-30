@@ -9,7 +9,7 @@ export default ProductContext;
 export const ProductProvider = ({ children }) => {
     const [products, setProducts] = useState([]);
     const [currentProducts, setCurrentProducts] = useState([]);
-    const [placeOfProduct, setPlaceOfProduct] = useState(0);
+    const [otherProducts, setOtherProducts] = useState([]);
 
     const { isLoading, startLoading, stopLoading } = useContext(LoadingContext);
 
@@ -17,10 +17,9 @@ export const ProductProvider = ({ children }) => {
         startLoading()
         getAllProducts()
             .then(data => {
-
                 setProducts(data.products);
                 setCurrentProducts(data.products.slice(0, 5));
-
+                setOtherProducts(data.products.slice(5, 10))
                 stopLoading();
             })
             .catch(err => console.log(err))
@@ -30,10 +29,9 @@ export const ProductProvider = ({ children }) => {
         <ProductContext.Provider value={{
             products,
             currentProducts,
+            otherProducts,
             setCurrentProducts,
             isLoading,
-            placeOfProduct,
-            setPlaceOfProduct
         }}
         >
             {children}

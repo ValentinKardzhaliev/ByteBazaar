@@ -27,7 +27,7 @@ import { HeaderMenuProvider } from './contexts/HeaderMenuContext.jsx';
 import Container from './components/Container/Container.jsx';
 import { RouterProvider } from './contexts/RouterContext.jsx';
 import { LikedProductsProvider } from './contexts/LikedProductsContext.jsx';
-import HomePageUnderImage from './components/HomePageUnderImage/HomePageUnderImage.jsx';
+import HomePage from './components/HomePage/HomePage.jsx';
 
 function App() {
     return (
@@ -35,46 +35,29 @@ function App() {
             <HeaderMenuProvider>
                 <LoadingProvider>
                     <AuthProvider>
-
                         <Header />
                         <Container>
                             <ProductProvider>
                                 <RouterProvider>
                                     <LikedProductsProvider>
                                         <Routes>
-                                            <Route path='/' element={
-                                                <>
-                                                    <HomePageImage />
-                                                    <div className="trending-offers-container">
-                                                        <p className='trending-offers'>Trending Offers</p>
-                                                    </div>
-                                                    <ProductList />
-                                                    <HomePageUnderImage />
-
-                                                </>
-                                            } />
+                                            <Route path='/' element={<HomePage />} />
                                             <Route path='/cart' element={<Cart />} />
                                             <Route path='/checkout' element={<CheckoutPage />} />
                                             <Route path="/orders" element={<UserOrders />} />
-                                            <Route path='/catalog/:category' element={
-                                                <CatalogList />
-                                            } />
+                                            <Route path='/catalog/:category' element={<CatalogList />} />
                                             <Route path='/search/:searchParams' element={
                                                 <>
                                                     <HomePageImage />
-
                                                     <SearchProductList />
                                                 </>
                                             } />
                                             <Route element={<IsNotLoggedIn />}>
                                                 <Route path='/login' element={<Login />} />
                                                 <Route path='/register' element={<Register />} />
-
                                             </Route>
                                             <Route element={<IsLoggedIn />}>
-
                                                 <Route path='/likes' element={<UserLikedProducts />} />
-
                                                 <Route path='/logout' element={<Logout />} />
                                                 <Route path='/profile/*' element={<ProfilePage />} />
                                                 <Route path="/change-password" element={<ChangePassword />} />
