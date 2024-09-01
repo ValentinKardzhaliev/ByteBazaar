@@ -9,9 +9,10 @@
 
 #pathProfile {
   font-size: 17px;
-  color: #787474;
+  color: #706e6e;
   margin-left: 5%;
 }
+
 #rightArrow{
   margin-left: 10px;
 }
@@ -119,10 +120,10 @@
 
 .mainPage {
   text-decoration: none;
-  color: #787474;
+  color: #706e6e;
 }
 
 .mainPage:hover {
   text-decoration: none;
-  color: #2d2c2c;
+  color: #9f9b9b;
 }

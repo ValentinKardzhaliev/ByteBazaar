@@ -204,7 +204,7 @@
 
 .purchase-button {
     display: inline-block;
-    padding: 1em;
+    padding: 10px;
     width: 6em;
     margin-bottom: 3em;
     background-color: #C00000;
@@ -214,6 +214,8 @@
     border: none;
     text-decoration: none;
     text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
 }
 
 

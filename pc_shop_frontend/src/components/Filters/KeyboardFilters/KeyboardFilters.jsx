@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './KeyboardFilters.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { getAllKeyboardsByQueryParams, getAllCharacteristics } from '../../../services/productService';
 
 const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
@@ -89,7 +91,7 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
             })}
         </>
     );
-   
+
     const handleMinPriceChange = (e) => {
         const newMinPrice = parseInt(e.target.value);
         const newMaxPrice = parseInt(appliedFilters.max_price);
@@ -112,7 +114,10 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
 
     return (
         <div className="keyboard-filters">
-            <button className="btn-keyboard-filters" onClick={applyFilters}>Apply filters</button>
+            <div className='filter-text-style'>Filters <FontAwesomeIcon icon={faFilter} /></div>
+            <div className='btn-keyboard-filters-div'>
+                <button className="btn-keyboard-filters" onClick={applyFilters}>Apply Filters</button>
+            </div>
             <p><label htmlFor="price_range">Price Range:</label></p>
             <div className="range_container">
                 <div className="sliders_control">
@@ -121,23 +126,23 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
                         type="range"
                         value={appliedFilters.min_price || '0'}
                         min="0"
-                        max="3000"
+                        max="500"
                         step={50}
                         onChange={handleMinPriceChange}
                     />
                     <input
                         id="toSlider"
                         type="range"
-                        value={appliedFilters.max_price || '3000'}
+                        value={appliedFilters.max_price || '500'}
                         min="0"
-                        max="3000"
+                        max="500"
                         step={50}
                         onChange={handleMaxPriceChange}
                     />
                 </div>
-                <span>Min: {appliedFilters.min_price || '0'} - Max: {appliedFilters.max_price || '3000'}</span>
+                <span>Min: {appliedFilters.min_price || '0'} - Max: {appliedFilters.max_price || '500'}</span>
             </div>
-            
+
             {/* Render 'format' and 'layout' characteristics once */}
             {availableCharacteristics.keyboard_format && (
                 <div key="keyboard_format">
@@ -151,17 +156,17 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
                     {renderCheckboxes(availableCharacteristics.layout, 'layout')}
                 </div>
             )}
-        
+
             {/* Render other characteristics */}
             {Object.entries(availableCharacteristics).map(([key, value]) => (
-                key !== 'keyboard_format' && key !== 'layout' && 
+                key !== 'keyboard_format' && key !== 'layout' &&
                 value.map((currentKey, currentValue) => typeof currentKey[key] == 'boolean' ? null :
                     <div key={currentKey}>
                         <h3>{key.replace('_', ' ').toUpperCase()}</h3>
                         {renderCheckboxes(value, key)}
                     </div>)
             ))}
-        
+
             <h3>Wireless:</h3>
             <input
                 type="checkbox"
@@ -169,7 +174,7 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
                 checked={appliedFilters.wireless}
                 onChange={(e) => updateFilters('wireless', e.target.checked)}
             />
-        
+
             {/* Render 'backlight' checkbox outside the loop */}
             <h3>Backlight:</h3>
             <input
@@ -179,11 +184,11 @@ const KeyboardFilters = ({ setKeyboards, startLoading, stopLoading }) => {
                 onChange={(e) => updateFilters('backlight', e.target.checked)}
             />
             <br />
-        
+
         </div>
     );
-    
-    
+
+
 };
 
 export default KeyboardFilters;

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ComputerFilters.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { getAllComputersByQueryParams, getAllCharacteristics } from '../../../services/productService';
 
 const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
@@ -107,7 +109,10 @@ const ComputerFilters = ({ setComputers, startLoading, stopLoading }) => {
 
     return (
         <div className='filters-container'>
-            <button className='btn-computer-filters' onClick={applyFilters}>Apply Filters</button>
+            <div className='filter-text-style'>Filters <FontAwesomeIcon icon={faFilter} /></div>
+            <div className='btn-computer-filters-div'>
+                <button className='btn-computer-filters' onClick={applyFilters}>Apply Filters</button>
+            </div>
             <p><label htmlFor="price_range">Price Range:</label></p>
             <div className="range_container">
                 <div className="sliders_control">

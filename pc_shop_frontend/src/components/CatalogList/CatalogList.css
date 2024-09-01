@@ -1,7 +1,14 @@
 .computer-products-page-container {
     display: flex;
 }
-
+#pathFilters {
+    font-size: 17px;
+    color: #787474;
+    margin: 30px 0px 0px 70px;
+}
+.h1-element-style {
+    color: rgb(34, 33, 33);
+}
 .item-list {
     position: relative;
     list-style: none;

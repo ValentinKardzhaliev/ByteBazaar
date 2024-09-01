@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './CatalogList.css'
-import { getItems } from '../../services/productService';
+import { getItems } from '../../services/productService'; import { Link } from 'react-router-dom';
 import Item from './Item/Item';
 import LoadingContext from '../../contexts/LoadingContext';
 import CatalogFilters from '../common/CatalogFilters';
@@ -22,8 +22,56 @@ function CatalogList() {
             .catch((err) => console.log(err));
     }, [category])
 
+    function renderSwitchPath(category) {
+        switch (category) {
+            case 'computers':
+                return (
+                    <div>
+                        <Link className='mainPage' to={'/'}>Main page</Link> {'>'} Computers
+                    </div>
+                );
+            case 'monitors':
+                return (
+                    <div>
+                        <Link className='mainPage' to={'/'}>Main page</Link> {'>'} Monitors
+                    </div>
+                );
+            case 'keyboards':
+                return (
+                    <div>
+                        <Link className='mainPage' to={'/'}>Main page</Link> {'>'} Keyboards
+                    </div>
+                );
+            default:
+                return null;
+        }
+    }
+
+    function renderSwitchH1Element(category) {
+        switch (category) {
+            case 'computers':
+                return (
+                    <h1 className='h1-element-style'>Computers</h1>
+                );
+            case 'monitors':
+                return (
+                    <h1 className='h1-element-style'>Monitors</h1>
+                );
+            case 'keyboards':
+                return (
+                    <h1 className='h1-element-style'>Keyboards</h1>
+                );
+            default:
+                return null;
+        }
+    }
+
     return (
         <>
+            <div id="pathFilters">
+                {renderSwitchPath(category)}
+                {renderSwitchH1Element(category)}
+            </div>
             <div className="computer-products-page-container">
                 {FiltersComponent}
                 <ul className="item-list">

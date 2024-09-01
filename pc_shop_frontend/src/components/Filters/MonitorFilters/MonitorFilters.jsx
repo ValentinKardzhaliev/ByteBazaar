@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MonitorFilters.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { getAllCharacteristics, getAllMonitorsByQueryParams } from '../../../services/productService';
 
 const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
@@ -105,30 +107,33 @@ const MonitorFilters = ({ setMonitors, startLoading, stopLoading }) => {
 
     return (
         <div className='monitorFilters-container'>
-            <button className='btn-monitor-filters' onClick={applyFilters}>Apply Filters</button>
+            <div className='filter-text-style'>Filters <FontAwesomeIcon icon={faFilter} /></div>
+            <div className='btn-monitor-filters-div'>
+                <button className='btn-monitor-filters' onClick={applyFilters}>Apply Filters</button>
+            </div>
             <p><label htmlFor="price_range">Price Range:</label></p>
             <div className="range_container">
                 <div className="sliders_control">
                     <input
                         id="fromSlider"
                         type="range"
-                        value={appliedFilters.min_price  || '0'}
+                        value={appliedFilters.min_price || '0'}
                         min="0"
-                        max="3000"
+                        max="1000"
                         step={50}
                         onChange={handleMinPriceChange}
                     />
                     <input
                         id="toSlider"
                         type="range"
-                        value={appliedFilters.max_price  || '3000'}
+                        value={appliedFilters.max_price || '1000'}
                         min="0"
-                        max="3000"
+                        max="1000"
                         step={50}
                         onChange={handleMaxPriceChange}
                     />
                 </div>
-                <span>Min: {appliedFilters.min_price || '0'} - Max: {appliedFilters.max_price || '3000'}</span>
+                <span>Min: {appliedFilters.min_price || '0'} - Max: {appliedFilters.max_price || '1000'}</span>
             </div>
             {Object.entries(availableCharacteristics).map(([key, value]) => (
                 <div key={key}>
