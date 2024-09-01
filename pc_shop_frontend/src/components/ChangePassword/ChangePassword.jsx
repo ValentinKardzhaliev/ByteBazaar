@@ -57,7 +57,7 @@ function ChangePassword() {
                         className="password-input"
                     />
                 </div>
-                <button type="submit" className="password-submit-button">Change</button>
+                <button id='btn-change' type="submit" className="password-submit-button">Change</button>
             </form>
         </div>
 
