@@ -6,6 +6,7 @@ import './Header.css';
 import SearchForm from '../SearchForm/SearchForm'
 import AuthContext from '../../contexts/AuthContext';
 import HeaderMenuContext from '../../contexts/HeaderMenuContext';
+import imageMenu from '../../assets/images/menu_search.png';
 
 function Header() {
     const location = useLocation();
@@ -84,13 +85,21 @@ function Header() {
                             )}
                         </div>
 
-                        <Link to="/cart">
+                        <Link className='cart-responsive' to="/cart">
                             <FontAwesomeIcon icon={faCartShopping} />
                         </Link>
 
-                        <Link to="/likes">
-                            <FontAwesomeIcon icon={faHeart} />
-                        </Link>
+                        <div className='menu-responsive' onClick={toggleMenu}>
+                            <img src={imageMenu} />
+                        </div>
+
+                        <div className='likes-responsive'>
+
+                            <Link to="/likes">
+                                <FontAwesomeIcon icon={faHeart} />
+                            </Link>
+                        </div>
+
                     </div>
                 </div>
             </nav>

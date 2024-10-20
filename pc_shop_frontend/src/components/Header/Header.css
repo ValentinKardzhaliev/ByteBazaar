@@ -6,6 +6,9 @@
     z-index: 100;
     margin-bottom: 1em;
 }
+.menu-responsive {
+    display: none;
+}
 
 .navbar-element-container {
     max-width: var(--container-max-width);
@@ -16,7 +19,10 @@
     overflow: hidden;
     background-color: #C00000;
 }
-
+.likes-responsive {
+   align-items: center;
+   align-self: center;
+}
 .navbar-right-side {
     display: flex;
     flex-direction: row-reverse;
@@ -185,32 +191,24 @@
 
 @media (max-width: 768px) {
     .navbar-element-container {
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         padding: 5px;
     }
 
     .home {
-        margin-left: 0;
-        margin-bottom: 5px; 
         font-size: 24px; 
         text-align: center;
     }
 
-    .category-menu {
-        margin-left: 0;
-        margin-bottom: 5px;
-        text-align: center;
-    }
-
     .category-menu-dropdown {
-        font-size: 24px;
+        display: none;
     }
 
     .search-bar-section {
         width: 100%;
         margin-bottom: 5px;
-        display: flex;
+        display: none;
         justify-content: center;
     }
 
@@ -222,7 +220,7 @@
 
     .navbar-right-side {
         display: flex;
-        justify-content: space-around;
+        justify-content: end;
         width: 100%;
         padding: 0;
         margin-top: 5px;
@@ -232,10 +230,27 @@
         padding: 5px;
         font-size: 24px;
     }
+    .cart-responsive {
+        margin: 0px 12px;
+    }
+    .likes-responsive {
+        display: none;
+    }
+    .menu-responsive {
+        display: block;
+        margin: 0px 12px;
+    }
+    .menu-responsive img {
+        width: 30px;
+        height: 25px;
+        cursor: pointer;
+        margin-top: 7px;
+    }
 
     .user-menu {
         padding: 5px;
         font-size: 24px;
+        margin: 0px 12px;
     }
 
     .user-dropdown-menu {
@@ -246,5 +261,11 @@
         position: relative;
         width: 100%;
         margin: 0;
+    }
+    .arrow.right-arrow {
+        right: 15px;
+    }
+    .arrow.left-arrow {
+        left: 15px;
     }
 }    
