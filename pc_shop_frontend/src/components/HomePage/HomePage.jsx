@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import './HomePage.css';
 import ProductList from "../ProductList/ProductList";
 import AuthContext from "../../contexts/AuthContext";
@@ -10,11 +10,25 @@ import imageUnder from '../../assets/images/underImage.jpg';
 import pairPhoto from '../../assets/images/pair.jpg';
 import pair2Photo from '../../assets/images/pair2.webp';
 import HomePageImage from "../HomePageImage/HomePageImage";
+import { getAllLikedProductsForUser } from "../../services/likeService";
 
 function HomePage() {
     const { user } = useContext(AuthContext);
     const { products, currentProducts, otherProducts, isLoading } = useContext(ProductContext);
     const { likedProducts, handleLike } = useContext(LikedProductsContext);
+
+    useEffect(() => {
+        getAllLikedProductsForUser(user?.token)
+            .then((result) => {
+                setLikedProducts(result.liked_products);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching liked products:", error);
+                setLoading(false);
+            });
+
+    }, []);
 
     return (
         <>
@@ -45,12 +59,12 @@ function HomePage() {
                 likedProducts={likedProducts}
                 handleLike={handleLike}
             />
-           
+
             <div className="image-inline-container">
                 <img src={pairPhoto} alt='homePageImage' className="image-inline" />
                 <img src={pair2Photo} alt='homePageImage' className="image-inline" />
             </div>
-           
+
         </>
     )
 }
