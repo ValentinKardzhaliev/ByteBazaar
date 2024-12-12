@@ -3,20 +3,14 @@ import { characteristicsLogic } from '../../../utils/characteristicsLogic';
 import './Product.css';
 import { Link } from 'react-router-dom';
 
-function Product({ product, user, likedProducts, handleLike }) {
+function Product({ product, likedProducts, handleLike }) {
     const [characteristics, setCharacteristics] = useState({});
     const [isLiked, setIsLiked] = useState(false);
 
     useEffect(() => {
-        if (user?.token) {
-            // Check if the product is liked by the user
-            const isProductLiked = likedProducts?.some((likedProduct) => likedProduct._id === product._id);
-            setIsLiked(isProductLiked);
-        } else {
-            setIsLiked(false); // If user is not logged in, set isLiked to false
-        }
+        setIsLiked(likedProducts.some(likedProduct => likedProduct._id === product._id));
         setCharacteristics(characteristicsLogic(product));
-    }, [user, likedProducts, product]);
+    }, [likedProducts, product]);
 
     const firstImage = product?.images?.length > 0 ? (
         <img
@@ -25,6 +19,7 @@ function Product({ product, user, likedProducts, handleLike }) {
             className="product-image"
         />
     ) : null;
+
     const roundedProductPrice = Math.round(product.price);
 
     return (
@@ -52,7 +47,7 @@ function Product({ product, user, likedProducts, handleLike }) {
                     {isLiked ? (
                         <svg
                             className="heart-margin-productlist"
-                            onClick={(e) => handleLike(e, product)}
+                            onClick={(e) => { handleLike(e, product); setIsLiked(false) }}
                             width="48"
                             height="43"
                             viewBox="0 0 48 43"
@@ -69,7 +64,7 @@ function Product({ product, user, likedProducts, handleLike }) {
                     ) : (
                         <svg
                             className="heart-margin-productlist"
-                            onClick={(e) => handleLike(e, product)}
+                            onClick={(e) => { handleLike(e, product); setIsLiked(true) }}
                             width="48"
                             height="43"
                             viewBox="0 0 48 43"
